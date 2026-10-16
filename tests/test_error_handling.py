@@ -70,6 +70,6 @@ def test_port_already_in_use_raises_emulator_start_error() -> None:
         holder.listen()
         held = holder.getsockname()[1]
         overrides = {name: 0 for name in config.ammeters}
-        overrides["entes"] = held
+        overrides[next(iter(config.ammeters))] = held
         with pytest.raises(EmulatorStartError, match=str(held)):
             start_emulators(config, overrides)

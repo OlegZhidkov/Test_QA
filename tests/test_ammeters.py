@@ -1,4 +1,4 @@
-"""Public suite: every configured ammeter, end to end against its emulator."""
+"""Ammeter suite: every configured ammeter, end to end against its emulator."""
 import dataclasses
 import math
 import statistics

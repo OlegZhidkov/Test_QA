@@ -14,6 +14,8 @@ logger = logging.getLogger(__name__)
 
 
 class AmmeterEmulatorBase(ABC):
+    """A TCP ammeter emulator: answers its exact command with a current reading."""
+
     def __init__(self, port: int, recv_timeout_s: float = 2.0):
         self.port = port
         self.recv_timeout_s = recv_timeout_s

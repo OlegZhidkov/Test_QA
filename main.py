@@ -1,3 +1,4 @@
+"""Command line entry point: start the configured emulators and print one reading per ammeter."""
 import sys
 from pathlib import Path
 

@@ -42,6 +42,7 @@ class TestLogger:
 
     @staticmethod
     def _remove_handlers(logger: logging.Logger) -> None:
+        """Close and detach every handler of the logger."""
         for handler in list(logger.handlers):
             logger.removeHandler(handler)
             handler.close()
@@ -50,14 +51,18 @@ class TestLogger:
         """Close and remove the handlers so the log file is released."""
         self._remove_handlers(self.logger)
 
-    def info(self, message: str):
+    def info(self, message: str) -> None:
+        """Log at INFO level."""
         self.logger.info(message)
 
-    def error(self, message: str):
+    def error(self, message: str) -> None:
+        """Log at ERROR level."""
         self.logger.error(message)
 
-    def debug(self, message: str):
+    def debug(self, message: str) -> None:
+        """Log at DEBUG level."""
         self.logger.debug(message)
 
-    def warning(self, message: str):
+    def warning(self, message: str) -> None:
+        """Log at WARNING level."""
         self.logger.warning(message)

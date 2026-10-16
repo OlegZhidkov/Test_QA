@@ -1,3 +1,4 @@
+"""Client that requests one current reading from an ammeter over TCP."""
 import math
 import socket
 

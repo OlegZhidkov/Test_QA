@@ -1,4 +1,4 @@
-"""Session fixtures for the public suite: emulators, framework, recorded runs, summary."""
+"""Session fixtures for the ammeter suite: emulators, framework, recorded runs, summary."""
 import time
 from collections.abc import Callable, Iterator
 

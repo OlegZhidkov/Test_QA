@@ -17,6 +17,7 @@ class AmmeterTestFramework:
 
     def __init__(self, config_path: str | Path = DEFAULT_CONFIG_PATH,
                  config: FrameworkConfig | None = None):
+        """Use `config` if given, otherwise load and validate the file at `config_path`."""
         self.config = config if config is not None else load_config(config_path)
 
     def tester(self, name: str, logger: logging.Logger | None = None) -> AmmeterTester:
