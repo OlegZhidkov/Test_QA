@@ -1,14 +1,19 @@
 """Public suite: every configured ammeter, end to end against its emulator."""
 import math
+import statistics
 import time
+from datetime import datetime
 
 import pytest
 
 from Ammeters.client import request_current_from_ammeter
 from src.testing.analysis import out_of_range
+from src.testing.report import format_run_report
 from src.utils.errors import EmptyResponseError
 
 IGNORED_REPLY_LIMIT_S = 0.5
+TIMING_TOLERANCE_S = 0.05
+DURATION_TOLERANCE_S = 0.15
 
 
 def ask(settings, command: bytes) -> float:
@@ -50,3 +55,55 @@ def test_every_reading_is_inside_the_expected_range(run_result, framework_config
     assert not failed and not outside, (
         f"{ammeter_name}: expected {expected.min_amps} to {expected.max_amps} A; "
         f"outside: {outside}; failed readings: {failed}")
+
+
+def test_sample_count_matches_the_configured_count(run_result, framework_config) -> None:
+    """The run takes exactly the configured number of readings."""
+    assert len(run_result.sample.readings) == framework_config.sampling.count
+    assert run_result.statistics.count == framework_config.sampling.count
+
+
+def test_readings_follow_the_configured_frequency(run_result, framework_config) -> None:
+    """Readings are scheduled at i * interval and taken within the timing tolerance."""
+    interval = framework_config.sampling.interval_s
+    for i, reading in enumerate(run_result.sample.readings):
+        assert reading.scheduled_offset_s == pytest.approx(i * interval)
+        assert abs(reading.actual_offset_s - reading.scheduled_offset_s) <= TIMING_TOLERANCE_S
+
+
+def test_sample_lasts_the_configured_duration(run_result, framework_config) -> None:
+    """The whole sample takes the configured duration, within tolerance."""
+    duration = framework_config.sampling.duration_s
+    assert abs(run_result.sample.elapsed_s - duration) <= DURATION_TOLERANCE_S
+
+
+def test_every_reading_is_timestamped_in_order(run_result) -> None:
+    """Timestamps are UTC ISO strings that strictly increase and lie inside the run."""
+    sample = run_result.sample
+    stamps = [datetime.fromisoformat(r.timestamp_utc) for r in sample.readings]
+    assert all(s.utcoffset().total_seconds() == 0 for s in stamps)
+    assert all(a < b for a, b in zip(stamps, stamps[1:]))
+    assert datetime.fromisoformat(sample.started_at_utc) <= stamps[0]
+    assert stamps[-1] <= datetime.fromisoformat(sample.finished_at_utc)
+
+
+def test_statistics_are_consistent(run_result) -> None:
+    """Min, median, mean and max are ordered, stdev is not negative, and mean matches."""
+    stats = run_result.statistics
+    values = [r.value_amps for r in run_result.sample.readings if r.ok]
+    assert stats.min <= stats.median <= stats.max
+    assert stats.min <= stats.mean <= stats.max
+    assert stats.stdev >= 0
+    assert stats.mean == pytest.approx(statistics.fmean(values))
+
+
+def test_repeated_readings_vary(run_result) -> None:
+    """The ammeter does not return one constant value."""
+    assert len({r.value_amps for r in run_result.sample.readings}) > 1
+
+
+def test_consistency_cv_is_reported(run_result, framework_config) -> None:
+    """cv_percent equals stdev / |mean| * 100 and appears in the report."""
+    stats = run_result.statistics
+    assert stats.cv_percent == pytest.approx(stats.stdev / abs(stats.mean) * 100)
+    assert "cv_percent" in format_run_report(run_result, framework_config.metrics)
