@@ -266,17 +266,34 @@ def _text(value: object, key: str) -> str:
     return value
 
 
+def _as_float(value: object) -> float | None:
+    """Convert an int or float to float; None for anything else or an int too large."""
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    try:
+        return float(value)
+    except OverflowError:
+        return None
+
+
 def _number(value: object, key: str) -> float:
-    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
-        raise ConfigError(f"{key}: must be a finite number, got {value!r}")
-    return float(value)
+    number = _as_float(value)
+    if number is None or not math.isfinite(number):
+        raise ConfigError(f"{key}: must be a finite number, got {_short(value)}")
+    return number
 
 
 def _positive_number(value: object, key: str) -> float:
-    if isinstance(value, bool) or not isinstance(value, (int, float)) \
-            or not math.isfinite(value) or value <= 0:
-        raise ConfigError(f"{key}: must be a positive number, got {value!r}")
-    return float(value)
+    number = _as_float(value)
+    if number is None or not math.isfinite(number) or number <= 0:
+        raise ConfigError(f"{key}: must be a positive number, got {_short(value)}")
+    return number
+
+
+def _short(value: object) -> str:
+    """repr(value), cut to 60 characters so a huge number stays readable."""
+    text = repr(value)
+    return text if len(text) <= 60 else text[:57] + "..."
 
 
 def _positive_int(value: object, key: str) -> int:

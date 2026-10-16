@@ -66,6 +66,9 @@ class AmmeterEmulatorBase(ABC):
                     logger.exception("measure_current failed for client %s", addr)
                     return
                 conn.sendall(str(current).encode('utf-8'))
+            except TimeoutError:
+                logger.warning("client %s did not send a complete command in %s s",
+                               addr, self.recv_timeout_s)
             except OSError:
                 logger.exception("connection with %s failed", addr)
 
