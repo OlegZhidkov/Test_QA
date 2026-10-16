@@ -38,11 +38,15 @@ Requires Python 3.11 or newer.
 
 ### Install
 
+Create and activate a virtual environment first (on Windows use `.venv\Scripts\activate`):
+
 ```sh
+python3 -m venv .venv
+source .venv/bin/activate
 python3 -m pip install -r requirements.txt
 ```
 
-Libraries installed: `pyyaml` (reads the config) and `pytest` (runs the tests). Nothing else is needed.
+Libraries installed: `pyyaml` (reads the config) and `pytest` (runs the tests); pip also installs pytest's own dependencies. Nothing else is needed.
 
 ### Run `main.py`
 
@@ -70,7 +74,7 @@ Exit codes: `0` all readings printed; `1` a reading failed or an emulator could 
 python3 -m pytest
 ```
 
-The suite uses `config/config.yaml`. It starts the emulators itself on free ports, so it does not clash with `main.py` or with anything on ports 5000 to 5002. Every ammeter in the config gets the same checks: it answers its command with a number, ignores a wrong or truncated command, stays in its expected range, takes the configured number of readings at the configured frequency over the configured duration, produces correct statistics, and is archived and reported. A run takes about 10 seconds. The output ends with an "Ammeter runs" section that prints the report block of every run (ammeter, run ID, parameters, statistics). A real output is in `docs/sample_results/pytest_output.txt`.
+The suite uses `config/config.yaml`. It starts the emulators itself on free ports, so it does not clash with `main.py` or with anything on ports 5000 to 5002. Every ammeter in the config gets the same checks: it answers its command with a number, ignores a wrong or truncated command, stays in its expected range, takes the configured number of readings at the configured frequency over the configured duration, produces correct statistics, and is archived and reported. A run takes about 10 seconds. It writes its 6 runs and their logs to `./results` (not tracked by git). The output ends with an "Ammeter runs" section that prints the report block of every run (ammeter, run ID, parameters, statistics). A real output is in `docs/sample_results/pytest_output.txt`.
 
 ### Where results go
 
@@ -92,11 +96,21 @@ print(compare_runs("<run_id_a>", "<run_id_b>", results))  # statistics side by s
 To run the framework by hand:
 
 ```python
+from src.testing.emulators import start_emulators, stop_emulators
+from src.testing.report import format_run_report
 from src.testing.test_framework import AmmeterTestFramework
 
-framework = AmmeterTestFramework()          # reads config/config.yaml
-result = framework.run_test("greenlee")     # sample, analyze, archive; needs the emulator running
+framework = AmmeterTestFramework()                    # reads config/config.yaml
+running = start_emulators(framework.config)           # the emulators print their own readings
+try:
+    results = framework.run_all()                     # {name: RunResult}; sample, analyze, archive
+finally:
+    stop_emulators(running)
+for result in results.values():
+    print(format_run_report(result, framework.config.metrics))
 ```
+
+For a single ammeter use `framework.run_test("greenlee")`; it needs that emulator (or a real device) to be running.
 
 ### Config keys (`config/config.yaml`)
 
