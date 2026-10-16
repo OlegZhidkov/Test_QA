@@ -1,33 +1,87 @@
-import socket
-import time
+import logging
 import random
+import socket
+import threading
+import time
 from abc import ABC, abstractmethod
 
 NotImplementedErrorMsg = "Subclasses must implement this property."
 
+HOST = "127.0.0.1"
+ACCEPT_TIMEOUT_S = 0.2
+
+logger = logging.getLogger(__name__)
+
+
 class AmmeterEmulatorBase(ABC):
-    def __init__(self, port: int):
+    def __init__(self, port: int, recv_timeout_s: float = 2.0):
         self.port = port
+        self.recv_timeout_s = recv_timeout_s
+        self.ready = threading.Event()
+        self.start_error: OSError | None = None
+        self._stop_event = threading.Event()
         random.seed(time.time())  # Seed the random number generator for each instance
 
-    def start_server(self):
+    def start_server(self) -> None:
         """
         Starts the server to listen for client requests.
-        The server will run indefinitely, handling one client request at a time.
+        Runs until stop() is called, handling one client at a time.
+        A bind error propagates to the caller.
         """
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.bind(('localhost', self.port))
+            if hasattr(socket, "SO_EXCLUSIVEADDRUSE"):
+                s.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+            else:
+                s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            s.bind((HOST, self.port))
             s.listen()
-            print(f"{self.__class__.__name__} is running on port {self.port}")
-            while True:
-                conn, addr = s.accept()
-                with conn:
-                    print(f"Connected by {addr}")
-                    data = conn.recv(1024)
-                    if data == self.get_current_command:
-                        # Call the specific measure_current() method defined in subclasses
-                        current = self.measure_current()
-                        conn.sendall(str(current).encode('utf-8'))
+            s.settimeout(ACCEPT_TIMEOUT_S)
+            self.port = s.getsockname()[1]
+            logger.info("%s is running on port %d", self.__class__.__name__, self.port)
+            self.ready.set()
+            while not self._stop_event.is_set():
+                try:
+                    conn, addr = s.accept()
+                except TimeoutError:
+                    continue
+                except OSError:
+                    logger.exception("accept failed on port %d", self.port)
+                    continue
+                self._handle_connection(conn, addr)
+
+    def stop(self) -> None:
+        """Ask the server loop to end."""
+        self._stop_event.set()
+
+    def _handle_connection(self, conn: socket.socket, addr: tuple) -> None:
+        """Serve one client; a failure drops this connection but never the server."""
+        with conn:
+            try:
+                conn.settimeout(self.recv_timeout_s)
+                if not self._received_command(conn):
+                    return
+                try:
+                    current = self.measure_current()
+                except Exception:  # a subclass's measurement must never kill the server
+                    logger.exception("measure_current failed for client %s", addr)
+                    return
+                conn.sendall(str(current).encode('utf-8'))
+            except OSError:
+                logger.exception("connection with %s failed", addr)
+
+    def _received_command(self, conn: socket.socket) -> bool:
+        """Read until the buffer equals the command; False if it can never match."""
+        command = self.get_current_command
+        buffer = b""
+        while True:
+            data = conn.recv(1024)
+            if not data:
+                return False
+            buffer += data
+            if buffer == command:
+                return True
+            if not command.startswith(buffer):
+                return False
 
     @property
     @abstractmethod
@@ -45,4 +99,3 @@ class AmmeterEmulatorBase(ABC):
         logic for current measurement.
         """
         raise NotImplementedError(NotImplementedErrorMsg)
-
