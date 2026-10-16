@@ -1,0 +1,140 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.14.8, pytest-9.1.1, pluggy-1.7.0
+configfile: pytest.ini
+testpaths: tests
+collecting ... collected 53 items
+
+tests/test_ammeters.py::test_responds_to_its_command_with_a_numeric_value[greenlee] PASSED [  1%]
+tests/test_ammeters.py::test_responds_to_its_command_with_a_numeric_value[entes] PASSED [  3%]
+tests/test_ammeters.py::test_responds_to_its_command_with_a_numeric_value[circutor] PASSED [  5%]
+tests/test_ammeters.py::test_ignores_a_wrong_command_without_sending_data_or_stalling[greenlee] PASSED [  7%]
+tests/test_ammeters.py::test_ignores_a_wrong_command_without_sending_data_or_stalling[entes] PASSED [  9%]
+tests/test_ammeters.py::test_ignores_a_wrong_command_without_sending_data_or_stalling[circutor] PASSED [ 11%]
+tests/test_ammeters.py::test_ignores_a_truncated_command[greenlee] PASSED [ 13%]
+tests/test_ammeters.py::test_ignores_a_truncated_command[entes] PASSED   [ 15%]
+tests/test_ammeters.py::test_ignores_a_truncated_command[circutor] PASSED [ 16%]
+tests/test_ammeters.py::test_every_reading_is_inside_the_expected_range[greenlee] PASSED [ 18%]
+tests/test_ammeters.py::test_every_reading_is_inside_the_expected_range[entes] PASSED [ 20%]
+tests/test_ammeters.py::test_every_reading_is_inside_the_expected_range[circutor] PASSED [ 22%]
+tests/test_ammeters.py::test_sample_count_matches_the_configured_count[greenlee] PASSED [ 24%]
+tests/test_ammeters.py::test_sample_count_matches_the_configured_count[entes] PASSED [ 26%]
+tests/test_ammeters.py::test_sample_count_matches_the_configured_count[circutor] PASSED [ 28%]
+tests/test_ammeters.py::test_readings_follow_the_configured_frequency[greenlee] PASSED [ 30%]
+tests/test_ammeters.py::test_readings_follow_the_configured_frequency[entes] PASSED [ 32%]
+tests/test_ammeters.py::test_readings_follow_the_configured_frequency[circutor] PASSED [ 33%]
+tests/test_ammeters.py::test_sample_lasts_the_configured_duration[greenlee] PASSED [ 35%]
+tests/test_ammeters.py::test_sample_lasts_the_configured_duration[entes] PASSED [ 37%]
+tests/test_ammeters.py::test_sample_lasts_the_configured_duration[circutor] PASSED [ 39%]
+tests/test_ammeters.py::test_every_reading_is_timestamped_in_order[greenlee] PASSED [ 41%]
+tests/test_ammeters.py::test_every_reading_is_timestamped_in_order[entes] PASSED [ 43%]
+tests/test_ammeters.py::test_every_reading_is_timestamped_in_order[circutor] PASSED [ 45%]
+tests/test_ammeters.py::test_statistics_are_consistent[greenlee] PASSED  [ 47%]
+tests/test_ammeters.py::test_statistics_are_consistent[entes] PASSED     [ 49%]
+tests/test_ammeters.py::test_statistics_are_consistent[circutor] PASSED  [ 50%]
+tests/test_ammeters.py::test_repeated_readings_vary[greenlee] PASSED     [ 52%]
+tests/test_ammeters.py::test_repeated_readings_vary[entes] PASSED        [ 54%]
+tests/test_ammeters.py::test_repeated_readings_vary[circutor] PASSED     [ 56%]
+tests/test_ammeters.py::test_consistency_cv_is_reported[greenlee] PASSED [ 58%]
+tests/test_ammeters.py::test_consistency_cv_is_reported[entes] PASSED    [ 60%]
+tests/test_ammeters.py::test_consistency_cv_is_reported[circutor] PASSED [ 62%]
+tests/test_ammeters.py::test_run_is_archived_with_a_unique_id_and_metadata_and_can_be_retrieved[greenlee] PASSED [ 64%]
+tests/test_ammeters.py::test_run_is_archived_with_a_unique_id_and_metadata_and_can_be_retrieved[entes] PASSED [ 66%]
+tests/test_ammeters.py::test_run_is_archived_with_a_unique_id_and_metadata_and_can_be_retrieved[circutor] PASSED [ 67%]
+tests/test_ammeters.py::test_report_names_ammeter_run_id_parameters_and_statistics[greenlee] PASSED [ 69%]
+tests/test_ammeters.py::test_report_names_ammeter_run_id_parameters_and_statistics[entes] PASSED [ 71%]
+tests/test_ammeters.py::test_report_names_ammeter_run_id_parameters_and_statistics[circutor] PASSED [ 73%]
+tests/test_emulator.py::test_emulator_replies_with_a_number_to_its_command PASSED [ 75%]
+tests/test_emulator.py::test_command_with_trailing_bytes_gets_no_data PASSED [ 77%]
+tests/test_emulator.py::test_command_split_across_two_sends_is_accepted PASSED [ 79%]
+tests/test_emulator.py::test_silent_client_does_not_block_the_next_client PASSED [ 81%]
+tests/test_emulator.py::test_client_disconnect_does_not_stop_the_emulator PASSED [ 83%]
+tests/test_emulator.py::test_measurement_error_does_not_stop_the_emulator PASSED [ 84%]
+tests/test_error_handling.py::test_connection_refused_raises_connection_error PASSED [ 86%]
+tests/test_error_handling.py::test_silent_device_raises_timeout_error PASSED [ 88%]
+tests/test_error_handling.py::test_empty_reply_raises_empty_response_error PASSED [ 90%]
+tests/test_error_handling.py::test_non_numeric_reply_raises_non_numeric_response_error PASSED [ 92%]
+tests/test_error_handling.py::test_nan_reply_raises_non_numeric_response_error PASSED [ 94%]
+tests/test_error_handling.py::test_numeric_reply_is_returned_as_float PASSED [ 96%]
+tests/test_error_handling.py::test_port_already_in_use_raises_emulator_start_error PASSED [ 98%]
+tests/test_main.py::test_main_prints_one_reading_per_configured_ammeter PASSED [100%]
+================================= Ammeter runs =================================
+
+Ammeter: greenlee   Run ID: 20261016T183722Z_greenlee_5cd0c2
+Parameters: count=10 duration=2 s frequency=5 Hz interval=0.2 s request_timeout=2 s
+Target: 127.0.0.1:61318 command='MEASURE_GREENLEE -get_measurement'
+Statistics:
+  mean: 0.97488
+  median: 0.20379
+  stdev: 2.12628
+  min: 0.0881476
+  max: 6.97106
+  cv_percent: 218.106
+Readings: valid=10 errors=0 out_of_range=0 (expected 0.01 to 100 A)
+Archive: results/20261016T183722Z_greenlee_5cd0c2/run.json
+
+Ammeter: entes   Run ID: 20261016T183724Z_entes_461129
+Parameters: count=10 duration=2 s frequency=5 Hz interval=0.2 s request_timeout=2 s
+Target: 127.0.0.1:61319 command='MEASURE_ENTES -get_data'
+Statistics:
+  mean: 70.6268
+  median: 73.2729
+  stdev: 41.0166
+  min: 16.6471
+  max: 139.433
+  cv_percent: 58.0751
+Readings: valid=10 errors=0 out_of_range=0 (expected 5 to 200 A)
+Archive: results/20261016T183724Z_entes_461129/run.json
+
+Ammeter: circutor   Run ID: 20261016T183726Z_circutor_a5b2b2
+Parameters: count=10 duration=2 s frequency=5 Hz interval=0.2 s request_timeout=2 s
+Target: 127.0.0.1:61320 command='MEASURE_CIRCUTOR -get_measurement -current'
+Statistics:
+  mean: 0.0293555
+  median: 0.0255468
+  stdev: 0.0210995
+  min: 0.00548626
+  max: 0.0635623
+  cv_percent: 71.8757
+Readings: valid=10 errors=0 out_of_range=0 (expected 0.001 to 0.1 A)
+Archive: results/20261016T183726Z_circutor_a5b2b2/run.json
+
+Ammeter: greenlee   Run ID: 20261016T183728Z_greenlee_7cc138
+Parameters: count=2 duration=0.4 s frequency=5 Hz interval=0.2 s request_timeout=2 s
+Target: 127.0.0.1:61318 command='MEASURE_GREENLEE -get_measurement'
+Statistics:
+  mean: 0.118269
+  median: 0.118269
+  stdev: 0.109704
+  min: 0.040696
+  max: 0.195841
+  cv_percent: 92.7586
+Readings: valid=2 errors=0 out_of_range=0 (expected 0.01 to 100 A)
+Archive: results/20261016T183728Z_greenlee_7cc138/run.json
+
+Ammeter: entes   Run ID: 20261016T183729Z_entes_4eab43
+Parameters: count=2 duration=0.4 s frequency=5 Hz interval=0.2 s request_timeout=2 s
+Target: 127.0.0.1:61319 command='MEASURE_ENTES -get_data'
+Statistics:
+  mean: 24.7643
+  median: 24.7643
+  stdev: 4.90816
+  min: 21.2938
+  max: 28.2349
+  cv_percent: 19.8194
+Readings: valid=2 errors=0 out_of_range=0 (expected 5 to 200 A)
+Archive: results/20261016T183729Z_entes_4eab43/run.json
+
+Ammeter: circutor   Run ID: 20261016T183729Z_circutor_390fae
+Parameters: count=2 duration=0.4 s frequency=5 Hz interval=0.2 s request_timeout=2 s
+Target: 127.0.0.1:61320 command='MEASURE_CIRCUTOR -get_measurement -current'
+Statistics:
+  mean: 0.0422303
+  median: 0.0422303
+  stdev: 0.0237857
+  min: 0.0254113
+  max: 0.0590493
+  cv_percent: 56.3237
+Readings: valid=2 errors=0 out_of_range=0 (expected 0.001 to 0.1 A)
+Archive: results/20261016T183729Z_circutor_390fae/run.json
+
+============================= 53 passed in 10.33s ==============================
