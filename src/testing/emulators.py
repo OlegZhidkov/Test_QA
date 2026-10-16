@@ -102,6 +102,7 @@ def _wait_until_ready(entry: RunningEmulator, timeout_s: float) -> None:
 
 
 def _start_failure(entry: RunningEmulator, reason: str) -> str:
+    """Message for a failed emulator start, with the bind error when there is one."""
     message = f"emulator {entry.name!r} on port {entry.port}: {reason}"
     if entry.emulator.start_error is not None:
         message += f": {entry.emulator.start_error}"

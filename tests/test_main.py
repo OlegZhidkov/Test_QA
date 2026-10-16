@@ -7,6 +7,7 @@ from tests.helpers import unused_port, write_config
 
 
 def test_main_prints_one_reading_per_configured_ammeter(tmp_path: Path, capsys) -> None:
+    """main() prints one reading line per ammeter and returns 0."""
     ports = {name: unused_port() for name in ("greenlee", "entes", "circutor")}
     path = write_config(tmp_path / "config.yaml", ports)
 

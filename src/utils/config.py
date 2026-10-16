@@ -141,6 +141,7 @@ def resolve_sampling(count: object, duration_s: object, frequency_hz: object,
 
 
 def _parse(data: object, source: str) -> FrameworkConfig:
+    """Validate the loaded YAML data and build the FrameworkConfig."""
     top = _require_mapping(data, "top level")
     _reject_unknown(top, {"testing", "ammeters", "analysis", "result_management"}, "")
     testing = _optional_mapping(top, "testing", "testing")
@@ -242,6 +243,7 @@ def _reject_shared_ports(ammeters: Mapping[str, AmmeterSettings]) -> None:
 
 
 def _require_mapping(value: object, key: str) -> Mapping:
+    """Return `value` if it is a mapping, else raise ConfigError naming `key`."""
     if not isinstance(value, Mapping):
         raise ConfigError(f"{key}: must be a mapping, got {value!r}")
     return value
@@ -254,6 +256,7 @@ def _optional_mapping(parent: Mapping, field: str, key: str) -> Mapping:
 
 
 def _reject_unknown(mapping: Mapping, allowed: set[str], key: str) -> None:
+    """Raise ConfigError for any key of `mapping` that is not in `allowed`."""
     for field in mapping:
         if field not in allowed:
             dotted = f"{key}.{field}" if key else str(field)
@@ -261,12 +264,14 @@ def _reject_unknown(mapping: Mapping, allowed: set[str], key: str) -> None:
 
 
 def _name(value: object) -> str:
+    """Return a valid ammeter name or raise ConfigError."""
     if not isinstance(value, str) or not NAME_PATTERN.match(value):
         raise ConfigError(f"ammeters.{value}: name must match {NAME_PATTERN.pattern}")
     return value
 
 
 def _text(value: object, key: str) -> str:
+    """Return a non-empty string or raise ConfigError naming `key`."""
     if not isinstance(value, str) or not value.strip():
         raise ConfigError(f"{key}: must be a non-empty string, got {value!r}")
     return value
@@ -283,6 +288,7 @@ def _as_float(value: object) -> float | None:
 
 
 def _number(value: object, key: str) -> float:
+    """Return a finite number or raise ConfigError naming `key`."""
     number = _as_float(value)
     if number is None or not math.isfinite(number):
         raise ConfigError(f"{key}: must be a finite number, got {_short(value)}")
@@ -290,6 +296,7 @@ def _number(value: object, key: str) -> float:
 
 
 def _positive_number(value: object, key: str) -> float:
+    """Return a finite number above zero or raise ConfigError naming `key`."""
     number = _as_float(value)
     if number is None or not math.isfinite(number) or number <= 0:
         raise ConfigError(f"{key}: must be a positive number, got {_short(value)}")
@@ -303,12 +310,14 @@ def _short(value: object) -> str:
 
 
 def _positive_int(value: object, key: str) -> int:
+    """Return an integer above zero (not a bool) or raise ConfigError naming `key`."""
     if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
         raise ConfigError(f"{key}: must be a positive integer, got {value!r}")
     return value
 
 
 def _port(value: object, key: str) -> int:
+    """Return a TCP port from 1 to 65535 (not a bool) or raise ConfigError naming `key`."""
     if isinstance(value, bool) or not isinstance(value, int) or not 1 <= value <= 65535:
         raise ConfigError(f"{key}: must be an integer from 1 to 65535, got {value!r}")
     return value
