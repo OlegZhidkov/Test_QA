@@ -11,7 +11,6 @@ from src.utils.config import AmmeterSettings, FrameworkConfig, SamplingPlan
 from src.utils.errors import (
     AmmeterConnectionError,
     AmmeterTimeoutError,
-    ConfigError,
     InvalidResponseError,
 )
 
@@ -36,9 +35,7 @@ class AmmeterTester:
     def from_config(cls, config: FrameworkConfig, name: str,
                     logger: logging.Logger | None = None) -> "AmmeterTester":
         """Build a tester for the named ammeter of a config."""
-        if name not in config.ammeters:
-            raise ConfigError(f"unknown ammeter {name!r}; known: {sorted(config.ammeters)}")
-        return cls(config.ammeters[name], config.sampling, config.request_timeout_s,
+        return cls(config.settings_for(name), config.sampling, config.request_timeout_s,
                    logger=logger)
 
     def measure(self) -> float:
@@ -66,11 +63,13 @@ class AmmeterTester:
         return compute_statistics(readings)
 
     def _sleep_until(self, target: float) -> None:
+        """Sleep until the clock reaches target; never with a negative delay."""
         delay = target - self._clock()
         if delay > 0:
             self._sleep(delay)
 
     def _read(self, index: int, scheduled: float, actual: float, start_wall: datetime) -> Reading:
+        """One reading at the given offset; a typed client error becomes an error reading."""
         stamp = _iso(start_wall, actual)
         try:
             return Reading(index, stamp, scheduled, actual, self.measure(), None)
@@ -81,4 +80,5 @@ class AmmeterTester:
 
 
 def _iso(start_wall: datetime, offset_s: float) -> str:
+    """Wall-clock ISO timestamp (microseconds) offset_s after start_wall."""
     return (start_wall + timedelta(seconds=offset_s)).isoformat(timespec="microseconds")

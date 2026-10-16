@@ -9,7 +9,7 @@ import yaml
 
 from src.utils.errors import ConfigError
 
-DEFAULT_CONFIG_PATH = Path("config/config.yaml")
+DEFAULT_CONFIG_PATH = Path(__file__).resolve().parents[2] / "config" / "config.yaml"
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_REQUEST_TIMEOUT_S = 2.0
 DEFAULT_START_TIMEOUT_S = 5.0
@@ -72,6 +72,12 @@ class FrameworkConfig:
     metrics: tuple[str, ...]
     results_dir: Path
     source: str
+
+    def settings_for(self, name: str) -> AmmeterSettings:
+        """The settings of the named ammeter; an unknown name raises ConfigError."""
+        if name not in self.ammeters:
+            raise ConfigError(f"unknown ammeter {name!r}; known: {sorted(self.ammeters)}")
+        return self.ammeters[name]
 
     def with_ports(self, ports: Mapping[str, int]) -> "FrameworkConfig":
         """Return a copy with the given ammeters moved to other ports."""

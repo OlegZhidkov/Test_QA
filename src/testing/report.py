@@ -28,4 +28,5 @@ def format_run_report(result: RunResult, metrics: Sequence[str]) -> str:
 
 
 def _format_value(value: float | None) -> str:
+    """Six significant digits, or n/a for None."""
     return "n/a" if value is None else f"{value:.6g}"

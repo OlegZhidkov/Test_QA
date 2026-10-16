@@ -8,7 +8,6 @@ from src.testing.analysis import out_of_range
 from src.testing.models import RunResult
 from src.testing.report import format_run_report
 from src.utils.config import DEFAULT_CONFIG_PATH, FrameworkConfig, SamplingPlan, load_config
-from src.utils.errors import ConfigError
 from src.utils.logger import TestLogger
 from src.utils.results import new_run_id, save_run
 
@@ -26,9 +25,7 @@ class AmmeterTestFramework:
 
     def run_test(self, name: str, plan: SamplingPlan | None = None) -> RunResult:
         """Sample one ammeter, analyze, archive and log the report."""
-        if name not in self.config.ammeters:
-            raise ConfigError(f"unknown ammeter {name!r}; known: {sorted(self.config.ammeters)}")
-        settings = self.config.ammeters[name]
+        settings = self.config.settings_for(name)
         plan = plan or self.config.sampling
         run_id = new_run_id(name)
         run_log = TestLogger(name, log_dir=self.config.results_dir / "logs")
