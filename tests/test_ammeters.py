@@ -1,4 +1,5 @@
 """Public suite: every configured ammeter, end to end against its emulator."""
+import dataclasses
 import math
 import statistics
 import time
@@ -10,6 +11,7 @@ from Ammeters.client import request_current_from_ammeter
 from src.testing.analysis import out_of_range
 from src.testing.report import format_run_report
 from src.utils.errors import EmptyResponseError
+from src.utils.results import compare_runs, list_runs, load_run
 
 IGNORED_REPLY_LIMIT_S = 0.5
 TIMING_TOLERANCE_S = 0.05
@@ -107,3 +109,37 @@ def test_consistency_cv_is_reported(run_result, framework_config) -> None:
     stats = run_result.statistics
     assert stats.cv_percent == pytest.approx(stats.stdev / abs(stats.mean) * 100)
     assert "cv_percent" in format_run_report(run_result, framework_config.metrics)
+
+
+def test_run_is_archived_with_a_unique_id_and_metadata_and_can_be_retrieved(
+        run_result, record_run, framework_config, ammeter_name) -> None:
+    """The run is saved, listed and loadable, a second run gets a new ID, and both compare."""
+    results_dir = framework_config.results_dir
+    assert run_result.archive_path.exists()
+    record = load_run(run_result.run_id, results_dir)
+    for key in ("run_id", "ammeter", "started_at_utc", "parameters", "expected_range",
+                "statistics", "readings"):
+        assert key in record
+    assert record == run_result.to_dict()
+    assert run_result.run_id in [run["run_id"] for run in list_runs(results_dir)]
+
+    plan = framework_config.sampling
+    second = record_run(ammeter_name,
+                        dataclasses.replace(plan, count=2, duration_s=2 * plan.interval_s))
+    assert second.run_id != run_result.run_id
+    comparison = compare_runs(run_result.run_id, second.run_id, results_dir)
+    assert comparison["same_ammeter"] is True
+    assert comparison["statistics"]["mean"]["delta"] == pytest.approx(
+        second.statistics.mean - run_result.statistics.mean)
+
+
+def test_report_names_ammeter_run_id_parameters_and_statistics(run_result,
+                                                               framework_config) -> None:
+    """The report shows the ammeter, run ID, parameters and every configured statistic."""
+    report = format_run_report(run_result, framework_config.metrics)
+    settings = framework_config.ammeters[run_result.ammeter]
+    plan = framework_config.sampling
+    expected = [run_result.ammeter, run_result.run_id, f"count={plan.count}",
+                f"{settings.host}:{settings.port}", *framework_config.metrics]
+    assert [item for item in expected if item not in report] == []
+    assert "frequency=" in report

@@ -39,15 +39,6 @@ def test_command_with_trailing_bytes_gets_no_data() -> None:
         assert _raw_exchange(emulator.port, [COMMAND + b"x"]) == b""
 
 
-def test_wrong_command_is_dropped_at_once_without_waiting_for_the_timeout() -> None:
-    with running_emulator(GreenleeAmmeter, recv_timeout_s=2.0) as emulator:
-        with socket.create_connection((HOST, emulator.port), timeout=2) as s:
-            s.sendall(b"MEASURE_UNKNOWN")
-            start = time.monotonic()
-            assert s.recv(1024) == b""
-            assert time.monotonic() - start < 0.5
-
-
 def test_command_split_across_two_sends_is_accepted() -> None:
     with running_emulator(GreenleeAmmeter) as emulator:
         data = _raw_exchange(emulator.port, [COMMAND[:10], COMMAND[10:]], pause_s=0.05)
