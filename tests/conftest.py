@@ -1,4 +1,5 @@
 """Session fixtures for the public suite: emulators, framework, recorded runs, summary."""
+import time
 from collections.abc import Callable, Iterator
 
 import pytest
@@ -75,6 +76,12 @@ def _run_cache() -> dict[str, RunResult]:
     return {}
 
 
+@pytest.fixture(scope="session")
+def _run_wall_times() -> dict[str, float]:
+    """Wall-clock seconds the configured-plan run of each ammeter took."""
+    return {}
+
+
 @pytest.fixture
 def tester(framework: AmmeterTestFramework, ammeter_name: str) -> AmmeterTester:
     """A tester for the ammeter under test."""
@@ -83,14 +90,23 @@ def tester(framework: AmmeterTestFramework, ammeter_name: str) -> AmmeterTester:
 
 @pytest.fixture
 def run_result(record_run: Callable[..., RunResult], _run_cache: dict[str, RunResult],
-               ammeter_name: str) -> RunResult:
+               _run_wall_times: dict[str, float], ammeter_name: str) -> RunResult:
     """One configured-plan run of the ammeter under test, taken once per session."""
     if ammeter_name not in _run_cache:
+        start = time.monotonic()
         _run_cache[ammeter_name] = record_run(ammeter_name)
+        _run_wall_times[ammeter_name] = time.monotonic() - start
     return _run_cache[ammeter_name]
 
 
-def pytest_terminal_summary(terminalreporter, config: pytest.Config) -> None:
+@pytest.fixture
+def run_wall_s(run_result: RunResult, _run_wall_times: dict[str, float],
+               ammeter_name: str) -> float:
+    """Wall-clock seconds of the configured-plan run of the ammeter under test."""
+    return _run_wall_times[ammeter_name]
+
+
+def pytest_terminal_summary(terminalreporter: pytest.TerminalReporter, config: pytest.Config) -> None:
     """Print one report block per recorded run; nothing when no run was made."""
     runs = config.stash[RUNS_KEY]
     if not runs:
