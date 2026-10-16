@@ -1,16 +1,21 @@
 """The client turns every failure into a typed error."""
+import socket
 import time
+from pathlib import Path
 
 import pytest
 
 from Ammeters.client import request_current_from_ammeter
+from src.testing.emulators import start_emulators
+from src.utils.config import load_config
 from src.utils.errors import (
     AmmeterConnectionError,
     AmmeterTimeoutError,
     EmptyResponseError,
+    EmulatorStartError,
     NonNumericResponseError,
 )
-from tests.helpers import fake_server, unused_port
+from tests.helpers import HOST, fake_server, unused_port
 
 COMMAND = b"MEASURE_TEST"
 
@@ -49,3 +54,15 @@ def test_nan_reply_raises_non_numeric_response_error() -> None:
 def test_numeric_reply_is_returned_as_float() -> None:
     with fake_server(b"1.25") as port:
         assert request_current_from_ammeter(port, COMMAND) == 1.25
+
+
+def test_port_already_in_use_raises_emulator_start_error() -> None:
+    config = load_config(Path(__file__).resolve().parent.parent / "config" / "config.yaml")
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as holder:
+        holder.bind((HOST, 0))
+        holder.listen()
+        held = holder.getsockname()[1]
+        overrides = {name: 0 for name in config.ammeters}
+        overrides["entes"] = held
+        with pytest.raises(EmulatorStartError, match=str(held)):
+            start_emulators(config, overrides)

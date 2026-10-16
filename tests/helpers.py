@@ -1,7 +1,9 @@
 """Shared test helpers. Every socket binds 127.0.0.1."""
 import socket
 import threading
+from collections.abc import Mapping
 from contextlib import contextmanager
+from pathlib import Path
 from typing import Iterator
 
 from Ammeters.base_ammeter import AmmeterEmulatorBase
@@ -81,3 +83,36 @@ def running_emulator(cls: type[AmmeterEmulatorBase], port: int = 0,
     finally:
         emulator.stop()
         thread.join(2)
+
+
+CONFIG_TEMPLATE = """\
+testing:
+  sampling:
+    measurements_count: 4
+    total_duration_seconds: 0.4
+    sampling_frequency_hz: NULL
+  request_timeout_seconds: 2.0
+  emulator_start_timeout_seconds: 5.0
+ammeters:
+  greenlee:
+    port: {greenlee}
+    command: "MEASURE_GREENLEE -get_measurement"
+    emulator: "Ammeters.Greenlee_Ammeter:GreenleeAmmeter"
+    expected_range: {{min_amps: 0.01, max_amps: 100.0}}
+  entes:
+    port: {entes}
+    command: "MEASURE_ENTES -get_data"
+    emulator: "Ammeters.Entes_Ammeter:EntesAmmeter"
+    expected_range: {{min_amps: 5.0, max_amps: 200.0}}
+  circutor:
+    port: {circutor}
+    command: "MEASURE_CIRCUTOR -get_measurement -current"
+    emulator: "Ammeters.Circutor_Ammeter:CircutorAmmeter"
+    expected_range: {{min_amps: 0.001, max_amps: 0.1}}
+"""
+
+
+def write_config(path: Path, ports: Mapping[str, int]) -> Path:
+    """Write a valid three-ammeter config with the given ports and return its path."""
+    path.write_text(CONFIG_TEMPLATE.format(**ports), encoding="utf-8")
+    return path

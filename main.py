@@ -1,37 +1,43 @@
-import threading
-import time
+import sys
+from pathlib import Path
 
-from Ammeters.Circutor_Ammeter import CircutorAmmeter
-from Ammeters.Entes_Ammeter import EntesAmmeter
-from Ammeters.Greenlee_Ammeter import GreenleeAmmeter
 from Ammeters.client import request_current_from_ammeter
+from src.testing.emulators import start_emulators, stop_emulators
+from src.utils.config import DEFAULT_CONFIG_PATH, load_config
+from src.utils.errors import AmmeterFrameworkError, ConfigError, EmulatorStartError
 
 
-def run_greenlee_emulator():
-    greenlee = GreenleeAmmeter(5001)
-    greenlee.start_server()
+def main(config_path: Path = DEFAULT_CONFIG_PATH) -> int:
+    """Start the configured emulators, print one reading per ammeter and return an exit code.
 
-def run_entes_emulator():
-    entes = EntesAmmeter(5002)
-    entes.start_server()
+    0 all readings printed, 1 a reading or an emulator failed, 2 invalid config.
+    """
+    try:
+        config = load_config(config_path)
+        running = start_emulators(config)
+    except ConfigError as exc:
+        print(exc, file=sys.stderr)
+        return 2
+    except EmulatorStartError as exc:
+        print(exc, file=sys.stderr)
+        return 1
+    exit_code = 0
+    try:
+        for name, settings in config.ammeters.items():
+            port = running[name].port if name in running else settings.port
+            try:
+                value = request_current_from_ammeter(
+                    port, settings.command, settings.host, config.request_timeout_s)
+            except AmmeterFrameworkError as exc:
+                print(f"{name}: {exc}", file=sys.stderr)
+                exit_code = 1
+            else:
+                print(f"{name}: {value} A")
+    finally:
+        stop_emulators(running)
+    return exit_code
 
-def run_circutor_emulator():
-    circutor = CircutorAmmeter(5003)
-    circutor.start_server()
 
 if __name__ == "__main__":
-    # Start each ammeter in a separate thread
-    threading.Thread(target=run_greenlee_emulator, daemon=True).start()
-    threading.Thread(target=run_entes_emulator, daemon=True).start()
-    threading.Thread(target=run_circutor_emulator, daemon=True).start()
-
-    # This section is commented out because it shouldn't work.
-    # Read the README.md file as well as the source code if you need, and fix the problem.
-
-    # Wait for the servers to start, if you have problem restarting the servers between runs try increasing sleep time.
-    time.sleep(5)
-    # request_current_from_ammeter(5001, b'MEASURE_GREENLEE')  # Request from Greenlee Ammeter
-    # request_current_from_ammeter(5002, b'MEASURE_ENTES')  # Request from ENTES Ammeter
-    # request_current_from_ammeter(5003, b'MEASURE_CIRCUTOR')  # Request from CIRCUTOR Ammeter
-
-    pass
+    sys.stdout.reconfigure(errors="replace")
+    sys.exit(main())
