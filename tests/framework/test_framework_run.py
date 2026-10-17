@@ -14,7 +14,7 @@ from src.testing.test_framework import AmmeterTestFramework
 from src.utils.config import SamplingPlan, load_config
 from src.utils.errors import ConfigError, ResultsWriteError
 from src.utils.results import RUN_ID_PATTERN, load_run
-from tests.helpers import running_emulator, unused_port, write_config
+from tests.helpers import fake_server, running_emulator, unused_port, write_config
 
 CLASSES = {"greenlee": GreenleeAmmeter, "entes": EntesAmmeter, "circutor": CircutorAmmeter}
 TWO = SamplingPlan(count=2, duration_s=0.1, frequency_hz=20.0)
@@ -135,3 +135,13 @@ def test_unwritable_results_dir_fails_before_any_sampling(framework, monkeypatch
     with pytest.raises(ResultsWriteError, match="blocker_file"):
         broken.run_test("greenlee", plan=TWO)
     assert calls == []
+
+
+def test_overflowing_readings_are_archived_and_reported_as_n_a(tmp_path):
+    with fake_server(reply=b"1e308") as port:
+        framework = make_framework(tmp_path, {"greenlee": port, "entes": unused_port(),
+                                              "circutor": unused_port()})
+        result = framework.run_test("greenlee", plan=TWO)
+    assert result.statistics.valid_count == 2 and result.statistics.mean is None
+    assert load_run(result.run_id, framework.config.results_dir)["statistics"]["mean"] is None
+    assert "n/a" in format_run_report(result, ("mean",))

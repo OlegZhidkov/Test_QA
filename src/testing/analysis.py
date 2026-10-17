@@ -1,6 +1,7 @@
 """Statistics over readings and the expected-range check."""
+import math
 import statistics
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 
 from src.testing.models import Reading, Statistics
 from src.utils.config import ExpectedRange
@@ -14,11 +15,20 @@ def compute_statistics(readings: Sequence[Reading]) -> Statistics:
     if not values:
         return Statistics(**counts, mean=None, median=None, stdev=None, min=None, max=None,
                           cv_percent=None)
-    mean = statistics.fmean(values)
-    stdev = statistics.stdev(values) if valid > 1 else None
-    cv = stdev / abs(mean) * 100 if stdev is not None and mean != 0 else None
-    return Statistics(**counts, mean=mean, median=statistics.median(values), stdev=stdev,
-                      min=min(values), max=max(values), cv_percent=cv)
+    mean = _or_none(statistics.fmean, values)
+    stdev = _or_none(statistics.stdev, values) if valid > 1 else None
+    cv = stdev / abs(mean) * 100 if stdev is not None and mean else None
+    return Statistics(**counts, mean=mean, median=_or_none(statistics.median, values),
+                      stdev=stdev, min=min(values), max=max(values), cv_percent=cv)
+
+
+def _or_none(metric: Callable[[list[float]], float], values: list[float]) -> float | None:
+    """The metric over the values, or None when it overflows (for example 1e308 twice)."""
+    try:
+        result = metric(values)
+    except OverflowError:
+        return None
+    return result if math.isfinite(result) else None
 
 
 def out_of_range(readings: Sequence[Reading], expected: ExpectedRange) -> list[Reading]:

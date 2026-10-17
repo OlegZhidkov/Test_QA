@@ -80,3 +80,10 @@ def test_run_result_dict_matches_the_record():
 def test_reading_ok_property():
     assert reading(0, 1.0).ok
     assert not reading(0, None, "boom").ok
+
+
+def test_overflowing_metrics_are_undefined_and_the_rest_is_kept():
+    s = compute_statistics(readings(1e308, 1e308))
+    assert (s.count, s.valid_count, s.error_count) == (2, 2, 0)
+    assert s.min == s.max == 1e308
+    assert s.mean is None and s.median is None and s.cv_percent is None
