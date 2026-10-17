@@ -126,7 +126,8 @@ def write_config(path: Path, ports: Mapping[str, int]) -> Path:
     return path
 
 
-def make_framework(tmp_path, ports):
+def make_framework(tmp_path: Path, ports: Mapping[str, int]) -> AmmeterTestFramework:
+    """A framework over a written three-ammeter test config, archiving under tmp_path/results."""
     config = load_config(write_config(tmp_path / "config.yaml", ports))
     return AmmeterTestFramework(config=replace(config, results_dir=tmp_path / "results"))
 

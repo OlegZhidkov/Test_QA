@@ -5,6 +5,7 @@ import pytest
 
 from src.testing.faults import fault_sequence
 from src.testing.report import format_run_report
+from src.utils.config import FAULT_TYPES
 from src.utils.results import load_run
 
 EXPECTED_ERROR = {"no_response": "EmptyResponseError", "stall": "AmmeterTimeoutError",
@@ -30,8 +31,9 @@ def test_every_injected_fault_is_detected_at_its_reading(scenario_run, scenario_
     assert not mismatches, "\n".join(mismatches)
 
 
-def test_error_and_out_of_range_counts_match_the_injector(scenario_run, scenario_config):
-    counts = scenario_run.injector.counts
+def test_error_and_out_of_range_counts_match_the_configured_plan(scenario_run, scenario_config):
+    expected = fault_sequence(scenario_run.settings.simulate_errors, scenario_config.sampling.count)
+    counts = {fault: expected.count(fault) for fault in FAULT_TYPES}
     stats = scenario_run.result.statistics
     assert stats.error_count == counts["no_response"] + counts["stall"] + counts["garbage"]
     assert len(scenario_run.result.out_of_range) == counts["out_of_range"]

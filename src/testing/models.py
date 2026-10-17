@@ -73,7 +73,7 @@ class RunResult:
     statistics: Statistics
     out_of_range: tuple[Reading, ...]
     archive_path: Path | None = None
-    simulation: dict | None = None
+    simulation: dict[str, float | int | None] | None = None
 
     def to_dict(self) -> dict:
         """The run.json record; archive_path is left out, simulation only when set."""
