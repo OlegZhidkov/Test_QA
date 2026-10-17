@@ -1,5 +1,8 @@
 """Starting and stopping configured emulators."""
+import os
 import socket
+import subprocess
+import sys
 import threading
 import time
 from dataclasses import replace
@@ -93,3 +96,29 @@ def test_wrong_command_is_dropped_at_once_without_waiting_for_the_timeout() -> N
             start = time.monotonic()
             assert s.recv(1024) == b""
             assert time.monotonic() - start < 0.5
+
+
+CP1252_SCRIPT = """
+from Ammeters.client import request_current_from_ammeter
+from src.testing.emulators import start_emulators, stop_emulators
+from src.utils.config import DEFAULT_CONFIG_PATH, load_config
+
+config = load_config(DEFAULT_CONFIG_PATH)
+running = start_emulators(config, {name: 0 for name in config.ammeters})
+try:
+    for name, settings in config.ammeters.items():
+        print("READING", name, request_current_from_ammeter(running[name].port, settings.command))
+finally:
+    stop_emulators(running)
+"""
+
+
+def test_readings_survive_a_cp1252_console():
+    """Greenlee prints an omega; start_emulators must keep that from losing the reply."""
+    env = {**os.environ, "PYTHONIOENCODING": "cp1252"}
+    done = subprocess.run([sys.executable, "-c", CP1252_SCRIPT], cwd=SHIPPED.parent.parent,
+                          env=env, capture_output=True, text=True, timeout=60)
+    assert done.returncode == 0, done.stderr
+    readings = [line.split() for line in done.stdout.splitlines() if line.startswith("READING")]
+    assert [(r[1], float(r[2]) > 0) for r in readings] == [
+        ("greenlee", True), ("entes", True), ("circutor", True)]

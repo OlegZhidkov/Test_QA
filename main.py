@@ -40,5 +40,4 @@ def main(config_path: Path = DEFAULT_CONFIG_PATH) -> int:
 
 
 if __name__ == "__main__":
-    sys.stdout.reconfigure(errors="replace")
     sys.exit(main())

@@ -1,5 +1,6 @@
 """Start and stop the configured emulators in daemon threads."""
 import logging
+import sys
 import threading
 import time
 from collections.abc import Mapping
@@ -54,6 +55,7 @@ def start_emulators(config: FrameworkConfig,
     Raises EmulatorStartError (after stopping the ones already started) if one dies or
     does not become ready in time.
     """
+    _make_streams_tolerant()
     overrides = port_overrides or {}
     classes = {name: load_emulator_class(settings)
                for name, settings in config.ammeters.items() if settings.emulator}
@@ -81,6 +83,17 @@ def stop_emulators(running: Mapping[str, RunningEmulator]) -> None:
         entry.thread.join(JOIN_TIMEOUT_S)
         if entry.thread.is_alive():
             logger.warning("emulator %s did not stop within %s s", entry.name, JOIN_TIMEOUT_S)
+
+
+def _make_streams_tolerant() -> None:
+    """Make stdout and stderr replace unencodable characters instead of raising.
+
+    The Greenlee emulator prints an omega; on a console that cannot encode it
+    (cp1252) the print would raise and the reply would be lost.
+    """
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(errors="replace")
 
 
 def _serve(emulator: AmmeterEmulatorBase) -> None:
