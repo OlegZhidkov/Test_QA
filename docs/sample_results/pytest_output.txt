@@ -2,139 +2,285 @@
 platform darwin -- Python 3.14.8, pytest-9.1.1, pluggy-1.7.0
 configfile: pytest.ini
 testpaths: tests
-collecting ... collected 53 items
+collecting ... collected 199 items
 
-tests/test_ammeters.py::test_responds_to_its_command_with_a_numeric_value[greenlee] PASSED [  1%]
-tests/test_ammeters.py::test_responds_to_its_command_with_a_numeric_value[entes] PASSED [  3%]
-tests/test_ammeters.py::test_responds_to_its_command_with_a_numeric_value[circutor] PASSED [  5%]
-tests/test_ammeters.py::test_ignores_a_wrong_command_without_sending_data_or_stalling[greenlee] PASSED [  7%]
-tests/test_ammeters.py::test_ignores_a_wrong_command_without_sending_data_or_stalling[entes] PASSED [  9%]
-tests/test_ammeters.py::test_ignores_a_wrong_command_without_sending_data_or_stalling[circutor] PASSED [ 11%]
-tests/test_ammeters.py::test_ignores_a_truncated_command[greenlee] PASSED [ 13%]
-tests/test_ammeters.py::test_ignores_a_truncated_command[entes] PASSED   [ 15%]
-tests/test_ammeters.py::test_ignores_a_truncated_command[circutor] PASSED [ 16%]
-tests/test_ammeters.py::test_every_reading_is_inside_the_expected_range[greenlee] PASSED [ 18%]
-tests/test_ammeters.py::test_every_reading_is_inside_the_expected_range[entes] PASSED [ 20%]
-tests/test_ammeters.py::test_every_reading_is_inside_the_expected_range[circutor] PASSED [ 22%]
-tests/test_ammeters.py::test_sample_count_matches_the_configured_count[greenlee] PASSED [ 24%]
-tests/test_ammeters.py::test_sample_count_matches_the_configured_count[entes] PASSED [ 26%]
-tests/test_ammeters.py::test_sample_count_matches_the_configured_count[circutor] PASSED [ 28%]
-tests/test_ammeters.py::test_readings_follow_the_configured_frequency[greenlee] PASSED [ 30%]
-tests/test_ammeters.py::test_readings_follow_the_configured_frequency[entes] PASSED [ 32%]
-tests/test_ammeters.py::test_readings_follow_the_configured_frequency[circutor] PASSED [ 33%]
-tests/test_ammeters.py::test_sample_lasts_the_configured_duration[greenlee] PASSED [ 35%]
-tests/test_ammeters.py::test_sample_lasts_the_configured_duration[entes] PASSED [ 37%]
-tests/test_ammeters.py::test_sample_lasts_the_configured_duration[circutor] PASSED [ 39%]
-tests/test_ammeters.py::test_every_reading_is_timestamped_in_order[greenlee] PASSED [ 41%]
-tests/test_ammeters.py::test_every_reading_is_timestamped_in_order[entes] PASSED [ 43%]
-tests/test_ammeters.py::test_every_reading_is_timestamped_in_order[circutor] PASSED [ 45%]
-tests/test_ammeters.py::test_statistics_are_consistent[greenlee] PASSED  [ 47%]
-tests/test_ammeters.py::test_statistics_are_consistent[entes] PASSED     [ 49%]
-tests/test_ammeters.py::test_statistics_are_consistent[circutor] PASSED  [ 50%]
-tests/test_ammeters.py::test_repeated_readings_vary[greenlee] PASSED     [ 52%]
-tests/test_ammeters.py::test_repeated_readings_vary[entes] PASSED        [ 54%]
-tests/test_ammeters.py::test_repeated_readings_vary[circutor] PASSED     [ 56%]
-tests/test_ammeters.py::test_consistency_cv_is_reported[greenlee] PASSED [ 58%]
-tests/test_ammeters.py::test_consistency_cv_is_reported[entes] PASSED    [ 60%]
-tests/test_ammeters.py::test_consistency_cv_is_reported[circutor] PASSED [ 62%]
-tests/test_ammeters.py::test_run_is_archived_with_a_unique_id_and_metadata_and_can_be_retrieved[greenlee] PASSED [ 64%]
-tests/test_ammeters.py::test_run_is_archived_with_a_unique_id_and_metadata_and_can_be_retrieved[entes] PASSED [ 66%]
-tests/test_ammeters.py::test_run_is_archived_with_a_unique_id_and_metadata_and_can_be_retrieved[circutor] PASSED [ 67%]
-tests/test_ammeters.py::test_report_names_ammeter_run_id_parameters_and_statistics[greenlee] PASSED [ 69%]
-tests/test_ammeters.py::test_report_names_ammeter_run_id_parameters_and_statistics[entes] PASSED [ 71%]
-tests/test_ammeters.py::test_report_names_ammeter_run_id_parameters_and_statistics[circutor] PASSED [ 73%]
-tests/test_emulator.py::test_emulator_replies_with_a_number_to_its_command PASSED [ 75%]
-tests/test_emulator.py::test_command_with_trailing_bytes_gets_no_data PASSED [ 77%]
-tests/test_emulator.py::test_command_split_across_two_sends_is_accepted PASSED [ 79%]
-tests/test_emulator.py::test_silent_client_does_not_block_the_next_client PASSED [ 81%]
-tests/test_emulator.py::test_client_disconnect_does_not_stop_the_emulator PASSED [ 83%]
-tests/test_emulator.py::test_measurement_error_does_not_stop_the_emulator PASSED [ 84%]
-tests/test_error_handling.py::test_connection_refused_raises_connection_error PASSED [ 86%]
-tests/test_error_handling.py::test_silent_device_raises_timeout_error PASSED [ 88%]
-tests/test_error_handling.py::test_empty_reply_raises_empty_response_error PASSED [ 90%]
-tests/test_error_handling.py::test_non_numeric_reply_raises_non_numeric_response_error PASSED [ 92%]
-tests/test_error_handling.py::test_nan_reply_raises_non_numeric_response_error PASSED [ 94%]
-tests/test_error_handling.py::test_numeric_reply_is_returned_as_float PASSED [ 96%]
-tests/test_error_handling.py::test_port_already_in_use_raises_emulator_start_error PASSED [ 98%]
+tests/framework/test_config.py::test_shipped_config_loads_with_exact_commands_and_loopback_hosts PASSED [  0%]
+tests/framework/test_config.py::test_missing_file_names_the_path PASSED  [  1%]
+tests/framework/test_config.py::test_yaml_syntax_error PASSED            [  1%]
+tests/framework/test_config.py::test_empty_file_mentions_top_level PASSED [  2%]
+tests/framework/test_config.py::test_missing_ammeters PASSED             [  2%]
+tests/framework/test_config.py::test_unknown_key_names_the_dotted_key PASSED [  3%]
+tests/framework/test_config.py::test_bad_port[0] PASSED                  [  3%]
+tests/framework/test_config.py::test_bad_port[70000] PASSED              [  4%]
+tests/framework/test_config.py::test_bad_port[5000] PASSED               [  4%]
+tests/framework/test_config.py::test_bad_port[True] PASSED               [  5%]
+tests/framework/test_config.py::test_duplicate_port_names_both_keys PASSED [  5%]
+tests/framework/test_config.py::test_bad_ammeter_name[Green-lee] PASSED  [  6%]
+tests/framework/test_config.py::test_bad_ammeter_name[a/b] PASSED        [  6%]
+tests/framework/test_config.py::test_bad_ammeter_name[UP] PASSED         [  7%]
+tests/framework/test_config.py::test_empty_command PASSED                [  7%]
+tests/framework/test_config.py::test_range_min_not_below_max PASSED      [  8%]
+tests/framework/test_config.py::test_unknown_metric PASSED               [  8%]
+tests/framework/test_config.py::test_defaults_are_applied PASSED         [  9%]
+tests/framework/test_config.py::test_with_ports_replaces_only_ports PASSED [  9%]
+tests/framework/test_config.py::test_expected_range_contains_is_inclusive_with_tolerance PASSED [ 10%]
+tests/framework/test_config.py::test_count_and_duration_give_frequency PASSED [ 10%]
+tests/framework/test_config.py::test_count_and_frequency_give_duration PASSED [ 11%]
+tests/framework/test_config.py::test_duration_and_frequency_give_count PASSED [ 11%]
+tests/framework/test_config.py::test_three_consistent_values_pass PASSED [ 12%]
+tests/framework/test_config.py::test_interval_is_the_inverse_of_the_frequency PASSED [ 12%]
+tests/framework/test_config.py::test_three_inconsistent_values_name_all_keys PASSED [ 13%]
+tests/framework/test_config.py::test_fewer_than_two_values_name_all_keys[args0] PASSED [ 13%]
+tests/framework/test_config.py::test_fewer_than_two_values_name_all_keys[args1] PASSED [ 14%]
+tests/framework/test_config.py::test_fewer_than_two_values_name_all_keys[args2] PASSED [ 14%]
+tests/framework/test_config.py::test_fewer_than_two_values_name_all_keys[args3] PASSED [ 15%]
+tests/framework/test_config.py::test_non_integer_count_from_duration_and_frequency PASSED [ 15%]
+tests/framework/test_config.py::test_bad_sampling_values[args0] PASSED   [ 16%]
+tests/framework/test_config.py::test_bad_sampling_values[args1] PASSED   [ 16%]
+tests/framework/test_config.py::test_bad_sampling_values[args2] PASSED   [ 17%]
+tests/framework/test_config.py::test_bad_sampling_values[args3] PASSED   [ 17%]
+tests/framework/test_config.py::test_bad_sampling_values[args4] PASSED   [ 18%]
+tests/framework/test_config.py::test_bad_sampling_values[args5] PASSED   [ 18%]
+tests/framework/test_config.py::test_bad_sampling_values[args6] PASSED   [ 19%]
+tests/framework/test_config.py::test_bad_sampling_values[args7] PASSED   [ 19%]
+tests/framework/test_config.py::test_bad_sampling_values[args8] PASSED   [ 20%]
+tests/framework/test_config.py::test_sampling_in_config_is_resolved PASSED [ 20%]
+tests/framework/test_config.py::test_loading_yaml_text_matches_parse PASSED [ 21%]
+tests/framework/test_config.py::test_huge_integer_is_a_config_error_naming_the_key[expected_range.min_amps-change0] PASSED [ 21%]
+tests/framework/test_config.py::test_huge_integer_is_a_config_error_naming_the_key[expected_range.max_amps-change1] PASSED [ 22%]
+tests/framework/test_config.py::test_huge_integer_is_a_config_error_naming_the_key[testing.request_timeout_seconds-change2] PASSED [ 22%]
+tests/framework/test_config.py::test_huge_integer_is_a_config_error_naming_the_key[testing.sampling.total_duration_seconds-change3] PASSED [ 23%]
+tests/framework/test_config.py::test_default_config_path_is_anchored_at_the_repo_root PASSED [ 23%]
+tests/framework/test_emulator_start.py::test_each_emulator_is_ready_on_its_real_port PASSED [ 24%]
+tests/framework/test_emulator_start.py::test_entries_without_emulator_are_skipped PASSED [ 24%]
+tests/framework/test_emulator_start.py::test_port_is_released_after_stop PASSED [ 25%]
+tests/framework/test_emulator_start.py::test_bad_emulator_path_names_the_key[no.such.module:Thing] PASSED [ 25%]
+tests/framework/test_emulator_start.py::test_bad_emulator_path_names_the_key[Ammeters.Greenlee_Ammeter:Nope] PASSED [ 26%]
+tests/framework/test_emulator_start.py::test_bad_emulator_path_names_the_key[nocolon] PASSED [ 26%]
+tests/framework/test_emulator_start.py::test_bad_emulator_path_names_the_key[Ammeters.client:request_current_from_ammeter] PASSED [ 27%]
+tests/framework/test_emulator_start.py::test_bad_emulator_path_names_the_key[src.utils.config:SamplingPlan] PASSED [ 27%]
+tests/framework/test_emulator_start.py::test_bind_failure_raises_start_error_and_stops_the_others PASSED [ 28%]
+tests/framework/test_emulator_start.py::test_wrong_command_is_dropped_at_once_without_waiting_for_the_timeout PASSED [ 28%]
+tests/framework/test_emulator_start.py::test_readings_survive_a_cp1252_console PASSED [ 29%]
+tests/framework/test_framework_run.py::test_run_test_archives_a_result_that_loads_back_equal PASSED [ 29%]
+tests/framework/test_framework_run.py::test_custom_plan_is_used_and_recorded PASSED [ 30%]
+tests/framework/test_framework_run.py::test_to_dict_content_comes_from_config_and_run PASSED [ 30%]
+tests/framework/test_framework_run.py::test_unknown_ammeter_raises_before_anything_is_created PASSED [ 31%]
+tests/framework/test_framework_run.py::test_run_all_covers_every_ammeter_with_unique_ids PASSED [ 31%]
+tests/framework/test_framework_run.py::test_statistics_match_the_readings PASSED [ 32%]
+tests/framework/test_framework_run.py::test_report_has_the_required_parts PASSED [ 32%]
+tests/framework/test_framework_run.py::test_report_shows_n_a_for_undefined_values PASSED [ 33%]
+tests/framework/test_framework_run.py::test_error_readings_land_in_the_run_log PASSED [ 33%]
+tests/framework/test_framework_run.py::test_run_logger_is_closed_and_removed_afterwards PASSED [ 34%]
+tests/framework/test_framework_run.py::test_concurrent_runs_each_get_their_own_log PASSED [ 34%]
+tests/framework/test_framework_run.py::test_results_dir_that_is_a_file_raises PASSED [ 35%]
+tests/framework/test_framework_run.py::test_unwritable_results_dir_fails_before_any_sampling PASSED [ 35%]
+tests/framework/test_framework_run.py::test_overflowing_readings_are_archived_and_reported_as_n_a PASSED [ 36%]
+tests/framework/test_framework_run.py::test_run_id_clash_before_sampling_picks_a_fresh_id_and_keeps_the_old_run PASSED [ 36%]
+tests/framework/test_framework_run.py::test_failed_sampling_leaves_no_empty_run_folder PASSED [ 37%]
+tests/framework/test_logger.py::test_info_message_reaches_the_log_file PASSED [ 37%]
+tests/framework/test_logger.py::test_second_logger_with_same_name_has_its_own_file PASSED [ 38%]
+tests/framework/test_logger.py::test_close_removes_handlers_and_releases_the_file PASSED [ 38%]
+tests/framework/test_logger.py::test_folder_is_created PASSED            [ 39%]
+tests/framework/test_logger.py::test_log_dir_below_a_file_raises_results_write_error PASSED [ 39%]
+tests/framework/test_logger.py::test_debug_is_not_written_but_warning_is PASSED [ 40%]
+tests/framework/test_logger.py::test_run_id_names_the_logger_and_the_file_and_close_removes_the_logger PASSED [ 40%]
+tests/framework/test_logger.py::test_loggers_for_different_runs_do_not_share_handlers PASSED [ 41%]
+tests/framework/test_main_cli.py::test_invalid_config_returns_2_and_names_the_key PASSED [ 41%]
+tests/framework/test_main_cli.py::test_missing_config_returns_2 PASSED   [ 42%]
+tests/framework/test_main_cli.py::test_emulator_that_cannot_start_returns_1 PASSED [ 42%]
+tests/framework/test_results.py::test_save_then_load_round_trips PASSED  [ 43%]
+tests/framework/test_results.py::test_ids_in_the_same_second_differ_and_match_the_pattern PASSED [ 43%]
+tests/framework/test_results.py::test_no_tmp_file_remains PASSED         [ 44%]
+tests/framework/test_results.py::test_existing_run_is_not_overwritten PASSED [ 44%]
+tests/framework/test_results.py::test_results_dir_that_is_a_file_names_the_path PASSED [ 45%]
+tests/framework/test_results.py::test_unreadable_content_is_corrupt[{not json] PASSED [ 45%]
+tests/framework/test_results.py::test_unreadable_content_is_corrupt[[1, 2]] PASSED [ 46%]
+tests/framework/test_results.py::test_unreadable_content_is_corrupt[3] PASSED [ 46%]
+tests/framework/test_results.py::test_missing_key_is_corrupt[ammeter] PASSED [ 47%]
+tests/framework/test_results.py::test_missing_key_is_corrupt[started_at_utc] PASSED [ 47%]
+tests/framework/test_results.py::test_unknown_id_is_not_found PASSED     [ 48%]
+tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[../x] PASSED [ 48%]
+tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[a/b] PASSED [ 49%]
+tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[a\\b] PASSED [ 49%]
+tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[..] PASSED [ 50%]
+tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[] PASSED [ 50%]
+tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[nope] PASSED [ 51%]
+tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[20260101T000000Z_Greenlee_abcdef] PASSED [ 51%]
+tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[20260101T000000Z_greenlee_abcdef/..] PASSED [ 52%]
+tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[20260101T000000Z_greenlee_abcdef\n] PASSED [ 52%]
+tests/framework/test_results.py::test_list_runs_skips_logs_and_corrupt_runs_with_warnings PASSED [ 53%]
+tests/framework/test_results.py::test_list_runs_of_a_missing_folder_is_empty PASSED [ 53%]
+tests/framework/test_results.py::test_compare_runs_deltas PASSED         [ 54%]
+tests/framework/test_results.py::test_compare_runs_keeps_none_and_flags_other_ammeters PASSED [ 54%]
+tests/framework/test_results.py::test_failed_save_leaves_no_folder_and_a_retry_succeeds PASSED [ 55%]
+tests/framework/test_results.py::test_colliding_run_is_never_touched_by_a_failed_save PASSED [ 55%]
+tests/framework/test_results.py::test_wrong_container_types_are_corrupt[statistics-value0] PASSED [ 56%]
+tests/framework/test_results.py::test_wrong_container_types_are_corrupt[parameters-x] PASSED [ 56%]
+tests/framework/test_results.py::test_wrong_container_types_are_corrupt[readings-value2] PASSED [ 57%]
+tests/framework/test_results.py::test_record_with_another_run_id_is_corrupt PASSED [ 57%]
+tests/framework/test_results.py::test_compare_runs_non_numeric_metric_gives_none_delta PASSED [ 58%]
+tests/framework/test_results.py::test_unreadable_results_dir_raises_results_error PASSED [ 58%]
+tests/framework/test_results.py::test_data_is_synced_before_the_atomic_rename PASSED [ 59%]
+tests/framework/test_results.py::test_reserve_run_creates_the_folder_and_save_run_fills_it PASSED [ 59%]
+tests/framework/test_results.py::test_reserve_run_skips_a_taken_id PASSED [ 60%]
+tests/framework/test_results.py::test_reserve_run_gives_up_after_the_attempts PASSED [ 60%]
+tests/framework/test_results.py::test_release_run_removes_only_an_empty_folder PASSED [ 61%]
+tests/framework/test_sampler.py::test_targets_are_exactly_multiples_of_the_interval PASSED [ 61%]
+tests/framework/test_sampler.py::test_slow_reading_does_not_shift_later_targets PASSED [ 62%]
+tests/framework/test_sampler.py::test_sleep_is_never_negative PASSED     [ 62%]
+tests/framework/test_sampler.py::test_sampler_sleeps_to_the_end_of_the_duration PASSED [ 63%]
+tests/framework/test_sampler.py::test_reading_count_equals_the_plan PASSED [ 63%]
+tests/framework/test_sampler.py::test_typed_error_becomes_an_error_reading PASSED [ 64%]
+tests/framework/test_sampler.py::test_other_exceptions_propagate PASSED  [ 64%]
+tests/framework/test_sampler.py::test_timestamps_follow_offsets_and_increase PASSED [ 65%]
+tests/framework/test_sampler.py::test_error_reading_is_logged_on_the_given_logger PASSED [ 65%]
+tests/framework/test_sampler.py::test_default_logger_is_the_module_logger PASSED [ 66%]
+tests/framework/test_sampler.py::test_missing_emulator_gives_error_readings_without_raising PASSED [ 66%]
+tests/framework/test_sampler.py::test_unknown_ammeter_lists_known_names PASSED [ 67%]
+tests/framework/test_statistics.py::test_basic_statistics PASSED         [ 67%]
+tests/framework/test_statistics.py::test_single_value PASSED             [ 68%]
+tests/framework/test_statistics.py::test_no_valid_values PASSED          [ 68%]
+tests/framework/test_statistics.py::test_errors_are_excluded_and_counted PASSED [ 69%]
+tests/framework/test_statistics.py::test_zero_mean_gives_no_cv PASSED    [ 69%]
+tests/framework/test_statistics.py::test_negative_mean_uses_absolute_value PASSED [ 70%]
+tests/framework/test_statistics.py::test_out_of_range_keeps_bounds_and_ignores_errors PASSED [ 70%]
+tests/framework/test_statistics.py::test_run_result_dict_matches_the_record PASSED [ 71%]
+tests/framework/test_statistics.py::test_reading_ok_property PASSED      [ 71%]
+tests/framework/test_statistics.py::test_overflowing_metrics_are_undefined_and_the_rest_is_kept PASSED [ 72%]
+tests/framework/test_summary_report.py::test_ammeter_run_tests_print_the_runs_section PASSED [ 72%]
+tests/framework/test_summary_report.py::test_no_section_without_ammeter_runs PASSED [ 73%]
+tests/test_ammeters.py::test_responds_to_its_command_with_a_numeric_value[greenlee] PASSED [ 73%]
+tests/test_ammeters.py::test_responds_to_its_command_with_a_numeric_value[entes] PASSED [ 74%]
+tests/test_ammeters.py::test_responds_to_its_command_with_a_numeric_value[circutor] PASSED [ 74%]
+tests/test_ammeters.py::test_ignores_a_wrong_command_without_sending_data_or_stalling[greenlee] PASSED [ 75%]
+tests/test_ammeters.py::test_ignores_a_wrong_command_without_sending_data_or_stalling[entes] PASSED [ 75%]
+tests/test_ammeters.py::test_ignores_a_wrong_command_without_sending_data_or_stalling[circutor] PASSED [ 76%]
+tests/test_ammeters.py::test_ignores_a_truncated_command[greenlee] PASSED [ 76%]
+tests/test_ammeters.py::test_ignores_a_truncated_command[entes] PASSED   [ 77%]
+tests/test_ammeters.py::test_ignores_a_truncated_command[circutor] PASSED [ 77%]
+tests/test_ammeters.py::test_every_reading_is_inside_the_expected_range[greenlee] PASSED [ 78%]
+tests/test_ammeters.py::test_every_reading_is_inside_the_expected_range[entes] PASSED [ 78%]
+tests/test_ammeters.py::test_every_reading_is_inside_the_expected_range[circutor] PASSED [ 79%]
+tests/test_ammeters.py::test_sample_count_matches_the_configured_count[greenlee] PASSED [ 79%]
+tests/test_ammeters.py::test_sample_count_matches_the_configured_count[entes] PASSED [ 80%]
+tests/test_ammeters.py::test_sample_count_matches_the_configured_count[circutor] PASSED [ 80%]
+tests/test_ammeters.py::test_readings_follow_the_configured_frequency[greenlee] PASSED [ 81%]
+tests/test_ammeters.py::test_readings_follow_the_configured_frequency[entes] PASSED [ 81%]
+tests/test_ammeters.py::test_readings_follow_the_configured_frequency[circutor] PASSED [ 82%]
+tests/test_ammeters.py::test_sample_lasts_the_configured_duration[greenlee] PASSED [ 82%]
+tests/test_ammeters.py::test_sample_lasts_the_configured_duration[entes] PASSED [ 83%]
+tests/test_ammeters.py::test_sample_lasts_the_configured_duration[circutor] PASSED [ 83%]
+tests/test_ammeters.py::test_every_reading_is_timestamped_in_order[greenlee] PASSED [ 84%]
+tests/test_ammeters.py::test_every_reading_is_timestamped_in_order[entes] PASSED [ 84%]
+tests/test_ammeters.py::test_every_reading_is_timestamped_in_order[circutor] PASSED [ 85%]
+tests/test_ammeters.py::test_statistics_are_consistent[greenlee] PASSED  [ 85%]
+tests/test_ammeters.py::test_statistics_are_consistent[entes] PASSED     [ 86%]
+tests/test_ammeters.py::test_statistics_are_consistent[circutor] PASSED  [ 86%]
+tests/test_ammeters.py::test_repeated_readings_vary[greenlee] PASSED     [ 87%]
+tests/test_ammeters.py::test_repeated_readings_vary[entes] PASSED        [ 87%]
+tests/test_ammeters.py::test_repeated_readings_vary[circutor] PASSED     [ 88%]
+tests/test_ammeters.py::test_consistency_cv_is_reported[greenlee] PASSED [ 88%]
+tests/test_ammeters.py::test_consistency_cv_is_reported[entes] PASSED    [ 89%]
+tests/test_ammeters.py::test_consistency_cv_is_reported[circutor] PASSED [ 89%]
+tests/test_ammeters.py::test_run_is_archived_with_a_unique_id_and_metadata_and_can_be_retrieved[greenlee] PASSED [ 90%]
+tests/test_ammeters.py::test_run_is_archived_with_a_unique_id_and_metadata_and_can_be_retrieved[entes] PASSED [ 90%]
+tests/test_ammeters.py::test_run_is_archived_with_a_unique_id_and_metadata_and_can_be_retrieved[circutor] PASSED [ 91%]
+tests/test_ammeters.py::test_report_names_ammeter_run_id_parameters_and_statistics[greenlee] PASSED [ 91%]
+tests/test_ammeters.py::test_report_names_ammeter_run_id_parameters_and_statistics[entes] PASSED [ 92%]
+tests/test_ammeters.py::test_report_names_ammeter_run_id_parameters_and_statistics[circutor] PASSED [ 92%]
+tests/test_emulator.py::test_emulator_replies_with_a_number_to_its_command PASSED [ 93%]
+tests/test_emulator.py::test_command_with_trailing_bytes_gets_no_data PASSED [ 93%]
+tests/test_emulator.py::test_command_split_across_two_sends_is_accepted PASSED [ 94%]
+tests/test_emulator.py::test_silent_client_does_not_block_the_next_client PASSED [ 94%]
+tests/test_emulator.py::test_client_disconnect_does_not_stop_the_emulator PASSED [ 95%]
+tests/test_emulator.py::test_measurement_error_does_not_stop_the_emulator PASSED [ 95%]
+tests/test_error_handling.py::test_connection_refused_raises_connection_error PASSED [ 96%]
+tests/test_error_handling.py::test_silent_device_raises_timeout_error PASSED [ 96%]
+tests/test_error_handling.py::test_empty_reply_raises_empty_response_error PASSED [ 97%]
+tests/test_error_handling.py::test_non_numeric_reply_raises_non_numeric_response_error PASSED [ 97%]
+tests/test_error_handling.py::test_nan_reply_raises_non_numeric_response_error PASSED [ 98%]
+tests/test_error_handling.py::test_numeric_reply_is_returned_as_float PASSED [ 98%]
+tests/test_error_handling.py::test_port_already_in_use_raises_emulator_start_error PASSED [ 99%]
 tests/test_main.py::test_main_prints_one_reading_per_configured_ammeter PASSED [100%]
 ================================= Ammeter runs =================================
 
-Ammeter: greenlee   Run ID: 20261016T183722Z_greenlee_5cd0c2
+Ammeter: greenlee   Run ID: 20261017T075250Z_greenlee_b255ef
 Parameters: count=10 duration=2 s frequency=5 Hz interval=0.2 s request_timeout=2 s
-Target: 127.0.0.1:61318 command='MEASURE_GREENLEE -get_measurement'
+Target: 127.0.0.1:51800 command='MEASURE_GREENLEE -get_measurement'
 Statistics:
-  mean: 0.97488
-  median: 0.20379
-  stdev: 2.12628
-  min: 0.0881476
-  max: 6.97106
-  cv_percent: 218.106
+  mean: 0.238127
+  median: 0.207919
+  stdev: 0.202109
+  min: 0.0456974
+  max: 0.762681
+  cv_percent: 84.8743
 Readings: valid=10 errors=0 out_of_range=0 (expected 0.01 to 100 A)
-Archive: results/20261016T183722Z_greenlee_5cd0c2/run.json
+Archive: results/20261017T075250Z_greenlee_b255ef/run.json
 
-Ammeter: entes   Run ID: 20261016T183724Z_entes_461129
+Ammeter: entes   Run ID: 20261017T075252Z_entes_1f2538
 Parameters: count=10 duration=2 s frequency=5 Hz interval=0.2 s request_timeout=2 s
-Target: 127.0.0.1:61319 command='MEASURE_ENTES -get_data'
+Target: 127.0.0.1:51801 command='MEASURE_ENTES -get_data'
 Statistics:
-  mean: 70.6268
-  median: 73.2729
-  stdev: 41.0166
-  min: 16.6471
-  max: 139.433
-  cv_percent: 58.0751
+  mean: 80.5453
+  median: 54.361
+  stdev: 59.6268
+  min: 21.3136
+  max: 172.393
+  cv_percent: 74.0289
 Readings: valid=10 errors=0 out_of_range=0 (expected 5 to 200 A)
-Archive: results/20261016T183724Z_entes_461129/run.json
+Archive: results/20261017T075252Z_entes_1f2538/run.json
 
-Ammeter: circutor   Run ID: 20261016T183726Z_circutor_a5b2b2
+Ammeter: circutor   Run ID: 20261017T075254Z_circutor_cfea43
 Parameters: count=10 duration=2 s frequency=5 Hz interval=0.2 s request_timeout=2 s
-Target: 127.0.0.1:61320 command='MEASURE_CIRCUTOR -get_measurement -current'
+Target: 127.0.0.1:51802 command='MEASURE_CIRCUTOR -get_measurement -current'
 Statistics:
-  mean: 0.0293555
-  median: 0.0255468
-  stdev: 0.0210995
-  min: 0.00548626
-  max: 0.0635623
-  cv_percent: 71.8757
+  mean: 0.0299061
+  median: 0.0316195
+  stdev: 0.0116758
+  min: 0.0118253
+  max: 0.0448425
+  cv_percent: 39.0416
 Readings: valid=10 errors=0 out_of_range=0 (expected 0.001 to 0.1 A)
-Archive: results/20261016T183726Z_circutor_a5b2b2/run.json
+Archive: results/20261017T075254Z_circutor_cfea43/run.json
 
-Ammeter: greenlee   Run ID: 20261016T183728Z_greenlee_7cc138
+Ammeter: greenlee   Run ID: 20261017T075256Z_greenlee_812ade
 Parameters: count=2 duration=0.4 s frequency=5 Hz interval=0.2 s request_timeout=2 s
-Target: 127.0.0.1:61318 command='MEASURE_GREENLEE -get_measurement'
+Target: 127.0.0.1:51800 command='MEASURE_GREENLEE -get_measurement'
 Statistics:
-  mean: 0.118269
-  median: 0.118269
-  stdev: 0.109704
-  min: 0.040696
-  max: 0.195841
-  cv_percent: 92.7586
+  mean: 0.0813919
+  median: 0.0813919
+  stdev: 0.0432458
+  min: 0.0508125
+  max: 0.111971
+  cv_percent: 53.1328
 Readings: valid=2 errors=0 out_of_range=0 (expected 0.01 to 100 A)
-Archive: results/20261016T183728Z_greenlee_7cc138/run.json
+Archive: results/20261017T075256Z_greenlee_812ade/run.json
 
-Ammeter: entes   Run ID: 20261016T183729Z_entes_4eab43
+Ammeter: entes   Run ID: 20261017T075256Z_entes_5580e6
 Parameters: count=2 duration=0.4 s frequency=5 Hz interval=0.2 s request_timeout=2 s
-Target: 127.0.0.1:61319 command='MEASURE_ENTES -get_data'
+Target: 127.0.0.1:51801 command='MEASURE_ENTES -get_data'
 Statistics:
-  mean: 24.7643
-  median: 24.7643
-  stdev: 4.90816
-  min: 21.2938
-  max: 28.2349
-  cv_percent: 19.8194
+  mean: 74.7792
+  median: 74.7792
+  stdev: 3.29806
+  min: 72.4471
+  max: 77.1113
+  cv_percent: 4.41039
 Readings: valid=2 errors=0 out_of_range=0 (expected 5 to 200 A)
-Archive: results/20261016T183729Z_entes_4eab43/run.json
+Archive: results/20261017T075256Z_entes_5580e6/run.json
 
-Ammeter: circutor   Run ID: 20261016T183729Z_circutor_390fae
+Ammeter: circutor   Run ID: 20261017T075257Z_circutor_98d317
 Parameters: count=2 duration=0.4 s frequency=5 Hz interval=0.2 s request_timeout=2 s
-Target: 127.0.0.1:61320 command='MEASURE_CIRCUTOR -get_measurement -current'
+Target: 127.0.0.1:51802 command='MEASURE_CIRCUTOR -get_measurement -current'
 Statistics:
-  mean: 0.0422303
-  median: 0.0422303
-  stdev: 0.0237857
-  min: 0.0254113
-  max: 0.0590493
-  cv_percent: 56.3237
+  mean: 0.0267638
+  median: 0.0267638
+  stdev: 0.0241601
+  min: 0.00967999
+  max: 0.0438475
+  cv_percent: 90.2717
 Readings: valid=2 errors=0 out_of_range=0 (expected 0.001 to 0.1 A)
-Archive: results/20261016T183729Z_circutor_390fae/run.json
+Archive: results/20261017T075257Z_circutor_98d317/run.json
 
-============================= 53 passed in 10.33s ==============================
+============================= 199 passed in 24.09s =============================
