@@ -20,8 +20,10 @@ MIX = {"no_response": 0.1, "stall": 0.2, "garbage": 0.3, "out_of_range": 0.15}
 
 
 def sim(**kw) -> ErrorSimulation:
-    """An ErrorSimulation with seed 7 unless given."""
+    """An ErrorSimulation with seed 7 and a short resolved stall unless given."""
     kw.setdefault("seed", 7)
+    if kw.get("stall", 0) > 0:
+        kw.setdefault("stall_seconds", 0.05)
     return ErrorSimulation(**kw)
 
 
@@ -66,6 +68,8 @@ def test_faults_module_never_calls_global_random_functions():
             and node.value.id == "random"]
     assert uses
     assert all(node.attr == "Random" for node in uses)
+    assert not [node for node in ast.walk(tree)
+                if isinstance(node, ast.ImportFrom) and node.module == "random"]
 
 
 def test_probabilities_hold_on_a_large_sample():
@@ -105,21 +109,43 @@ def test_decisions_are_thread_safe():
     assert injector.counts == {fault: expected[fault] for fault in FAULT_TYPES}
 
 
+class SignallingEvent(threading.Event):
+    """An Event that signals when some thread starts waiting on it."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.entered = threading.Event()
+
+    def wait(self, timeout: float | None = None) -> bool:
+        self.entered.set()
+        return super().wait(timeout)
+
+
 def test_lock_is_not_held_during_a_stall():
     injector = FaultInjector(sim(stall=1.0, stall_seconds=1.0), "t")
-    event = threading.Event()
-    thread = threading.Thread(target=injector.respond, args=(1.0, event))
+    stop = SignallingEvent()
+    thread = threading.Thread(target=injector.respond, args=(1.0, stop))
     thread.start()
     try:
-        deadline = time.monotonic() + 2
-        while injector.decisions < 1 and time.monotonic() < deadline:
-            time.sleep(0.005)
+        assert stop.entered.wait(2)
         started = time.monotonic()
         injector.next_fault()
         assert time.monotonic() - started < 0.2
     finally:
-        event.set()
+        stop.set()
         thread.join(2)
+
+
+@pytest.mark.parametrize("draw, expected", [
+    (0.05, "no_response"), (0.1, "stall"), (0.35, "garbage"), (0.7, "out_of_range"),
+    (0.9, None)])
+def test_pick_uses_cumulative_thresholds_in_fixed_order(draw, expected):
+    assert faults_module._pick(draw, sim(**MIX)) == expected
+
+
+def test_stall_without_resolved_seconds_is_rejected():
+    with pytest.raises(ValueError, match="stall_seconds must be resolved"):
+        FaultInjector(ErrorSimulation(seed=7, stall=0.5), "t")
 
 
 def test_no_fault_reply_is_the_base_format():

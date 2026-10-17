@@ -65,7 +65,7 @@ def start_emulators(config: FrameworkConfig,
     for name, cls in classes.items():
         settings = config.ammeters[name]
         port = overrides.get(name, settings.port)
-        injector = None
+        injector: FaultInjector | None = None
         if settings.simulate_errors is None:
             emulator = cls(port)
         else:

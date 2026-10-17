@@ -226,15 +226,18 @@ def _ammeter(name: object, value: object) -> AmmeterSettings:
     emulator = entry.get("emulator")
     if emulator is not None:
         emulator = _text(emulator, f"{key}.emulator")
+    host = _text(entry.get("host", DEFAULT_HOST), f"{key}.host")
+    port = _port(entry["port"], f"{key}.port")
+    command = _text(entry["command"], f"{key}.command").encode("utf-8")
     expected_range = _expected_range(entry["expected_range"], f"{key}.expected_range")
     simulation = entry.get("simulate_errors")
     if simulation is not None:
         simulation = _simulation(simulation, f"{key}.simulate_errors", emulator, expected_range)
     return AmmeterSettings(
         name=name,
-        host=_text(entry.get("host", DEFAULT_HOST), f"{key}.host"),
-        port=_port(entry["port"], f"{key}.port"),
-        command=_text(entry["command"], f"{key}.command").encode("utf-8"),
+        host=host,
+        port=port,
+        command=command,
         emulator=emulator,
         expected_range=expected_range,
         simulate_errors=simulation,

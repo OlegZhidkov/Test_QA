@@ -153,3 +153,11 @@ def test_as_record_is_json_ready():
     assert json.loads(json.dumps(record, allow_nan=False)) == record
     assert set(record) == {"seed", "no_response", "stall", "garbage", "out_of_range",
                            "stall_seconds", "spike_factor"}
+
+
+def test_first_error_follows_the_original_validation_order():
+    data = copy.deepcopy(BASE)
+    data["ammeters"]["greenlee"]["port"] = 0
+    data["ammeters"]["greenlee"]["expected_range"] = {"min_amps": 5, "max_amps": 1}
+    with pytest.raises(ConfigError, match=r"ammeters\.greenlee\.port"):
+        parse_config(data, "t")

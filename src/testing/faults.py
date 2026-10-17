@@ -20,6 +20,8 @@ class FaultInjector:
     """Decides, per served request, whether and how an emulator misbehaves."""
 
     def __init__(self, simulation: ErrorSimulation, name: str):
+        if simulation.stall > 0 and simulation.stall_seconds is None:
+            raise ValueError("stall_seconds must be resolved when stall > 0")
         self._simulation = simulation
         self._name = name
         self._rng = random.Random(simulation.seed)
@@ -49,7 +51,7 @@ class FaultInjector:
         if fault is None:
             return str(current).encode("utf-8")
         if fault == "stall":
-            stop.wait(self._simulation.stall_seconds or 0.0)
+            stop.wait(self._simulation.stall_seconds)
             return None
         if fault == "garbage":
             return GARBAGE_REPLIES[garbage_index % len(GARBAGE_REPLIES)]
