@@ -12,7 +12,7 @@ Scope right now is the core of the spec (unified API, sampling, statistics, resu
 
 - Install: `python3 -m pip install -r requirements.txt`
 - Run: `python3 main.py`
-- All tests (303, about 35 s): `python3 -m pytest`
+- All tests (313, about 35 s): `python3 -m pytest`
 - Error-simulation scenario only: `python3 -m pytest tests/test_error_simulation.py`
 - Framework tests only (`tests/framework/`): `python3 -m pytest tests/framework`
 - Ammeter tests only (directly in `tests/`): `python3 -m pytest tests --ignore=tests/framework`
