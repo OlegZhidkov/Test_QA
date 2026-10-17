@@ -153,7 +153,7 @@ Unknown keys, wrong types and inconsistent values are rejected with a message th
 | `ammeters.<name>.simulate_errors.seed` | Seed of the fault decisions (integer 0 to 4294967295); needed whenever the block is present | required |
 | `ammeters.<name>.simulate_errors.no_response` / `stall` / `garbage` / `out_of_range` | Chance (0 to 1) per request of: no reply, a stalled reply, a non-numeric reply, a spiked value; the four sum to at most 1 and at least one is above 0 | `0` each |
 | `ammeters.<name>.simulate_errors.stall_seconds` | How long a stall lasts; must be above `request_timeout_seconds` and below the sampling interval | midpoint of the two |
-| `ammeters.<name>.simulate_errors.spike_factor` | A spiked value is the real one times this (above 1, at most `1e9`; times `min_amps` it must exceed `max_amps`) | `1000` |
+| `ammeters.<name>.simulate_errors.spike_factor` | A spiked value is the real one times this (above 1, at most `1e9`; with `out_of_range` above 0, `min_amps` must be above 0 and times `min_amps` it must exceed `max_amps`) | `1000` |
 
 Give at least two of the three sampling keys; the third is computed (`count = duration * frequency`). If all three are given they must agree. The shipped config asks for 10 readings over 2 seconds, which is 5 readings per second.
 

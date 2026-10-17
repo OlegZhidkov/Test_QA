@@ -141,6 +141,26 @@ def test_spike_factor_must_push_every_value_out_of_range():
     parse_with({"seed": 1, "garbage": 0.5})
 
 
+@pytest.mark.parametrize("min_amps", [0, 0.0, -1.0])
+def test_out_of_range_needs_a_positive_min_amps(min_amps):
+    data = copy.deepcopy(BASE)
+    data["ammeters"]["greenlee"]["expected_range"] = {"min_amps": min_amps, "max_amps": 100.0}
+    data["ammeters"]["greenlee"]["simulate_errors"] = {"seed": 1, "out_of_range": 1.0}
+    with pytest.raises(ConfigError, match=KEY + r".*min_amps above 0"):
+        parse_config(data, "t")
+
+
+def test_non_positive_min_amps_is_fine_without_out_of_range_spikes():
+    data = copy.deepcopy(BASE)
+    data["ammeters"]["greenlee"]["expected_range"] = {"min_amps": 0.0, "max_amps": 100.0}
+    data["ammeters"]["greenlee"]["simulate_errors"] = {"seed": 1, "garbage": 0.5}
+    parse_config(data, "t")
+
+
+def test_shipped_error_scenario_is_still_valid():
+    load_config(SHIPPED.parent / "error_simulation.yaml")
+
+
 def test_with_ports_keeps_the_simulation():
     config = parse_with({"seed": 1, "garbage": 0.5})
     moved = config.with_ports({"greenlee": 0})

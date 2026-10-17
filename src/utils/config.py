@@ -271,11 +271,12 @@ def _simulation(value: object, key: str, emulator: str | None,
     if spike is None or not math.isfinite(spike) or not 1 < spike <= SPIKE_FACTOR_MAX:
         raise ConfigError(f"{key}.spike_factor: must be a number above 1 and at most "
                           f"{SPIKE_FACTOR_MAX:g}, got {_short(entry['spike_factor'])}")
-    if chances["out_of_range"] > 0 and expected.min_amps > 0 \
-            and spike * expected.min_amps <= expected.max_amps:
-        raise ConfigError(f"{key}.spike_factor: {spike:g} * min_amps {expected.min_amps:g} "
-                          f"must be above max_amps {expected.max_amps:g} "
-                          "so every spike is out of range")
+    if chances["out_of_range"] > 0 and (expected.min_amps <= 0
+                                        or spike * expected.min_amps <= expected.max_amps):
+        raise ConfigError(f"{key}.spike_factor: out_of_range needs expected_range.min_amps above 0 "
+                          f"and spike_factor * min_amps above max_amps so every spike leaves "
+                          f"the range (spike_factor {spike:g}, min_amps {expected.min_amps:g}, "
+                          f"max_amps {expected.max_amps:g})")
     return ErrorSimulation(seed=seed, **chances, stall_seconds=stall_seconds, spike_factor=spike)
 
 
