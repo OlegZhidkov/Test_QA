@@ -66,11 +66,10 @@ def start_emulators(config: FrameworkConfig,
         settings = config.ammeters[name]
         port = overrides.get(name, settings.port)
         injector: FaultInjector | None = None
-        if settings.simulate_errors is None:
-            emulator = cls(port)
-        else:
+        emulator = cls(port)
+        if settings.simulate_errors is not None:
             injector = FaultInjector(settings.simulate_errors, name)
-            emulator = cls(port, fault_injector=injector.respond)
+            emulator.fault_injector = injector.respond
         thread = threading.Thread(target=_serve, args=(emulator,), name=f"emulator-{name}",
                                   daemon=True)
         entry = RunningEmulator(name, emulator, thread, injector)

@@ -119,3 +119,25 @@ def test_start_emulators_wires_injectors_only_where_configured():
         assert running["entes"].emulator.fault_injector == running["entes"].injector.respond
     finally:
         stop_emulators(running)
+
+
+class PortOnlyGreenlee(GreenleeAmmeter):
+    """An emulator whose constructor takes only the port."""
+
+    def __init__(self, port):
+        super().__init__(port)
+
+
+def test_start_emulators_injects_faults_into_a_port_only_constructor():
+    config = load_config(SHIPPED)
+    greenlee = replace(config.ammeters["greenlee"],
+                       emulator="tests.framework.test_emulator_faults:PortOnlyGreenlee",
+                       simulate_errors=ErrorSimulation(seed=1, no_response=1.0))
+    config = replace(config, ammeters={"greenlee": greenlee})
+    running = start_emulators(config, {"greenlee": 0})
+    try:
+        with pytest.raises(EmptyResponseError):
+            request_current_from_ammeter(running["greenlee"].emulator.port, COMMAND)
+        assert running["greenlee"].injector.decisions == 1
+    finally:
+        stop_emulators(running)
