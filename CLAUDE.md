@@ -6,13 +6,14 @@ Guidance for Claude Code (claude.ai/code) when working in this repository.
 
 The Ammeter Testing Exercise (spec: `Exam/ammeter-test-specification.md`): a testing framework around three TCP-socket ammeter emulators (Greenlee, ENTES, CIRCUTOR) in `Ammeters/`. The ammeter checks are written as pytest test cases in `tests/`; the framework's own tests are in `tests/framework/`. Python 3.11+, libraries: `pyyaml` (runtime) and `pytest` (tests).
 
-Scope right now is the core of the spec (unified API, sampling, statistics, result management, config, `main.py` working). Bonus items (visualization, error simulation, accuracy comparison) come later.
+Scope right now is the core of the spec (unified API, sampling, statistics, result management, config, `main.py` working) plus error simulation (faults injected into managed emulators, `config/error_simulation.yaml`). The other bonus items (visualization, accuracy comparison) come later.
 
 ## Commands
 
 - Install: `python3 -m pip install -r requirements.txt`
 - Run: `python3 main.py`
-- All tests (about 200, about 25 s): `python3 -m pytest`
+- All tests (303, about 35 s): `python3 -m pytest`
+- Error-simulation scenario only: `python3 -m pytest tests/test_error_simulation.py`
 - Framework tests only (`tests/framework/`): `python3 -m pytest tests/framework`
 - Ammeter tests only (directly in `tests/`): `python3 -m pytest tests --ignore=tests/framework`
 

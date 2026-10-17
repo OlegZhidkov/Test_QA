@@ -13,6 +13,7 @@ This project provides emulators for different types of ammeters: Greenlee, ENTES
   - `client.py`: Client to request current measurements from the ammeter emulators (typed errors, explicit timeout).
 - `config/`
   - `config.yaml`: Configuration file: sampling, ammeters (port, command, expected range), metrics and results folder.
+  - `error_simulation.yaml`: Short scenario in which the managed emulators misbehave on purpose (see "Error simulation").
 - `examples/`
   - `run_tests.py`: starter example, unfinished and not working (see "About `examples/run_tests.py`"). **Don't use it**; it is kept unchanged.
 - `src/`
@@ -23,13 +24,14 @@ This project provides emulators for different types of ammeters: Greenlee, ENTES
     - `report.py`: Text report of a run.
     - `models.py`: Readings, samples, statistics and run results.
     - `emulators.py`: Starts and stops the configured emulators in threads.
+    - `faults.py`: Seeded fault decisions for error simulation (`FaultInjector`).
   - `utils/`
     - `config.py`: Loads and validates `config/config.yaml`.
     - `errors.py`: The framework's exception types.
     - `results.py`: Result archive: save, load, list and compare runs.
     - `logger.py`: Logging setup (one log file per run).
     - `Utils.py`: Utility functions, including `generate_random_float`.
-- `tests/`: The pytest suite. Directly in `tests/`: the ammeter checks (ammeters, client errors, emulator robustness, `main.py`). In `tests/framework/`: the framework tests (config, sampler, statistics, archive, logger, framework run, emulator start, CLI, summary report).
+- `tests/`: The pytest suite. Directly in `tests/`: the ammeter checks (ammeters, client errors, emulator robustness, `main.py`). In `tests/framework/`: the framework tests (config, simulation config, sampler, statistics, archive, logger, fault injector, emulator hook, framework run, simulation record, golden report, emulator start, CLI, summary report). Also in `tests/`: `test_error_simulation.py`.
 - `docs/`: `design-decisions.md` (fixes to the given code and design choices) and `sample_results/` (output of a real run).
 
 ## Usage
@@ -74,7 +76,7 @@ Exit codes: `0` all readings printed; `1` a reading failed or an emulator could 
 python3 -m pytest
 ```
 
-The suite uses `config/config.yaml`. It starts the emulators itself on free ports, so it does not clash with `main.py` or with anything on ports 5000 to 5002. A full run has about 200 tests and takes about 25 seconds. It writes its 6 ammeter runs and their logs to `./results` (not tracked by git). The output ends with an "Ammeter runs" section that prints the report block of every run (ammeter, run ID, parameters, statistics). A real output is in `docs/sample_results/pytest_output.txt`.
+The suite uses `config/config.yaml`. It starts the emulators itself on free ports, so it does not clash with `main.py` or with anything on ports 5000 to 5002. A full run has 303 tests and takes about 35 seconds. It writes its 9 ammeter runs (6 normal, 3 simulated) and their logs to `./results` (not tracked by git). The output ends with an "Ammeter runs" section that prints the report block of every run (ammeter, run ID, parameters, statistics). A real output is in `docs/sample_results/pytest_output.txt`.
 
 #### Test layout
 
@@ -86,12 +88,12 @@ python3 -m pytest tests --ignore=tests/framework   # only the ammeter tests
 
 | Folder | Covers |
 | --- | --- |
-| `tests/` (ammeter tests) | Every ammeter in the config gets the same checks: it answers its command with a number, ignores a wrong or truncated command, stays in its expected range, takes the configured number of readings over the configured duration (at the configured frequency when replies are faster than the interval), produces correct statistics, and is archived and reported. Also: client errors (refused, timeout, empty and non-numeric replies), emulator robustness against odd clients, and `main.py` |
-| `tests/framework/` | Config validation, sampler timing (fake clock, error readings), statistics and range counting, the result archive (save, load, list, compare, run-ID reservation), the per-run logger, the framework run end to end (including parallel runs), starting and stopping emulators (including a cp1252 console), the `main.py` exit codes, and the "Ammeter runs" summary |
+| `tests/` (ammeter tests) | Every ammeter in the config gets the same checks: it answers its command with a number, ignores a wrong or truncated command, stays in its expected range, takes the configured number of readings over the configured duration (at the configured frequency when replies are faster than the interval), produces correct statistics, and is archived and reported. Also: the error-simulation scenario (every injected fault is detected, see "Error simulation"), client errors (refused, timeout, empty and non-numeric replies), emulator robustness against odd clients, and `main.py` |
+| `tests/framework/` | Config validation (including `simulate_errors`), sampler timing (fake clock, error readings), statistics and range counting, the result archive (save, load, list, compare, run-ID reservation), the per-run logger, the fault injector, the emulator fault hook, the framework run end to end (including parallel runs), starting and stopping emulators (including a cp1252 console), the `main.py` exit codes, the simulation record and its golden report, and the "Ammeter runs" summary |
 
 ### Where results go
 
-Each test run is saved as `results/<run_id>/run.json` (the folder comes from `result_management.results_dir`; it is relative to the folder you start from, and is not tracked by git). A run ID looks like `20261017T075250Z_greenlee_b255ef`: UTC start time, ammeter name and 6 random hex digits. The ID is unique because the run folder is reserved atomically before sampling starts (a clash gets a fresh ID), so a run can never overwrite or lose another. The JSON holds the run ID, ammeter, start and end time, parameters (count, duration, frequency, interval, timeout, host, port, command), the expected range, the statistics, the number of out-of-range readings and every reading with its timestamp and value (or error). A log file per run goes to `results/logs/`. Real examples are in `docs/sample_results/`.
+Each test run is saved as `results/<run_id>/run.json` (the folder comes from `result_management.results_dir`; it is relative to the folder you start from, and is not tracked by git). A run ID looks like `20261017T075250Z_greenlee_b255ef`: UTC start time, ammeter name and 6 random hex digits. The ID is unique because the run folder is reserved atomically before sampling starts (a clash gets a fresh ID), so a run can never overwrite or lose another. The JSON holds the run ID, ammeter, start and end time, parameters (count, duration, frequency, interval, timeout, host, port, command), the expected range, the statistics, the number of out-of-range readings and every reading with its timestamp and value (or error). A simulated run has one extra top-level key, `simulation`. A log file per run goes to `results/logs/`. Real examples are in `docs/sample_results/`.
 
 List, load and compare runs from Python:
 
@@ -148,8 +150,26 @@ Unknown keys, wrong types and inconsistent values are rejected with a message th
 | `ammeters.<name>.expected_range.min_amps` / `max_amps` | Inclusive range a valid reading must be inside | required |
 | `analysis.statistical_metrics` | Metrics in the report: `mean`, `median`, `stdev`, `min`, `max`, `cv_percent` | all six |
 | `result_management.results_dir` | Folder for the archived runs | `results` |
+| `ammeters.<name>.simulate_errors.seed` | Seed of the fault decisions (integer 0 to 4294967295); needed whenever the block is present | required |
+| `ammeters.<name>.simulate_errors.no_response` / `stall` / `garbage` / `out_of_range` | Chance (0 to 1) per request of: no reply, a stalled reply, a non-numeric reply, a spiked value; the four sum to at most 1 and at least one is above 0 | `0` each |
+| `ammeters.<name>.simulate_errors.stall_seconds` | How long a stall lasts; must be above `request_timeout_seconds` and below the sampling interval | midpoint of the two |
+| `ammeters.<name>.simulate_errors.spike_factor` | A spiked value is the real one times this (above 1, at most `1e9`; times `min_amps` it must exceed `max_amps`) | `1000` |
 
 Give at least two of the three sampling keys; the third is computed (`count = duration * frequency`). If all three are given they must agree. The shipped config asks for 10 readings over 2 seconds, which is 5 readings per second.
+
+### Error simulation
+
+Error simulation makes a managed emulator misbehave on purpose, so you can see the framework detect each failure. Add a `simulate_errors` block to an ammeter in the config (keys in the table above; `seed` is required). `config/error_simulation.yaml` is a ready 12-reading scenario with a different mix per ammeter:
+
+```sh
+python3 -m pytest tests/test_error_simulation.py
+```
+
+By hand: `framework = AmmeterTestFramework("config/error_simulation.yaml")`, then `start_emulators(framework.config)` and `framework.run_all()` as above.
+
+What to expect per fault: `no_response` is an `EmptyResponseError` reading, `stall` an `AmmeterTimeoutError` reading, `garbage` a `NonNumericResponseError` reading (all three are errors, not counted in the statistics), and `out_of_range` a valid number counted as out of range. In the scenario, greenlee gets empty and garbage replies, entes gets stalls and out-of-range values, circutor gets all four. A simulated report has a `Simulation: errors injected (seed N)` line and its `run.json` a `simulation` key.
+
+Limits: only managed emulators (`emulator` set) can be sabotaged; the emulator serves one request at a time, so a stall blocks it and needs `request_timeout_seconds < stall_seconds < sampling interval`. A seed reproduces which readings fail and how, for a freshly started emulator and the same request order, not the readings' values (the emulators reseed the global `random` from the clock); an extra request to the same emulator shifts the sequence. Only the tests and the framework start emulators with faults; `main.py` does not.
 
 ### Add an ammeter
 
