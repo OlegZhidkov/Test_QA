@@ -27,7 +27,7 @@ Installed: `pyyaml` (reads `config/config.yaml`) and `pytest` (the tests). Every
 | `README.md` | Said `main.py` was in `Ammeters/`, the CIRCUTOR command lacked `-current`, named `run_test.py`, described `AmmeterTester.py` as the test class | Corrected and extended with usage. |
 | `src/__init__.py`, `src/testing/__init__.py`, `src/utils/__init__.py` | The starter had no `__init__.py` files, while `test_framework.py` used a relative import | Package markers added so the imports work. |
 | `requirements.txt` | Unneeded heavy libraries | See above. |
-| `examples/run_tests.py` | Starter example that calls `run_test()` with no argument and cannot work | Left unchanged on purpose; the README says why it fails (no ammeter name, an empty framework class in the starter) and points to `AmmeterTestFramework.run_test(name)`. |
+| `examples/run_tests.py` | Starter example that calls `run_test()` with no argument and cannot work | Left unchanged on purpose; the README says why it fails (`python3 examples/run_tests.py` gives `ModuleNotFoundError: No module named 'src'` because the script's folder, not the project root, is on the import path; `python3 -m examples.run_tests` gives a `TypeError` because `run_test()` gets no ammeter name) and points to `AmmeterTestFramework.run_test(name)`. |
 
 The measurement logic in the three emulator classes and `src/utils/Utils.py` is unchanged.
 
@@ -37,7 +37,7 @@ The measurement logic in the three emulator classes and `src/utils/Utils.py` is 
 - **Errors as data.** A failed reading becomes an error reading (message kept, not counted in the statistics) instead of aborting the run; the report and the JSON show the error count. Config errors name the dotted key.
 - **Archive.** One atomic `run.json` per run (written to a temporary file, then renamed), only JSON types, no absolute paths. Run ID: `<UTC time>_<ammeter>_<6 hex>`; the run folder is reserved atomically (`mkdir` without `exist_ok`, retried with a fresh ID on a clash) before sampling, so the ID is unique by construction and a clash cannot lose a run. IDs are validated on every load so an ID cannot point outside the results folder.
 - **Config-driven.** Ports, commands, hosts, ranges, sampling and metrics all come from the YAML; a new ammeter is a config entry plus an emulator class. The tests start the emulators on port 0 (free ports) so they never clash.
-- **Statistics.** Mean, median, sample standard deviation, min, max. `cv_percent` (stdev / |mean| * 100) is a bonus metric for the spec's "performance consistency evaluation". With one reading stdev and `cv_percent` are undefined (`None`, shown as `n/a`); the same holds for a metric that overflows (a device replying `1e308`), while the other metrics are still computed.
+- **Statistics.** Mean, median, sample standard deviation, min, max. `cv_percent` (stdev / |mean| * 100) is a bonus metric for the spec's "performance consistency evaluation". With one reading stdev and `cv_percent` are undefined (`None`, shown as `n/a`); the same holds for a metric that overflows or is not finite (a device replying `1e308`; `1e308`, `-1e308`, `1.0` give an infinite `cv_percent`), while the other metrics are still computed. A metric that overflows or is not finite is undefined, so `run.json` never contains `Infinity` or `NaN` (`save_run` writes with `allow_nan=False` and reports a violation as a write error).
 
 ## Known limitations
 

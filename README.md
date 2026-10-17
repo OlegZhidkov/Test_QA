@@ -14,7 +14,7 @@ This project provides emulators for different types of ammeters: Greenlee, ENTES
 - `config/`
   - `config.yaml`: Configuration file: sampling, ammeters (port, command, expected range), metrics and results folder.
 - `examples/`
-  - `run_tests.py`: starter example, unfinished and not working (it calls `run_test()` without an ammeter name). **Don't use it**; it is kept unchanged.
+  - `run_tests.py`: starter example, unfinished and not working (see "About `examples/run_tests.py`"). **Don't use it**; it is kept unchanged.
 - `src/`
   - `testing/`
     - `AmmeterTester.py`: Unified API for one ammeter: `measure()` for one reading, `sample()` for a timed series.
@@ -127,7 +127,7 @@ For a single ammeter use `framework.run_test("greenlee")`; it needs that emulato
 
 ### About `examples/run_tests.py`
 
-The starter's example is left exactly as provided, and it cannot work. It calls `framework.run_test()` without the required ammeter name, so it raises a `TypeError`, and it was written for a framework class that was an empty stub. Use `AmmeterTestFramework.run_test(name)` or the by-hand example above instead.
+The starter's example is left exactly as provided, and it cannot work. `python3 examples/run_tests.py` (from the project root or from `examples/`) fails on line 1 with `ModuleNotFoundError: No module named 'src'`, because Python puts the script's folder, not the project root, on the import path. `python3 -m examples.run_tests` (from the project root) gets further and raises `TypeError: AmmeterTestFramework.run_test() missing 1 required positional argument: 'name'`, because it calls `run_test()` without an ammeter name. Use `AmmeterTestFramework.run_test(name)` or the by-hand example above instead.
 
 ### Config keys (`config/config.yaml`)
 
