@@ -1,0 +1,140 @@
+{
+  "run_id": "20261017T160414Z_greenlee_fd02e7",
+  "ammeter": "greenlee",
+  "started_at_utc": "2026-10-17T16:04:14.520901+00:00",
+  "finished_at_utc": "2026-10-17T16:04:20.526176+00:00",
+  "elapsed_s": 6.00527549997787,
+  "parameters": {
+    "count": 12,
+    "duration_s": 6.0,
+    "frequency_hz": 2.0,
+    "interval_s": 0.5,
+    "request_timeout_s": 0.15,
+    "host": "127.0.0.1",
+    "port": 65288,
+    "command": "MEASURE_GREENLEE -get_measurement"
+  },
+  "expected_range": {
+    "min_amps": 0.01,
+    "max_amps": 100.0
+  },
+  "statistics": {
+    "count": 12,
+    "valid_count": 8,
+    "error_count": 4,
+    "mean": 0.130123631542966,
+    "median": 0.11714797291787446,
+    "stdev": 0.082961843766157,
+    "min": 0.025445137315150433,
+    "max": 0.24507506340547713,
+    "cv_percent": 63.75617002263231
+  },
+  "out_of_range_count": 0,
+  "readings": [
+    {
+      "index": 0,
+      "timestamp_utc": "2026-10-17T16:04:14.520903+00:00",
+      "scheduled_offset_s": 0.0,
+      "actual_offset_s": 1.6659905668348074e-06,
+      "value_amps": null,
+      "error": "EmptyResponseError: 127.0.0.1:65288: the ammeter sent no data"
+    },
+    {
+      "index": 1,
+      "timestamp_utc": "2026-10-17T16:04:15.026059+00:00",
+      "scheduled_offset_s": 0.5,
+      "actual_offset_s": 0.5051575409888756,
+      "value_amps": 0.025445137315150433,
+      "error": null
+    },
+    {
+      "index": 2,
+      "timestamp_utc": "2026-10-17T16:04:15.524569+00:00",
+      "scheduled_offset_s": 1.0,
+      "actual_offset_s": 1.0036678749893326,
+      "value_amps": 0.24507506340547713,
+      "error": null
+    },
+    {
+      "index": 3,
+      "timestamp_utc": "2026-10-17T16:04:16.025948+00:00",
+      "scheduled_offset_s": 1.5,
+      "actual_offset_s": 1.5050473749870434,
+      "value_amps": null,
+      "error": "NonNumericResponseError: 127.0.0.1:65288: reply is not a number: b'ERROR'"
+    },
+    {
+      "index": 4,
+      "timestamp_utc": "2026-10-17T16:04:16.525955+00:00",
+      "scheduled_offset_s": 2.0,
+      "actual_offset_s": 2.005053582979599,
+      "value_amps": 0.08814466577714054,
+      "error": null
+    },
+    {
+      "index": 5,
+      "timestamp_utc": "2026-10-17T16:04:17.025882+00:00",
+      "scheduled_offset_s": 2.5,
+      "actual_offset_s": 2.5049813329824246,
+      "value_amps": 0.04490094269486959,
+      "error": null
+    },
+    {
+      "index": 6,
+      "timestamp_utc": "2026-10-17T16:04:17.522586+00:00",
+      "scheduled_offset_s": 3.0,
+      "actual_offset_s": 3.0016854160057846,
+      "value_amps": 0.1461512800586084,
+      "error": null
+    },
+    {
+      "index": 7,
+      "timestamp_utc": "2026-10-17T16:04:18.021622+00:00",
+      "scheduled_offset_s": 3.5,
+      "actual_offset_s": 3.5007211249903776,
+      "value_amps": 0.16532133326376108,
+      "error": null
+    },
+    {
+      "index": 8,
+      "timestamp_utc": "2026-10-17T16:04:18.526045+00:00",
+      "scheduled_offset_s": 4.0,
+      "actual_offset_s": 4.005143791000592,
+      "value_amps": null,
+      "error": "EmptyResponseError: 127.0.0.1:65288: the ammeter sent no data"
+    },
+    {
+      "index": 9,
+      "timestamp_utc": "2026-10-17T16:04:19.025882+00:00",
+      "scheduled_offset_s": 4.5,
+      "actual_offset_s": 4.504980832978617,
+      "value_amps": null,
+      "error": "EmptyResponseError: 127.0.0.1:65288: the ammeter sent no data"
+    },
+    {
+      "index": 10,
+      "timestamp_utc": "2026-10-17T16:04:19.526098+00:00",
+      "scheduled_offset_s": 5.0,
+      "actual_offset_s": 5.005196624988457,
+      "value_amps": 0.23823447921085594,
+      "error": null
+    },
+    {
+      "index": 11,
+      "timestamp_utc": "2026-10-17T16:04:20.026019+00:00",
+      "scheduled_offset_s": 5.5,
+      "actual_offset_s": 5.5051181250019,
+      "value_amps": 0.08771615061786486,
+      "error": null
+    }
+  ],
+  "simulation": {
+    "seed": 1,
+    "no_response": 0.2,
+    "stall": 0.0,
+    "garbage": 0.2,
+    "out_of_range": 0.0,
+    "stall_seconds": null,
+    "spike_factor": 1000.0
+  }
+}

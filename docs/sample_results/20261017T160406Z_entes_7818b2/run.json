@@ -1,0 +1,115 @@
+{
+  "run_id": "20261017T160406Z_entes_7818b2",
+  "ammeter": "entes",
+  "started_at_utc": "2026-10-17T16:04:06.861928+00:00",
+  "finished_at_utc": "2026-10-17T16:04:08.862049+00:00",
+  "elapsed_s": 2.000121083983686,
+  "parameters": {
+    "count": 10,
+    "duration_s": 2.0,
+    "frequency_hz": 5.0,
+    "interval_s": 0.2,
+    "request_timeout_s": 2.0,
+    "host": "127.0.0.1",
+    "port": 65211,
+    "command": "MEASURE_ENTES -get_data"
+  },
+  "expected_range": {
+    "min_amps": 5.0,
+    "max_amps": 200.0
+  },
+  "statistics": {
+    "count": 10,
+    "valid_count": 10,
+    "error_count": 0,
+    "mean": 70.41533872802437,
+    "median": 64.22195695485226,
+    "stdev": 31.35412762167105,
+    "min": 33.721371981881184,
+    "max": 123.4665431022606,
+    "cv_percent": 44.52741148171531
+  },
+  "out_of_range_count": 0,
+  "readings": [
+    {
+      "index": 0,
+      "timestamp_utc": "2026-10-17T16:04:06.861932+00:00",
+      "scheduled_offset_s": 0.0,
+      "actual_offset_s": 4.04199818149209e-06,
+      "value_amps": 123.4665431022606,
+      "error": null
+    },
+    {
+      "index": 1,
+      "timestamp_utc": "2026-10-17T16:04:07.064000+00:00",
+      "scheduled_offset_s": 0.2,
+      "actual_offset_s": 0.20207212498644367,
+      "value_amps": 82.7982688436125,
+      "error": null
+    },
+    {
+      "index": 2,
+      "timestamp_utc": "2026-10-17T16:04:07.262561+00:00",
+      "scheduled_offset_s": 0.4,
+      "actual_offset_s": 0.400633209006628,
+      "value_amps": 50.36357739359783,
+      "error": null
+    },
+    {
+      "index": 3,
+      "timestamp_utc": "2026-10-17T16:04:07.465342+00:00",
+      "scheduled_offset_s": 0.6000000000000001,
+      "actual_offset_s": 0.6034142920107115,
+      "value_amps": 33.721371981881184,
+      "error": null
+    },
+    {
+      "index": 4,
+      "timestamp_utc": "2026-10-17T16:04:07.664975+00:00",
+      "scheduled_offset_s": 0.8,
+      "actual_offset_s": 0.8030467089847662,
+      "value_amps": 57.6490944005859,
+      "error": null
+    },
+    {
+      "index": 5,
+      "timestamp_utc": "2026-10-17T16:04:07.866968+00:00",
+      "scheduled_offset_s": 1.0,
+      "actual_offset_s": 1.0050399169849698,
+      "value_amps": 116.30639325846239,
+      "error": null
+    },
+    {
+      "index": 6,
+      "timestamp_utc": "2026-10-17T16:04:08.062428+00:00",
+      "scheduled_offset_s": 1.2000000000000002,
+      "actual_offset_s": 1.2005003340018447,
+      "value_amps": 70.79481950911862,
+      "error": null
+    },
+    {
+      "index": 7,
+      "timestamp_utc": "2026-10-17T16:04:08.266982+00:00",
+      "scheduled_offset_s": 1.4000000000000001,
+      "actual_offset_s": 1.4050539589952677,
+      "value_amps": 51.752108335846195,
+      "error": null
+    },
+    {
+      "index": 8,
+      "timestamp_utc": "2026-10-17T16:04:08.464841+00:00",
+      "scheduled_offset_s": 1.6,
+      "actual_offset_s": 1.6029125420027412,
+      "value_amps": 33.778931227664714,
+      "error": null
+    },
+    {
+      "index": 9,
+      "timestamp_utc": "2026-10-17T16:04:08.666973+00:00",
+      "scheduled_offset_s": 1.8,
+      "actual_offset_s": 1.8050451669842005,
+      "value_amps": 83.52227922721374,
+      "error": null
+    }
+  ]
+}

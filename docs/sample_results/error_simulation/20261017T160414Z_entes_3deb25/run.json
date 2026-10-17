@@ -1,0 +1,140 @@
+{
+  "run_id": "20261017T160414Z_entes_3deb25",
+  "ammeter": "entes",
+  "started_at_utc": "2026-10-17T16:04:14.520654+00:00",
+  "finished_at_utc": "2026-10-17T16:04:20.525805+00:00",
+  "elapsed_s": 6.005150542012416,
+  "parameters": {
+    "count": 12,
+    "duration_s": 6.0,
+    "frequency_hz": 2.0,
+    "interval_s": 0.5,
+    "request_timeout_s": 0.15,
+    "host": "127.0.0.1",
+    "port": 65289,
+    "command": "MEASURE_ENTES -get_data"
+  },
+  "expected_range": {
+    "min_amps": 5.0,
+    "max_amps": 200.0
+  },
+  "statistics": {
+    "count": 12,
+    "valid_count": 9,
+    "error_count": 3,
+    "mean": 34805.99179870757,
+    "median": 160.1117075337669,
+    "stdev": 42646.929460073305,
+    "min": 8.934542689666648,
+    "max": 94277.06587238741,
+    "cv_percent": 122.5275513098779
+  },
+  "out_of_range_count": 4,
+  "readings": [
+    {
+      "index": 0,
+      "timestamp_utc": "2026-10-17T16:04:14.520657+00:00",
+      "scheduled_offset_s": 0.0,
+      "actual_offset_s": 2.667016815394163e-06,
+      "value_amps": null,
+      "error": "AmmeterTimeoutError: 127.0.0.1:65289: timed out after 0.15 s: timed out"
+    },
+    {
+      "index": 1,
+      "timestamp_utc": "2026-10-17T16:04:15.025731+00:00",
+      "scheduled_offset_s": 0.5,
+      "actual_offset_s": 0.5050768750079442,
+      "value_amps": 53.791508941701046,
+      "error": null
+    },
+    {
+      "index": 2,
+      "timestamp_utc": "2026-10-17T16:04:15.525255+00:00",
+      "scheduled_offset_s": 1.0,
+      "actual_offset_s": 1.0046012499951757,
+      "value_amps": 106.95601372943587,
+      "error": null
+    },
+    {
+      "index": 3,
+      "timestamp_utc": "2026-10-17T16:04:16.025698+00:00",
+      "scheduled_offset_s": 1.5,
+      "actual_offset_s": 1.505044249992352,
+      "value_amps": 87642.74286377766,
+      "error": null
+    },
+    {
+      "index": 4,
+      "timestamp_utc": "2026-10-17T16:04:16.525690+00:00",
+      "scheduled_offset_s": 2.0,
+      "actual_offset_s": 2.0050355840066914,
+      "value_amps": 77891.44843239622,
+      "error": null
+    },
+    {
+      "index": 5,
+      "timestamp_utc": "2026-10-17T16:04:17.025701+00:00",
+      "scheduled_offset_s": 2.5,
+      "actual_offset_s": 2.505047459009802,
+      "value_amps": 53072.246610911025,
+      "error": null
+    },
+    {
+      "index": 6,
+      "timestamp_utc": "2026-10-17T16:04:17.525686+00:00",
+      "scheduled_offset_s": 3.0,
+      "actual_offset_s": 3.0050315000116825,
+      "value_amps": 40.62863600123063,
+      "error": null
+    },
+    {
+      "index": 7,
+      "timestamp_utc": "2026-10-17T16:04:18.025688+00:00",
+      "scheduled_offset_s": 3.5,
+      "actual_offset_s": 3.505034000001615,
+      "value_amps": 8.934542689666648,
+      "error": null
+    },
+    {
+      "index": 8,
+      "timestamp_utc": "2026-10-17T16:04:18.525709+00:00",
+      "scheduled_offset_s": 4.0,
+      "actual_offset_s": 4.005055209010607,
+      "value_amps": null,
+      "error": "AmmeterTimeoutError: 127.0.0.1:65289: timed out after 0.15 s: timed out"
+    },
+    {
+      "index": 9,
+      "timestamp_utc": "2026-10-17T16:04:19.025700+00:00",
+      "scheduled_offset_s": 4.5,
+      "actual_offset_s": 4.505045750003774,
+      "value_amps": null,
+      "error": "AmmeterTimeoutError: 127.0.0.1:65289: timed out after 0.15 s: timed out"
+    },
+    {
+      "index": 10,
+      "timestamp_utc": "2026-10-17T16:04:19.524551+00:00",
+      "scheduled_offset_s": 5.0,
+      "actual_offset_s": 5.00389695900958,
+      "value_amps": 160.1117075337669,
+      "error": null
+    },
+    {
+      "index": 11,
+      "timestamp_utc": "2026-10-17T16:04:20.025697+00:00",
+      "scheduled_offset_s": 5.5,
+      "actual_offset_s": 5.505043292010669,
+      "value_amps": 94277.06587238741,
+      "error": null
+    }
+  ],
+  "simulation": {
+    "seed": 1,
+    "no_response": 0.0,
+    "stall": 0.25,
+    "garbage": 0.0,
+    "out_of_range": 0.25,
+    "stall_seconds": 0.325,
+    "spike_factor": 1000.0
+  }
+}

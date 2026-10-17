@@ -1,0 +1,51 @@
+{
+  "run_id": "20261017T160411Z_entes_861d25",
+  "ammeter": "entes",
+  "started_at_utc": "2026-10-17T16:04:11.311331+00:00",
+  "finished_at_utc": "2026-10-17T16:04:11.714769+00:00",
+  "elapsed_s": 0.4034375830087811,
+  "parameters": {
+    "count": 2,
+    "duration_s": 0.4,
+    "frequency_hz": 5.0,
+    "interval_s": 0.2,
+    "request_timeout_s": 2.0,
+    "host": "127.0.0.1",
+    "port": 65211,
+    "command": "MEASURE_ENTES -get_data"
+  },
+  "expected_range": {
+    "min_amps": 5.0,
+    "max_amps": 200.0
+  },
+  "statistics": {
+    "count": 2,
+    "valid_count": 2,
+    "error_count": 0,
+    "mean": 122.75732043237048,
+    "median": 122.75732043237048,
+    "stdev": 41.26303933006385,
+    "min": 93.57994550971512,
+    "max": 151.93469535502584,
+    "cv_percent": 33.613506049764666
+  },
+  "out_of_range_count": 0,
+  "readings": [
+    {
+      "index": 0,
+      "timestamp_utc": "2026-10-17T16:04:11.311334+00:00",
+      "scheduled_offset_s": 0.0,
+      "actual_offset_s": 2.6659981813281775e-06,
+      "value_amps": 151.93469535502584,
+      "error": null
+    },
+    {
+      "index": 1,
+      "timestamp_utc": "2026-10-17T16:04:11.512938+00:00",
+      "scheduled_offset_s": 0.2,
+      "actual_offset_s": 0.2016072910046205,
+      "value_amps": 93.57994550971512,
+      "error": null
+    }
+  ]
+}

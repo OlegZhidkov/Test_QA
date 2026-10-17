@@ -2,7 +2,7 @@
 platform darwin -- Python 3.14.8, pytest-9.1.1, pluggy-1.7.0
 configfile: pytest.ini
 testpaths: tests
-collecting ... collected 303 items
+collecting ... collected 313 items
 
 tests/framework/test_config.py::test_shipped_config_loads_with_exact_commands_and_loopback_hosts PASSED [  0%]
 tests/framework/test_config.py::test_missing_file_names_the_path PASSED  [  0%]
@@ -28,260 +28,270 @@ tests/framework/test_config.py::test_count_and_duration_give_frequency PASSED [ 
 tests/framework/test_config.py::test_count_and_frequency_give_duration PASSED [  7%]
 tests/framework/test_config.py::test_duration_and_frequency_give_count PASSED [  7%]
 tests/framework/test_config.py::test_three_consistent_values_pass PASSED [  7%]
-tests/framework/test_config.py::test_interval_is_the_inverse_of_the_frequency PASSED [  8%]
+tests/framework/test_config.py::test_interval_is_the_inverse_of_the_frequency PASSED [  7%]
 tests/framework/test_config.py::test_three_inconsistent_values_name_all_keys PASSED [  8%]
 tests/framework/test_config.py::test_fewer_than_two_values_name_all_keys[args0] PASSED [  8%]
-tests/framework/test_config.py::test_fewer_than_two_values_name_all_keys[args1] PASSED [  9%]
+tests/framework/test_config.py::test_fewer_than_two_values_name_all_keys[args1] PASSED [  8%]
 tests/framework/test_config.py::test_fewer_than_two_values_name_all_keys[args2] PASSED [  9%]
 tests/framework/test_config.py::test_fewer_than_two_values_name_all_keys[args3] PASSED [  9%]
-tests/framework/test_config.py::test_non_integer_count_from_duration_and_frequency PASSED [ 10%]
+tests/framework/test_config.py::test_non_integer_count_from_duration_and_frequency PASSED [  9%]
 tests/framework/test_config.py::test_bad_sampling_values[args0] PASSED   [ 10%]
 tests/framework/test_config.py::test_bad_sampling_values[args1] PASSED   [ 10%]
-tests/framework/test_config.py::test_bad_sampling_values[args2] PASSED   [ 11%]
+tests/framework/test_config.py::test_bad_sampling_values[args2] PASSED   [ 10%]
 tests/framework/test_config.py::test_bad_sampling_values[args3] PASSED   [ 11%]
 tests/framework/test_config.py::test_bad_sampling_values[args4] PASSED   [ 11%]
-tests/framework/test_config.py::test_bad_sampling_values[args5] PASSED   [ 12%]
+tests/framework/test_config.py::test_bad_sampling_values[args5] PASSED   [ 11%]
 tests/framework/test_config.py::test_bad_sampling_values[args6] PASSED   [ 12%]
 tests/framework/test_config.py::test_bad_sampling_values[args7] PASSED   [ 12%]
-tests/framework/test_config.py::test_bad_sampling_values[args8] PASSED   [ 13%]
+tests/framework/test_config.py::test_bad_sampling_values[args8] PASSED   [ 12%]
 tests/framework/test_config.py::test_sampling_in_config_is_resolved PASSED [ 13%]
 tests/framework/test_config.py::test_loading_yaml_text_matches_parse PASSED [ 13%]
-tests/framework/test_config.py::test_huge_integer_is_a_config_error_naming_the_key[expected_range.min_amps-change0] PASSED [ 14%]
+tests/framework/test_config.py::test_huge_integer_is_a_config_error_naming_the_key[expected_range.min_amps-change0] PASSED [ 13%]
 tests/framework/test_config.py::test_huge_integer_is_a_config_error_naming_the_key[expected_range.max_amps-change1] PASSED [ 14%]
 tests/framework/test_config.py::test_huge_integer_is_a_config_error_naming_the_key[testing.request_timeout_seconds-change2] PASSED [ 14%]
-tests/framework/test_config.py::test_huge_integer_is_a_config_error_naming_the_key[testing.sampling.total_duration_seconds-change3] PASSED [ 15%]
+tests/framework/test_config.py::test_huge_integer_is_a_config_error_naming_the_key[testing.sampling.total_duration_seconds-change3] PASSED [ 14%]
 tests/framework/test_config.py::test_default_config_path_is_anchored_at_the_repo_root PASSED [ 15%]
 tests/framework/test_emulator_faults.py::test_no_response_fault_gives_empty_response_error PASSED [ 15%]
-tests/framework/test_emulator_faults.py::test_stall_fault_gives_timeout_error PASSED [ 16%]
-tests/framework/test_emulator_faults.py::test_garbage_fault_gives_non_numeric_response_error PASSED [ 16%]
+tests/framework/test_emulator_faults.py::test_stall_fault_gives_timeout_error PASSED [ 15%]
+tests/framework/test_emulator_faults.py::test_garbage_fault_gives_non_numeric_response_error PASSED [ 15%]
 tests/framework/test_emulator_faults.py::test_out_of_range_fault_gives_a_spiked_valid_reading PASSED [ 16%]
-tests/framework/test_emulator_faults.py::test_stop_during_a_stall_ends_the_server_promptly PASSED [ 17%]
-tests/framework/test_emulator_faults.py::test_server_keeps_serving_after_each_fault_type PASSED [ 17%]
+tests/framework/test_emulator_faults.py::test_stop_during_a_stall_ends_the_server_promptly PASSED [ 16%]
+tests/framework/test_emulator_faults.py::test_server_keeps_serving_after_each_fault_type PASSED [ 16%]
 tests/framework/test_emulator_faults.py::test_raising_hook_drops_the_connection_and_keeps_serving PASSED [ 17%]
-tests/framework/test_emulator_faults.py::test_without_injector_the_reply_is_unchanged PASSED [ 18%]
-tests/framework/test_emulator_faults.py::test_start_emulators_wires_injectors_only_where_configured PASSED [ 18%]
+tests/framework/test_emulator_faults.py::test_without_injector_the_reply_is_unchanged PASSED [ 17%]
+tests/framework/test_emulator_faults.py::test_start_emulators_wires_injectors_only_where_configured PASSED [ 17%]
+tests/framework/test_emulator_faults.py::test_start_emulators_injects_faults_into_a_port_only_constructor PASSED [ 18%]
 tests/framework/test_emulator_start.py::test_each_emulator_is_ready_on_its_real_port PASSED [ 18%]
-tests/framework/test_emulator_start.py::test_entries_without_emulator_are_skipped PASSED [ 19%]
+tests/framework/test_emulator_start.py::test_entries_without_emulator_are_skipped PASSED [ 18%]
 tests/framework/test_emulator_start.py::test_port_is_released_after_stop PASSED [ 19%]
 tests/framework/test_emulator_start.py::test_bad_emulator_path_names_the_key[no.such.module:Thing] PASSED [ 19%]
-tests/framework/test_emulator_start.py::test_bad_emulator_path_names_the_key[Ammeters.Greenlee_Ammeter:Nope] PASSED [ 20%]
+tests/framework/test_emulator_start.py::test_bad_emulator_path_names_the_key[Ammeters.Greenlee_Ammeter:Nope] PASSED [ 19%]
 tests/framework/test_emulator_start.py::test_bad_emulator_path_names_the_key[nocolon] PASSED [ 20%]
 tests/framework/test_emulator_start.py::test_bad_emulator_path_names_the_key[Ammeters.client:request_current_from_ammeter] PASSED [ 20%]
-tests/framework/test_emulator_start.py::test_bad_emulator_path_names_the_key[src.utils.config:SamplingPlan] PASSED [ 21%]
+tests/framework/test_emulator_start.py::test_bad_emulator_path_names_the_key[src.utils.config:SamplingPlan] PASSED [ 20%]
 tests/framework/test_emulator_start.py::test_bind_failure_raises_start_error_and_stops_the_others PASSED [ 21%]
 tests/framework/test_emulator_start.py::test_wrong_command_is_dropped_at_once_without_waiting_for_the_timeout PASSED [ 21%]
-tests/framework/test_emulator_start.py::test_readings_survive_a_cp1252_console PASSED [ 22%]
+tests/framework/test_emulator_start.py::test_readings_survive_a_cp1252_console PASSED [ 21%]
 tests/framework/test_faults.py::test_same_seed_gives_the_same_sequence PASSED [ 22%]
 tests/framework/test_faults.py::test_other_seed_gives_another_sequence PASSED [ 22%]
-tests/framework/test_faults.py::test_injector_follows_fault_sequence PASSED [ 23%]
+tests/framework/test_faults.py::test_injector_follows_fault_sequence PASSED [ 22%]
 tests/framework/test_faults.py::test_sequence_ignores_the_global_random_state PASSED [ 23%]
 tests/framework/test_faults.py::test_injector_does_not_touch_the_global_random_state PASSED [ 23%]
-tests/framework/test_faults.py::test_faults_module_never_calls_global_random_functions PASSED [ 24%]
-tests/framework/test_faults.py::test_probabilities_hold_on_a_large_sample PASSED [ 24%]
+tests/framework/test_faults.py::test_faults_module_never_calls_global_random_functions PASSED [ 23%]
+tests/framework/test_faults.py::test_probabilities_hold_on_a_large_sample PASSED [ 23%]
 tests/framework/test_faults.py::test_zero_probability_type_never_occurs PASSED [ 24%]
-tests/framework/test_faults.py::test_decisions_are_thread_safe PASSED    [ 25%]
-tests/framework/test_faults.py::test_lock_is_not_held_during_a_stall PASSED [ 25%]
+tests/framework/test_faults.py::test_decisions_are_thread_safe PASSED    [ 24%]
+tests/framework/test_faults.py::test_lock_is_not_held_during_a_stall PASSED [ 24%]
 tests/framework/test_faults.py::test_pick_uses_cumulative_thresholds_in_fixed_order[0.05-no_response] PASSED [ 25%]
-tests/framework/test_faults.py::test_pick_uses_cumulative_thresholds_in_fixed_order[0.1-stall] PASSED [ 26%]
-tests/framework/test_faults.py::test_pick_uses_cumulative_thresholds_in_fixed_order[0.35-garbage] PASSED [ 26%]
+tests/framework/test_faults.py::test_pick_uses_cumulative_thresholds_in_fixed_order[0.1-stall] PASSED [ 25%]
+tests/framework/test_faults.py::test_pick_uses_cumulative_thresholds_in_fixed_order[0.35-garbage] PASSED [ 25%]
 tests/framework/test_faults.py::test_pick_uses_cumulative_thresholds_in_fixed_order[0.7-out_of_range] PASSED [ 26%]
-tests/framework/test_faults.py::test_pick_uses_cumulative_thresholds_in_fixed_order[0.9-None] PASSED [ 27%]
-tests/framework/test_faults.py::test_stall_without_resolved_seconds_is_rejected PASSED [ 27%]
+tests/framework/test_faults.py::test_pick_uses_cumulative_thresholds_in_fixed_order[0.9-None] PASSED [ 26%]
+tests/framework/test_faults.py::test_stall_without_resolved_seconds_is_rejected PASSED [ 26%]
 tests/framework/test_faults.py::test_no_fault_reply_is_the_base_format PASSED [ 27%]
-tests/framework/test_faults.py::test_each_fault_type_reply[no_response] PASSED [ 28%]
-tests/framework/test_faults.py::test_each_fault_type_reply[stall] PASSED [ 28%]
+tests/framework/test_faults.py::test_each_fault_type_reply[no_response] PASSED [ 27%]
+tests/framework/test_faults.py::test_each_fault_type_reply[stall] PASSED [ 27%]
 tests/framework/test_faults.py::test_each_fault_type_reply[garbage] PASSED [ 28%]
-tests/framework/test_faults.py::test_each_fault_type_reply[out_of_range] PASSED [ 29%]
-tests/framework/test_faults.py::test_every_garbage_reply_is_rejected_by_the_client_parser[ERROR] PASSED [ 29%]
+tests/framework/test_faults.py::test_each_fault_type_reply[out_of_range] PASSED [ 28%]
+tests/framework/test_faults.py::test_every_garbage_reply_is_rejected_by_the_client_parser[ERROR] PASSED [ 28%]
 tests/framework/test_faults.py::test_every_garbage_reply_is_rejected_by_the_client_parser[--.--] PASSED [ 29%]
-tests/framework/test_faults.py::test_every_garbage_reply_is_rejected_by_the_client_parser[12.3A] PASSED [ 30%]
-tests/framework/test_faults.py::test_every_garbage_reply_is_rejected_by_the_client_parser[\xff\xfe] PASSED [ 30%]
+tests/framework/test_faults.py::test_every_garbage_reply_is_rejected_by_the_client_parser[12.3A] PASSED [ 29%]
+tests/framework/test_faults.py::test_every_garbage_reply_is_rejected_by_the_client_parser[\xff\xfe] PASSED [ 29%]
 tests/framework/test_faults.py::test_stall_returns_at_once_when_stop_is_set PASSED [ 30%]
-tests/framework/test_faults.py::test_each_decision_is_logged_at_debug PASSED [ 31%]
-tests/framework/test_framework_run.py::test_run_test_archives_a_result_that_loads_back_equal PASSED [ 31%]
-tests/framework/test_framework_run.py::test_custom_plan_is_used_and_recorded PASSED [ 31%]
-tests/framework/test_framework_run.py::test_to_dict_content_comes_from_config_and_run PASSED [ 32%]
-tests/framework/test_framework_run.py::test_unknown_ammeter_raises_before_anything_is_created PASSED [ 32%]
-tests/framework/test_framework_run.py::test_run_all_covers_every_ammeter_with_unique_ids PASSED [ 32%]
-tests/framework/test_framework_run.py::test_statistics_match_the_readings PASSED [ 33%]
-tests/framework/test_framework_run.py::test_report_has_the_required_parts PASSED [ 33%]
-tests/framework/test_framework_run.py::test_report_shows_n_a_for_undefined_values PASSED [ 33%]
+tests/framework/test_faults.py::test_each_decision_is_logged_at_debug PASSED [ 30%]
+tests/framework/test_framework_run.py::test_run_test_archives_a_result_that_loads_back_equal PASSED [ 30%]
+tests/framework/test_framework_run.py::test_custom_plan_is_used_and_recorded PASSED [ 30%]
+tests/framework/test_framework_run.py::test_to_dict_content_comes_from_config_and_run PASSED [ 31%]
+tests/framework/test_framework_run.py::test_unknown_ammeter_raises_before_anything_is_created PASSED [ 31%]
+tests/framework/test_framework_run.py::test_run_all_covers_every_ammeter_with_unique_ids PASSED [ 31%]
+tests/framework/test_framework_run.py::test_statistics_match_the_readings PASSED [ 32%]
+tests/framework/test_framework_run.py::test_report_has_the_required_parts PASSED [ 32%]
+tests/framework/test_framework_run.py::test_report_shows_n_a_for_undefined_values PASSED [ 32%]
 tests/framework/test_framework_run.py::test_error_readings_land_in_the_run_log PASSED [ 33%]
-tests/framework/test_framework_run.py::test_run_logger_is_closed_and_removed_afterwards PASSED [ 34%]
-tests/framework/test_framework_run.py::test_concurrent_runs_each_get_their_own_log PASSED [ 34%]
+tests/framework/test_framework_run.py::test_run_logger_is_closed_and_removed_afterwards PASSED [ 33%]
+tests/framework/test_framework_run.py::test_concurrent_runs_each_get_their_own_log PASSED [ 33%]
 tests/framework/test_framework_run.py::test_results_dir_that_is_a_file_raises PASSED [ 34%]
-tests/framework/test_framework_run.py::test_unwritable_results_dir_fails_before_any_sampling PASSED [ 35%]
-tests/framework/test_framework_run.py::test_overflowing_readings_are_archived_and_reported_as_n_a PASSED [ 35%]
+tests/framework/test_framework_run.py::test_unwritable_results_dir_fails_before_any_sampling PASSED [ 34%]
+tests/framework/test_framework_run.py::test_overflowing_readings_are_archived_and_reported_as_n_a PASSED [ 34%]
 tests/framework/test_framework_run.py::test_run_id_clash_before_sampling_picks_a_fresh_id_and_keeps_the_old_run PASSED [ 35%]
-tests/framework/test_framework_run.py::test_failed_sampling_leaves_no_empty_run_folder PASSED [ 36%]
-tests/framework/test_logger.py::test_info_message_reaches_the_log_file PASSED [ 36%]
+tests/framework/test_framework_run.py::test_failed_sampling_leaves_no_empty_run_folder PASSED [ 35%]
+tests/framework/test_logger.py::test_info_message_reaches_the_log_file PASSED [ 35%]
 tests/framework/test_logger.py::test_second_logger_with_same_name_has_its_own_file PASSED [ 36%]
-tests/framework/test_logger.py::test_close_removes_handlers_and_releases_the_file PASSED [ 37%]
-tests/framework/test_logger.py::test_folder_is_created PASSED            [ 37%]
+tests/framework/test_logger.py::test_close_removes_handlers_and_releases_the_file PASSED [ 36%]
+tests/framework/test_logger.py::test_folder_is_created PASSED            [ 36%]
 tests/framework/test_logger.py::test_log_dir_below_a_file_raises_results_write_error PASSED [ 37%]
-tests/framework/test_logger.py::test_debug_is_not_written_but_warning_is PASSED [ 38%]
-tests/framework/test_logger.py::test_run_id_names_the_logger_and_the_file_and_close_removes_the_logger PASSED [ 38%]
+tests/framework/test_logger.py::test_debug_is_not_written_but_warning_is PASSED [ 37%]
+tests/framework/test_logger.py::test_run_id_names_the_logger_and_the_file_and_close_removes_the_logger PASSED [ 37%]
 tests/framework/test_logger.py::test_loggers_for_different_runs_do_not_share_handlers PASSED [ 38%]
-tests/framework/test_main_cli.py::test_invalid_config_returns_2_and_names_the_key PASSED [ 39%]
-tests/framework/test_main_cli.py::test_missing_config_returns_2 PASSED   [ 39%]
-tests/framework/test_main_cli.py::test_emulator_that_cannot_start_returns_1 PASSED [ 39%]
-tests/framework/test_report_golden.py::test_report_without_simulation_is_unchanged PASSED [ 40%]
-tests/framework/test_report_golden.py::test_record_without_simulation_is_unchanged PASSED [ 40%]
-tests/framework/test_report_golden.py::test_simulated_result_adds_one_report_line_and_one_record_key PASSED [ 40%]
-tests/framework/test_results.py::test_save_then_load_round_trips PASSED  [ 41%]
-tests/framework/test_results.py::test_ids_in_the_same_second_differ_and_match_the_pattern PASSED [ 41%]
-tests/framework/test_results.py::test_no_tmp_file_remains PASSED         [ 41%]
-tests/framework/test_results.py::test_existing_run_is_not_overwritten PASSED [ 42%]
-tests/framework/test_results.py::test_results_dir_that_is_a_file_names_the_path PASSED [ 42%]
-tests/framework/test_results.py::test_unreadable_content_is_corrupt[{not json] PASSED [ 42%]
-tests/framework/test_results.py::test_unreadable_content_is_corrupt[[1, 2]] PASSED [ 43%]
-tests/framework/test_results.py::test_unreadable_content_is_corrupt[3] PASSED [ 43%]
-tests/framework/test_results.py::test_missing_key_is_corrupt[ammeter] PASSED [ 43%]
-tests/framework/test_results.py::test_missing_key_is_corrupt[started_at_utc] PASSED [ 44%]
-tests/framework/test_results.py::test_unknown_id_is_not_found PASSED     [ 44%]
-tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[../x] PASSED [ 44%]
-tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[a/b] PASSED [ 45%]
-tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[a\\b] PASSED [ 45%]
-tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[..] PASSED [ 45%]
-tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[] PASSED [ 46%]
-tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[nope] PASSED [ 46%]
-tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[20260101T000000Z_Greenlee_abcdef] PASSED [ 46%]
-tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[20260101T000000Z_greenlee_abcdef/..] PASSED [ 47%]
-tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[20260101T000000Z_greenlee_abcdef\n] PASSED [ 47%]
-tests/framework/test_results.py::test_list_runs_skips_logs_and_corrupt_runs_with_warnings PASSED [ 47%]
-tests/framework/test_results.py::test_list_runs_of_a_missing_folder_is_empty PASSED [ 48%]
-tests/framework/test_results.py::test_compare_runs_deltas PASSED         [ 48%]
-tests/framework/test_results.py::test_compare_runs_keeps_none_and_flags_other_ammeters PASSED [ 48%]
-tests/framework/test_results.py::test_failed_save_leaves_no_folder_and_a_retry_succeeds PASSED [ 49%]
-tests/framework/test_results.py::test_colliding_run_is_never_touched_by_a_failed_save PASSED [ 49%]
-tests/framework/test_results.py::test_wrong_container_types_are_corrupt[statistics-value0] PASSED [ 49%]
-tests/framework/test_results.py::test_wrong_container_types_are_corrupt[parameters-x] PASSED [ 50%]
-tests/framework/test_results.py::test_wrong_container_types_are_corrupt[readings-value2] PASSED [ 50%]
-tests/framework/test_results.py::test_record_with_another_run_id_is_corrupt PASSED [ 50%]
-tests/framework/test_results.py::test_compare_runs_non_numeric_metric_gives_none_delta PASSED [ 51%]
-tests/framework/test_results.py::test_unreadable_results_dir_raises_results_error PASSED [ 51%]
-tests/framework/test_results.py::test_data_is_synced_before_the_atomic_rename PASSED [ 51%]
-tests/framework/test_results.py::test_reserve_run_creates_the_folder_and_save_run_fills_it PASSED [ 52%]
-tests/framework/test_results.py::test_reserve_run_skips_a_taken_id PASSED [ 52%]
-tests/framework/test_results.py::test_reserve_run_gives_up_after_the_attempts PASSED [ 52%]
-tests/framework/test_results.py::test_release_run_removes_only_an_empty_folder PASSED [ 53%]
-tests/framework/test_results.py::test_save_run_rejects_non_finite_numbers_and_leaves_no_folder PASSED [ 53%]
-tests/framework/test_sampler.py::test_targets_are_exactly_multiples_of_the_interval PASSED [ 53%]
-tests/framework/test_sampler.py::test_slow_reading_does_not_shift_later_targets PASSED [ 54%]
-tests/framework/test_sampler.py::test_sleep_is_never_negative PASSED     [ 54%]
-tests/framework/test_sampler.py::test_sampler_sleeps_to_the_end_of_the_duration PASSED [ 54%]
-tests/framework/test_sampler.py::test_reading_count_equals_the_plan PASSED [ 55%]
-tests/framework/test_sampler.py::test_typed_error_becomes_an_error_reading PASSED [ 55%]
-tests/framework/test_sampler.py::test_other_exceptions_propagate PASSED  [ 55%]
-tests/framework/test_sampler.py::test_timestamps_follow_offsets_and_increase PASSED [ 56%]
-tests/framework/test_sampler.py::test_error_reading_is_logged_on_the_given_logger PASSED [ 56%]
-tests/framework/test_sampler.py::test_default_logger_is_the_module_logger PASSED [ 56%]
-tests/framework/test_sampler.py::test_missing_emulator_gives_error_readings_without_raising PASSED [ 57%]
-tests/framework/test_sampler.py::test_unknown_ammeter_lists_known_names PASSED [ 57%]
+tests/framework/test_main_cli.py::test_invalid_config_returns_2_and_names_the_key PASSED [ 38%]
+tests/framework/test_main_cli.py::test_missing_config_returns_2 PASSED   [ 38%]
+tests/framework/test_main_cli.py::test_emulator_that_cannot_start_returns_1 PASSED [ 38%]
+tests/framework/test_report_golden.py::test_report_without_simulation_is_unchanged PASSED [ 39%]
+tests/framework/test_report_golden.py::test_record_without_simulation_is_unchanged PASSED [ 39%]
+tests/framework/test_report_golden.py::test_simulated_result_adds_one_report_line_and_one_record_key PASSED [ 39%]
+tests/framework/test_results.py::test_save_then_load_round_trips PASSED  [ 40%]
+tests/framework/test_results.py::test_ids_in_the_same_second_differ_and_match_the_pattern PASSED [ 40%]
+tests/framework/test_results.py::test_no_tmp_file_remains PASSED         [ 40%]
+tests/framework/test_results.py::test_existing_run_is_not_overwritten PASSED [ 41%]
+tests/framework/test_results.py::test_results_dir_that_is_a_file_names_the_path PASSED [ 41%]
+tests/framework/test_results.py::test_unreadable_content_is_corrupt[{not json] PASSED [ 41%]
+tests/framework/test_results.py::test_unreadable_content_is_corrupt[[1, 2]] PASSED [ 42%]
+tests/framework/test_results.py::test_unreadable_content_is_corrupt[3] PASSED [ 42%]
+tests/framework/test_results.py::test_missing_key_is_corrupt[ammeter] PASSED [ 42%]
+tests/framework/test_results.py::test_missing_key_is_corrupt[started_at_utc] PASSED [ 43%]
+tests/framework/test_results.py::test_unknown_id_is_not_found PASSED     [ 43%]
+tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[../x] PASSED [ 43%]
+tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[a/b] PASSED [ 44%]
+tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[a\\b] PASSED [ 44%]
+tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[..] PASSED [ 44%]
+tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[] PASSED [ 45%]
+tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[nope] PASSED [ 45%]
+tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[20260101T000000Z_Greenlee_abcdef] PASSED [ 45%]
+tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[20260101T000000Z_greenlee_abcdef/..] PASSED [ 46%]
+tests/framework/test_results.py::test_bad_run_ids_are_rejected_before_any_path_is_built[20260101T000000Z_greenlee_abcdef\n] PASSED [ 46%]
+tests/framework/test_results.py::test_list_runs_skips_logs_and_corrupt_runs_with_warnings PASSED [ 46%]
+tests/framework/test_results.py::test_list_runs_of_a_missing_folder_is_empty PASSED [ 46%]
+tests/framework/test_results.py::test_compare_runs_deltas PASSED         [ 47%]
+tests/framework/test_results.py::test_compare_runs_keeps_none_and_flags_other_ammeters PASSED [ 47%]
+tests/framework/test_results.py::test_failed_save_leaves_no_folder_and_a_retry_succeeds PASSED [ 47%]
+tests/framework/test_results.py::test_colliding_run_is_never_touched_by_a_failed_save PASSED [ 48%]
+tests/framework/test_results.py::test_wrong_container_types_are_corrupt[statistics-value0] PASSED [ 48%]
+tests/framework/test_results.py::test_wrong_container_types_are_corrupt[parameters-x] PASSED [ 48%]
+tests/framework/test_results.py::test_wrong_container_types_are_corrupt[readings-value2] PASSED [ 49%]
+tests/framework/test_results.py::test_record_with_another_run_id_is_corrupt PASSED [ 49%]
+tests/framework/test_results.py::test_compare_runs_non_numeric_metric_gives_none_delta PASSED [ 49%]
+tests/framework/test_results.py::test_unreadable_results_dir_raises_results_error PASSED [ 50%]
+tests/framework/test_results.py::test_data_is_synced_before_the_atomic_rename PASSED [ 50%]
+tests/framework/test_results.py::test_reserve_run_creates_the_folder_and_save_run_fills_it PASSED [ 50%]
+tests/framework/test_results.py::test_reserve_run_skips_a_taken_id PASSED [ 51%]
+tests/framework/test_results.py::test_reserve_run_gives_up_after_the_attempts PASSED [ 51%]
+tests/framework/test_results.py::test_release_run_removes_only_an_empty_folder PASSED [ 51%]
+tests/framework/test_results.py::test_save_run_rejects_non_finite_numbers_and_leaves_no_folder PASSED [ 52%]
+tests/framework/test_sampler.py::test_targets_are_exactly_multiples_of_the_interval PASSED [ 52%]
+tests/framework/test_sampler.py::test_slow_reading_does_not_shift_later_targets PASSED [ 52%]
+tests/framework/test_sampler.py::test_sleep_is_never_negative PASSED     [ 53%]
+tests/framework/test_sampler.py::test_sampler_sleeps_to_the_end_of_the_duration PASSED [ 53%]
+tests/framework/test_sampler.py::test_reading_count_equals_the_plan PASSED [ 53%]
+tests/framework/test_sampler.py::test_typed_error_becomes_an_error_reading PASSED [ 53%]
+tests/framework/test_sampler.py::test_other_exceptions_propagate PASSED  [ 54%]
+tests/framework/test_sampler.py::test_timestamps_follow_offsets_and_increase PASSED [ 54%]
+tests/framework/test_sampler.py::test_error_reading_is_logged_on_the_given_logger PASSED [ 54%]
+tests/framework/test_sampler.py::test_default_logger_is_the_module_logger PASSED [ 55%]
+tests/framework/test_sampler.py::test_missing_emulator_gives_error_readings_without_raising PASSED [ 55%]
+tests/framework/test_sampler.py::test_unknown_ammeter_lists_known_names PASSED [ 55%]
+tests/framework/test_schedule_check.py::test_a_single_pause_within_the_limit_is_tolerated PASSED [ 56%]
+tests/framework/test_schedule_check.py::test_a_single_pause_beyond_the_limit_is_reported PASSED [ 56%]
+tests/framework/test_schedule_check.py::test_a_schedule_shifted_for_most_readings_is_reported PASSED [ 56%]
+tests/framework/test_schedule_check.py::test_readings_taken_back_to_back_are_reported PASSED [ 57%]
 tests/framework/test_simulation_config.py::test_valid_block_is_parsed_with_defaults PASSED [ 57%]
-tests/framework/test_simulation_config.py::test_absent_block_means_no_simulation PASSED [ 58%]
+tests/framework/test_simulation_config.py::test_absent_block_means_no_simulation PASSED [ 57%]
 tests/framework/test_simulation_config.py::test_seed_limits_are_accepted[0] PASSED [ 58%]
 tests/framework/test_simulation_config.py::test_seed_limits_are_accepted[4294967295] PASSED [ 58%]
-tests/framework/test_simulation_config.py::test_stall_seconds_defaults_to_the_midpoint PASSED [ 59%]
+tests/framework/test_simulation_config.py::test_stall_seconds_defaults_to_the_midpoint PASSED [ 58%]
 tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block0-ammeters\\.greenlee\\.simulate_errors\\.garbage] PASSED [ 59%]
 tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block1-ammeters\\.greenlee\\.simulate_errors\\.garbage] PASSED [ 59%]
-tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block2-ammeters\\.greenlee\\.simulate_errors\\.garbage] PASSED [ 60%]
+tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block2-ammeters\\.greenlee\\.simulate_errors\\.garbage] PASSED [ 59%]
 tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block3-ammeters\\.greenlee\\.simulate_errors\\.garbage] PASSED [ 60%]
 tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block4-ammeters\\.greenlee\\.simulate_errors\\.garbage] PASSED [ 60%]
-tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block5-ammeters\\.greenlee\\.simulate_errors\\.garbage] PASSED [ 61%]
+tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block5-ammeters\\.greenlee\\.simulate_errors\\.garbage] PASSED [ 60%]
 tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block6-ammeters\\.greenlee\\.simulate_errors\\.seed] PASSED [ 61%]
 tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block7-ammeters\\.greenlee\\.simulate_errors\\.seed] PASSED [ 61%]
-tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block8-ammeters\\.greenlee\\.simulate_errors\\.seed] PASSED [ 62%]
-tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block9-ammeters\\.greenlee\\.simulate_errors\\.seed] PASSED [ 62%]
+tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block8-ammeters\\.greenlee\\.simulate_errors\\.seed] PASSED [ 61%]
+tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block9-ammeters\\.greenlee\\.simulate_errors\\.seed] PASSED [ 61%]
 tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block10-ammeters\\.greenlee\\.simulate_errors\\.seed] PASSED [ 62%]
-tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block11-ammeters\\.greenlee\\.simulate_errors\\.seed] PASSED [ 63%]
-tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block12-ammeters\\.greenlee\\.simulate_errors\\.spike_factor] PASSED [ 63%]
+tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block11-ammeters\\.greenlee\\.simulate_errors\\.seed] PASSED [ 62%]
+tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block12-ammeters\\.greenlee\\.simulate_errors\\.spike_factor] PASSED [ 62%]
 tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block13-ammeters\\.greenlee\\.simulate_errors\\.spike_factor] PASSED [ 63%]
-tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block14-ammeters\\.greenlee\\.simulate_errors\\.spike_factor] PASSED [ 64%]
-tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block15-ammeters\\.greenlee\\.simulate_errors\\.spike_factor] PASSED [ 64%]
+tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block14-ammeters\\.greenlee\\.simulate_errors\\.spike_factor] PASSED [ 63%]
+tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block15-ammeters\\.greenlee\\.simulate_errors\\.spike_factor] PASSED [ 63%]
 tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block16-ammeters\\.greenlee\\.simulate_errors\\.spike_factor] PASSED [ 64%]
-tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block17-ammeters\\.greenlee\\.simulate_errors\\.stall_seconds] PASSED [ 65%]
-tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block18-ammeters\\.greenlee\\.simulate_errors\\.stall_seconds] PASSED [ 65%]
+tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block17-ammeters\\.greenlee\\.simulate_errors\\.stall_seconds] PASSED [ 64%]
+tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block18-ammeters\\.greenlee\\.simulate_errors\\.stall_seconds] PASSED [ 64%]
 tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block19-ammeters\\.greenlee\\.simulate_errors\\.stall_seconds] PASSED [ 65%]
-tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block20-ammeters\\.greenlee\\.simulate_errors\\.jitter] PASSED [ 66%]
-tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[on-ammeters\\.greenlee\\.simulate_errors] PASSED [ 66%]
+tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[block20-ammeters\\.greenlee\\.simulate_errors\\.jitter] PASSED [ 65%]
+tests/framework/test_simulation_config.py::test_bad_values_name_the_dotted_key[on-ammeters\\.greenlee\\.simulate_errors] PASSED [ 65%]
 tests/framework/test_simulation_config.py::test_probabilities_summing_above_one_name_all_four_keys PASSED [ 66%]
 tests/framework/test_simulation_config.py::test_sum_of_exactly_one_is_accepted PASSED [ 66%]
-tests/framework/test_simulation_config.py::test_block_without_a_positive_probability_is_rejected[block0] PASSED [ 67%]
+tests/framework/test_simulation_config.py::test_block_without_a_positive_probability_is_rejected[block0] PASSED [ 66%]
 tests/framework/test_simulation_config.py::test_block_without_a_positive_probability_is_rejected[block1] PASSED [ 67%]
 tests/framework/test_simulation_config.py::test_simulation_needs_a_managed_emulator PASSED [ 67%]
-tests/framework/test_simulation_config.py::test_stall_seconds_must_exceed_the_request_timeout PASSED [ 68%]
+tests/framework/test_simulation_config.py::test_stall_seconds_must_exceed_the_request_timeout PASSED [ 67%]
 tests/framework/test_simulation_config.py::test_stall_seconds_must_be_below_the_interval PASSED [ 68%]
 tests/framework/test_simulation_config.py::test_no_valid_stall_default_when_timeout_reaches_the_interval PASSED [ 68%]
-tests/framework/test_simulation_config.py::test_stall_rule_is_ignored_when_stall_is_zero PASSED [ 69%]
+tests/framework/test_simulation_config.py::test_stall_rule_is_ignored_when_stall_is_zero PASSED [ 68%]
 tests/framework/test_simulation_config.py::test_spike_factor_must_push_every_value_out_of_range PASSED [ 69%]
-tests/framework/test_simulation_config.py::test_with_ports_keeps_the_simulation PASSED [ 69%]
-tests/framework/test_simulation_config.py::test_as_record_is_json_ready PASSED [ 70%]
-tests/framework/test_simulation_config.py::test_first_error_follows_the_original_validation_order PASSED [ 70%]
-tests/framework/test_simulation_record.py::test_simulated_run_is_archived_with_its_seed_and_loads_back_equal PASSED [ 70%]
-tests/framework/test_simulation_record.py::test_same_seed_on_fresh_emulators_gives_the_same_error_pattern PASSED [ 71%]
-tests/framework/test_simulation_record.py::test_plan_shorter_than_the_stall_is_rejected_before_any_folder_is_created PASSED [ 71%]
-tests/framework/test_statistics.py::test_basic_statistics PASSED         [ 71%]
-tests/framework/test_statistics.py::test_single_value PASSED             [ 72%]
-tests/framework/test_statistics.py::test_no_valid_values PASSED          [ 72%]
-tests/framework/test_statistics.py::test_errors_are_excluded_and_counted PASSED [ 72%]
-tests/framework/test_statistics.py::test_zero_mean_gives_no_cv PASSED    [ 73%]
-tests/framework/test_statistics.py::test_negative_mean_uses_absolute_value PASSED [ 73%]
-tests/framework/test_statistics.py::test_out_of_range_keeps_bounds_and_ignores_errors PASSED [ 73%]
-tests/framework/test_statistics.py::test_run_result_dict_matches_the_record PASSED [ 74%]
-tests/framework/test_statistics.py::test_reading_ok_property PASSED      [ 74%]
-tests/framework/test_statistics.py::test_overflowing_metrics_are_undefined_and_the_rest_is_kept PASSED [ 74%]
-tests/framework/test_statistics.py::test_non_finite_cv_is_undefined PASSED [ 75%]
-tests/framework/test_statistics.py::test_archived_json_of_a_non_finite_cv_has_no_infinity PASSED [ 75%]
-tests/framework/test_summary_report.py::test_ammeter_run_tests_print_the_runs_section PASSED [ 75%]
+tests/framework/test_simulation_config.py::test_out_of_range_needs_a_positive_min_amps[0] PASSED [ 69%]
+tests/framework/test_simulation_config.py::test_out_of_range_needs_a_positive_min_amps[0.0] PASSED [ 69%]
+tests/framework/test_simulation_config.py::test_out_of_range_needs_a_positive_min_amps[-1.0] PASSED [ 69%]
+tests/framework/test_simulation_config.py::test_non_positive_min_amps_is_fine_without_out_of_range_spikes PASSED [ 70%]
+tests/framework/test_simulation_config.py::test_shipped_error_scenario_is_still_valid PASSED [ 70%]
+tests/framework/test_simulation_config.py::test_with_ports_keeps_the_simulation PASSED [ 70%]
+tests/framework/test_simulation_config.py::test_as_record_is_json_ready PASSED [ 71%]
+tests/framework/test_simulation_config.py::test_first_error_follows_the_original_validation_order PASSED [ 71%]
+tests/framework/test_simulation_record.py::test_simulated_run_is_archived_with_its_seed_and_loads_back_equal PASSED [ 71%]
+tests/framework/test_simulation_record.py::test_same_seed_on_fresh_emulators_gives_the_same_error_pattern PASSED [ 72%]
+tests/framework/test_simulation_record.py::test_plan_shorter_than_the_stall_is_rejected_before_any_folder_is_created PASSED [ 72%]
+tests/framework/test_statistics.py::test_basic_statistics PASSED         [ 72%]
+tests/framework/test_statistics.py::test_single_value PASSED             [ 73%]
+tests/framework/test_statistics.py::test_no_valid_values PASSED          [ 73%]
+tests/framework/test_statistics.py::test_errors_are_excluded_and_counted PASSED [ 73%]
+tests/framework/test_statistics.py::test_zero_mean_gives_no_cv PASSED    [ 74%]
+tests/framework/test_statistics.py::test_negative_mean_uses_absolute_value PASSED [ 74%]
+tests/framework/test_statistics.py::test_out_of_range_keeps_bounds_and_ignores_errors PASSED [ 74%]
+tests/framework/test_statistics.py::test_run_result_dict_matches_the_record PASSED [ 75%]
+tests/framework/test_statistics.py::test_reading_ok_property PASSED      [ 75%]
+tests/framework/test_statistics.py::test_overflowing_metrics_are_undefined_and_the_rest_is_kept PASSED [ 75%]
+tests/framework/test_statistics.py::test_non_finite_cv_is_undefined PASSED [ 76%]
+tests/framework/test_statistics.py::test_archived_json_of_a_non_finite_cv_has_no_infinity PASSED [ 76%]
+tests/framework/test_summary_report.py::test_ammeter_run_tests_print_the_runs_section PASSED [ 76%]
 tests/framework/test_summary_report.py::test_no_section_without_ammeter_runs PASSED [ 76%]
-tests/test_ammeters.py::test_responds_to_its_command_with_a_numeric_value[greenlee] PASSED [ 76%]
-tests/test_ammeters.py::test_responds_to_its_command_with_a_numeric_value[entes] PASSED [ 76%]
+tests/test_ammeters.py::test_responds_to_its_command_with_a_numeric_value[greenlee] PASSED [ 77%]
+tests/test_ammeters.py::test_responds_to_its_command_with_a_numeric_value[entes] PASSED [ 77%]
 tests/test_ammeters.py::test_responds_to_its_command_with_a_numeric_value[circutor] PASSED [ 77%]
-tests/test_ammeters.py::test_ignores_a_wrong_command_without_sending_data_or_stalling[greenlee] PASSED [ 77%]
-tests/test_ammeters.py::test_ignores_a_wrong_command_without_sending_data_or_stalling[entes] PASSED [ 77%]
+tests/test_ammeters.py::test_ignores_a_wrong_command_without_sending_data_or_stalling[greenlee] PASSED [ 78%]
+tests/test_ammeters.py::test_ignores_a_wrong_command_without_sending_data_or_stalling[entes] PASSED [ 78%]
 tests/test_ammeters.py::test_ignores_a_wrong_command_without_sending_data_or_stalling[circutor] PASSED [ 78%]
-tests/test_ammeters.py::test_ignores_a_truncated_command[greenlee] PASSED [ 78%]
-tests/test_ammeters.py::test_ignores_a_truncated_command[entes] PASSED   [ 78%]
+tests/test_ammeters.py::test_ignores_a_truncated_command[greenlee] PASSED [ 79%]
+tests/test_ammeters.py::test_ignores_a_truncated_command[entes] PASSED   [ 79%]
 tests/test_ammeters.py::test_ignores_a_truncated_command[circutor] PASSED [ 79%]
-tests/test_ammeters.py::test_every_reading_is_inside_the_expected_range[greenlee] PASSED [ 79%]
-tests/test_ammeters.py::test_every_reading_is_inside_the_expected_range[entes] PASSED [ 79%]
+tests/test_ammeters.py::test_every_reading_is_inside_the_expected_range[greenlee] PASSED [ 80%]
+tests/test_ammeters.py::test_every_reading_is_inside_the_expected_range[entes] PASSED [ 80%]
 tests/test_ammeters.py::test_every_reading_is_inside_the_expected_range[circutor] PASSED [ 80%]
-tests/test_ammeters.py::test_sample_count_matches_the_configured_count[greenlee] PASSED [ 80%]
-tests/test_ammeters.py::test_sample_count_matches_the_configured_count[entes] PASSED [ 80%]
+tests/test_ammeters.py::test_sample_count_matches_the_configured_count[greenlee] PASSED [ 81%]
+tests/test_ammeters.py::test_sample_count_matches_the_configured_count[entes] PASSED [ 81%]
 tests/test_ammeters.py::test_sample_count_matches_the_configured_count[circutor] PASSED [ 81%]
-tests/test_ammeters.py::test_readings_follow_the_configured_frequency[greenlee] PASSED [ 81%]
-tests/test_ammeters.py::test_readings_follow_the_configured_frequency[entes] PASSED [ 81%]
+tests/test_ammeters.py::test_readings_follow_the_configured_frequency[greenlee] PASSED [ 82%]
+tests/test_ammeters.py::test_readings_follow_the_configured_frequency[entes] PASSED [ 82%]
 tests/test_ammeters.py::test_readings_follow_the_configured_frequency[circutor] PASSED [ 82%]
-tests/test_ammeters.py::test_sample_lasts_the_configured_duration[greenlee] PASSED [ 82%]
-tests/test_ammeters.py::test_sample_lasts_the_configured_duration[entes] PASSED [ 82%]
+tests/test_ammeters.py::test_sample_lasts_the_configured_duration[greenlee] PASSED [ 83%]
+tests/test_ammeters.py::test_sample_lasts_the_configured_duration[entes] PASSED [ 83%]
 tests/test_ammeters.py::test_sample_lasts_the_configured_duration[circutor] PASSED [ 83%]
-tests/test_ammeters.py::test_every_reading_is_timestamped_in_order[greenlee] PASSED [ 83%]
-tests/test_ammeters.py::test_every_reading_is_timestamped_in_order[entes] PASSED [ 83%]
+tests/test_ammeters.py::test_every_reading_is_timestamped_in_order[greenlee] PASSED [ 84%]
+tests/test_ammeters.py::test_every_reading_is_timestamped_in_order[entes] PASSED [ 84%]
 tests/test_ammeters.py::test_every_reading_is_timestamped_in_order[circutor] PASSED [ 84%]
 tests/test_ammeters.py::test_statistics_are_consistent[greenlee] PASSED  [ 84%]
-tests/test_ammeters.py::test_statistics_are_consistent[entes] PASSED     [ 84%]
+tests/test_ammeters.py::test_statistics_are_consistent[entes] PASSED     [ 85%]
 tests/test_ammeters.py::test_statistics_are_consistent[circutor] PASSED  [ 85%]
 tests/test_ammeters.py::test_repeated_readings_vary[greenlee] PASSED     [ 85%]
-tests/test_ammeters.py::test_repeated_readings_vary[entes] PASSED        [ 85%]
+tests/test_ammeters.py::test_repeated_readings_vary[entes] PASSED        [ 86%]
 tests/test_ammeters.py::test_repeated_readings_vary[circutor] PASSED     [ 86%]
 tests/test_ammeters.py::test_consistency_cv_is_reported[greenlee] PASSED [ 86%]
-tests/test_ammeters.py::test_consistency_cv_is_reported[entes] PASSED    [ 86%]
+tests/test_ammeters.py::test_consistency_cv_is_reported[entes] PASSED    [ 87%]
 tests/test_ammeters.py::test_consistency_cv_is_reported[circutor] PASSED [ 87%]
 tests/test_ammeters.py::test_run_is_archived_with_a_unique_id_and_metadata_and_can_be_retrieved[greenlee] PASSED [ 87%]
-tests/test_ammeters.py::test_run_is_archived_with_a_unique_id_and_metadata_and_can_be_retrieved[entes] PASSED [ 87%]
+tests/test_ammeters.py::test_run_is_archived_with_a_unique_id_and_metadata_and_can_be_retrieved[entes] PASSED [ 88%]
 tests/test_ammeters.py::test_run_is_archived_with_a_unique_id_and_metadata_and_can_be_retrieved[circutor] PASSED [ 88%]
 tests/test_ammeters.py::test_report_names_ammeter_run_id_parameters_and_statistics[greenlee] PASSED [ 88%]
-tests/test_ammeters.py::test_report_names_ammeter_run_id_parameters_and_statistics[entes] PASSED [ 88%]
+tests/test_ammeters.py::test_report_names_ammeter_run_id_parameters_and_statistics[entes] PASSED [ 89%]
 tests/test_ammeters.py::test_report_names_ammeter_run_id_parameters_and_statistics[circutor] PASSED [ 89%]
 tests/test_emulator.py::test_emulator_replies_with_a_number_to_its_command PASSED [ 89%]
-tests/test_emulator.py::test_command_with_trailing_bytes_gets_no_data PASSED [ 89%]
+tests/test_emulator.py::test_command_with_trailing_bytes_gets_no_data PASSED [ 90%]
 tests/test_emulator.py::test_command_split_across_two_sends_is_accepted PASSED [ 90%]
 tests/test_emulator.py::test_silent_client_does_not_block_the_next_client PASSED [ 90%]
-tests/test_emulator.py::test_client_disconnect_does_not_stop_the_emulator PASSED [ 90%]
+tests/test_emulator.py::test_client_disconnect_does_not_stop_the_emulator PASSED [ 91%]
 tests/test_emulator.py::test_measurement_error_does_not_stop_the_emulator PASSED [ 91%]
 tests/test_error_handling.py::test_connection_refused_raises_connection_error PASSED [ 91%]
-tests/test_error_handling.py::test_silent_device_raises_timeout_error PASSED [ 91%]
+tests/test_error_handling.py::test_silent_device_raises_timeout_error PASSED [ 92%]
 tests/test_error_handling.py::test_empty_reply_raises_empty_response_error PASSED [ 92%]
 tests/test_error_handling.py::test_non_numeric_reply_raises_non_numeric_response_error PASSED [ 92%]
 tests/test_error_handling.py::test_nan_reply_raises_non_numeric_response_error PASSED [ 92%]
@@ -309,124 +319,124 @@ tests/test_error_simulation.py::test_scenario_seeds_exercise_every_configured_fa
 tests/test_main.py::test_main_prints_one_reading_per_configured_ammeter PASSED [100%]
 ================================= Ammeter runs =================================
 
-Ammeter: greenlee   Run ID: 20261017T131134Z_greenlee_feb1d7
+Ammeter: greenlee   Run ID: 20261017T160404Z_greenlee_5ae16b
 Parameters: count=10 duration=2 s frequency=5 Hz interval=0.2 s request_timeout=2 s
-Target: 127.0.0.1:60450 command='MEASURE_GREENLEE -get_measurement'
+Target: 127.0.0.1:65210 command='MEASURE_GREENLEE -get_measurement'
 Statistics:
-  mean: 0.142864
-  median: 0.0842233
-  stdev: 0.155434
-  min: 0.031822
-  max: 0.456826
-  cv_percent: 108.799
+  mean: 0.195934
+  median: 0.108463
+  stdev: 0.229874
+  min: 0.0115228
+  max: 0.624824
+  cv_percent: 117.322
 Readings: valid=10 errors=0 out_of_range=0 (expected 0.01 to 100 A)
-Archive: results/20261017T131134Z_greenlee_feb1d7/run.json
+Archive: results/20261017T160404Z_greenlee_5ae16b/run.json
 
-Ammeter: entes   Run ID: 20261017T131136Z_entes_bde2a4
+Ammeter: entes   Run ID: 20261017T160406Z_entes_7818b2
 Parameters: count=10 duration=2 s frequency=5 Hz interval=0.2 s request_timeout=2 s
-Target: 127.0.0.1:60451 command='MEASURE_ENTES -get_data'
+Target: 127.0.0.1:65211 command='MEASURE_ENTES -get_data'
 Statistics:
-  mean: 59.9082
-  median: 40.4557
-  stdev: 42.76
-  min: 22.205
-  max: 145.244
-  cv_percent: 71.376
+  mean: 70.4153
+  median: 64.222
+  stdev: 31.3541
+  min: 33.7214
+  max: 123.467
+  cv_percent: 44.5274
 Readings: valid=10 errors=0 out_of_range=0 (expected 5 to 200 A)
-Archive: results/20261017T131136Z_entes_bde2a4/run.json
+Archive: results/20261017T160406Z_entes_7818b2/run.json
 
-Ammeter: circutor   Run ID: 20261017T131138Z_circutor_dd89ac
+Ammeter: circutor   Run ID: 20261017T160408Z_circutor_3c23c9
 Parameters: count=10 duration=2 s frequency=5 Hz interval=0.2 s request_timeout=2 s
-Target: 127.0.0.1:60452 command='MEASURE_CIRCUTOR -get_measurement -current'
+Target: 127.0.0.1:65212 command='MEASURE_CIRCUTOR -get_measurement -current'
 Statistics:
-  mean: 0.0240521
-  median: 0.0235596
-  stdev: 0.0142365
-  min: 0.00652953
-  max: 0.059201
-  cv_percent: 59.1902
+  mean: 0.031733
+  median: 0.0293935
+  stdev: 0.0185684
+  min: 0.00812318
+  max: 0.0615313
+  cv_percent: 58.5145
 Readings: valid=10 errors=0 out_of_range=0 (expected 0.001 to 0.1 A)
-Archive: results/20261017T131138Z_circutor_dd89ac/run.json
+Archive: results/20261017T160408Z_circutor_3c23c9/run.json
 
-Ammeter: greenlee   Run ID: 20261017T131140Z_greenlee_07173b
+Ammeter: greenlee   Run ID: 20261017T160410Z_greenlee_3461a3
 Parameters: count=2 duration=0.4 s frequency=5 Hz interval=0.2 s request_timeout=2 s
-Target: 127.0.0.1:60450 command='MEASURE_GREENLEE -get_measurement'
+Target: 127.0.0.1:65210 command='MEASURE_GREENLEE -get_measurement'
 Statistics:
-  mean: 0.0661013
-  median: 0.0661013
-  stdev: 0.017544
-  min: 0.0536959
-  max: 0.0785068
-  cv_percent: 26.5411
+  mean: 0.0402835
+  median: 0.0402835
+  stdev: 0.0152099
+  min: 0.0295285
+  max: 0.0510385
+  cv_percent: 37.7572
 Readings: valid=2 errors=0 out_of_range=0 (expected 0.01 to 100 A)
-Archive: results/20261017T131140Z_greenlee_07173b/run.json
+Archive: results/20261017T160410Z_greenlee_3461a3/run.json
 
-Ammeter: entes   Run ID: 20261017T131141Z_entes_47118a
+Ammeter: entes   Run ID: 20261017T160411Z_entes_861d25
 Parameters: count=2 duration=0.4 s frequency=5 Hz interval=0.2 s request_timeout=2 s
-Target: 127.0.0.1:60451 command='MEASURE_ENTES -get_data'
+Target: 127.0.0.1:65211 command='MEASURE_ENTES -get_data'
 Statistics:
-  mean: 72.9339
-  median: 72.9339
-  stdev: 7.23379
-  min: 67.8188
-  max: 78.049
-  cv_percent: 9.91828
+  mean: 122.757
+  median: 122.757
+  stdev: 41.263
+  min: 93.5799
+  max: 151.935
+  cv_percent: 33.6135
 Readings: valid=2 errors=0 out_of_range=0 (expected 5 to 200 A)
-Archive: results/20261017T131141Z_entes_47118a/run.json
+Archive: results/20261017T160411Z_entes_861d25/run.json
 
-Ammeter: circutor   Run ID: 20261017T131141Z_circutor_5e2c6e
+Ammeter: circutor   Run ID: 20261017T160411Z_circutor_bbe26b
 Parameters: count=2 duration=0.4 s frequency=5 Hz interval=0.2 s request_timeout=2 s
-Target: 127.0.0.1:60452 command='MEASURE_CIRCUTOR -get_measurement -current'
+Target: 127.0.0.1:65212 command='MEASURE_CIRCUTOR -get_measurement -current'
 Statistics:
-  mean: 0.0376096
-  median: 0.0376096
-  stdev: 0.00107044
-  min: 0.0368527
-  max: 0.0383666
-  cv_percent: 2.84618
+  mean: 0.0153278
+  median: 0.0153278
+  stdev: 0.0137924
+  min: 0.00557506
+  max: 0.0250805
+  cv_percent: 89.9833
 Readings: valid=2 errors=0 out_of_range=0 (expected 0.001 to 0.1 A)
-Archive: results/20261017T131141Z_circutor_5e2c6e/run.json
+Archive: results/20261017T160411Z_circutor_bbe26b/run.json
 
-Ammeter: greenlee   Run ID: 20261017T131144Z_greenlee_b8d1a2
+Ammeter: greenlee   Run ID: 20261017T160414Z_greenlee_fd02e7
 Parameters: count=12 duration=6 s frequency=2 Hz interval=0.5 s request_timeout=0.15 s
-Target: 127.0.0.1:60528 command='MEASURE_GREENLEE -get_measurement'
+Target: 127.0.0.1:65288 command='MEASURE_GREENLEE -get_measurement'
 Simulation: errors injected (seed 1)
 Statistics:
-  mean: 0.270606
-  median: 0.197667
-  stdev: 0.226394
-  min: 0.028062
-  max: 0.652713
-  cv_percent: 83.6617
+  mean: 0.130124
+  median: 0.117148
+  stdev: 0.0829618
+  min: 0.0254451
+  max: 0.245075
+  cv_percent: 63.7562
 Readings: valid=8 errors=4 out_of_range=0 (expected 0.01 to 100 A)
-Archive: results/20261017T131144Z_greenlee_b8d1a2/run.json
+Archive: results/20261017T160414Z_greenlee_fd02e7/run.json
 
-Ammeter: entes   Run ID: 20261017T131144Z_entes_daeb1b
+Ammeter: entes   Run ID: 20261017T160414Z_entes_3deb25
 Parameters: count=12 duration=6 s frequency=2 Hz interval=0.5 s request_timeout=0.15 s
-Target: 127.0.0.1:60529 command='MEASURE_ENTES -get_data'
+Target: 127.0.0.1:65289 command='MEASURE_ENTES -get_data'
 Simulation: errors injected (seed 1)
 Statistics:
-  mean: 47352.6
-  median: 123.289
-  stdev: 67879.5
-  min: 20.1737
-  max: 188012
-  cv_percent: 143.349
+  mean: 34806
+  median: 160.112
+  stdev: 42646.9
+  min: 8.93454
+  max: 94277.1
+  cv_percent: 122.528
 Readings: valid=9 errors=3 out_of_range=4 (expected 5 to 200 A)
-Archive: results/20261017T131144Z_entes_daeb1b/run.json
+Archive: results/20261017T160414Z_entes_3deb25/run.json
 
-Ammeter: circutor   Run ID: 20261017T131144Z_circutor_8d705f
+Ammeter: circutor   Run ID: 20261017T160414Z_circutor_3d43d4
 Parameters: count=12 duration=6 s frequency=2 Hz interval=0.5 s request_timeout=0.15 s
-Target: 127.0.0.1:60530 command='MEASURE_CIRCUTOR -get_measurement -current'
+Target: 127.0.0.1:65290 command='MEASURE_CIRCUTOR -get_measurement -current'
 Simulation: errors injected (seed 1)
 Statistics:
-  mean: 5.26294
-  median: 0.0353087
-  stdev: 12.8098
-  min: 0.0243565
-  max: 31.4107
-  cv_percent: 243.396
+  mean: 1.56186
+  median: 0.034719
+  stdev: 3.74436
+  min: 0.0244479
+  max: 9.205
+  cv_percent: 239.737
 Readings: valid=6 errors=6 out_of_range=1 (expected 0.001 to 0.1 A)
-Archive: results/20261017T131144Z_circutor_8d705f/run.json
+Archive: results/20261017T160414Z_circutor_3d43d4/run.json
 
-============================= 303 passed in 34.41s =============================
+============================= 313 passed in 34.41s =============================

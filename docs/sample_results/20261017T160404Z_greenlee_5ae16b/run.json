@@ -1,0 +1,115 @@
+{
+  "run_id": "20261017T160404Z_greenlee_5ae16b",
+  "ammeter": "greenlee",
+  "started_at_utc": "2026-10-17T16:04:04.850793+00:00",
+  "finished_at_utc": "2026-10-17T16:04:06.852667+00:00",
+  "elapsed_s": 2.00187375000678,
+  "parameters": {
+    "count": 10,
+    "duration_s": 2.0,
+    "frequency_hz": 5.0,
+    "interval_s": 0.2,
+    "request_timeout_s": 2.0,
+    "host": "127.0.0.1",
+    "port": 65210,
+    "command": "MEASURE_GREENLEE -get_measurement"
+  },
+  "expected_range": {
+    "min_amps": 0.01,
+    "max_amps": 100.0
+  },
+  "statistics": {
+    "count": 10,
+    "valid_count": 10,
+    "error_count": 0,
+    "mean": 0.19593351248868757,
+    "median": 0.10846341332520286,
+    "stdev": 0.22987399573787756,
+    "min": 0.011522812250968207,
+    "max": 0.6248242734912036,
+    "cv_percent": 117.32244924213748
+  },
+  "out_of_range_count": 0,
+  "readings": [
+    {
+      "index": 0,
+      "timestamp_utc": "2026-10-17T16:04:04.850794+00:00",
+      "scheduled_offset_s": 0.0,
+      "actual_offset_s": 1.0840012691915035e-06,
+      "value_amps": 0.6248242734912036,
+      "error": null
+    },
+    {
+      "index": 1,
+      "timestamp_utc": "2026-10-17T16:04:05.052006+00:00",
+      "scheduled_offset_s": 0.2,
+      "actual_offset_s": 0.20121320901671425,
+      "value_amps": 0.16182269071791508,
+      "error": null
+    },
+    {
+      "index": 2,
+      "timestamp_utc": "2026-10-17T16:04:05.254351+00:00",
+      "scheduled_offset_s": 0.4,
+      "actual_offset_s": 0.40355837502283975,
+      "value_amps": 0.011522812250968207,
+      "error": null
+    },
+    {
+      "index": 3,
+      "timestamp_utc": "2026-10-17T16:04:05.455839+00:00",
+      "scheduled_offset_s": 0.6000000000000001,
+      "actual_offset_s": 0.6050460420083255,
+      "value_amps": 0.08621561662798954,
+      "error": null
+    },
+    {
+      "index": 4,
+      "timestamp_utc": "2026-10-17T16:04:05.654077+00:00",
+      "scheduled_offset_s": 0.8,
+      "actual_offset_s": 0.8032837920181919,
+      "value_amps": 0.13071121002241617,
+      "error": null
+    },
+    {
+      "index": 5,
+      "timestamp_utc": "2026-10-17T16:04:05.853795+00:00",
+      "scheduled_offset_s": 1.0,
+      "actual_offset_s": 1.0030022500141058,
+      "value_amps": 0.05728271422692812,
+      "error": null
+    },
+    {
+      "index": 6,
+      "timestamp_utc": "2026-10-17T16:04:06.055229+00:00",
+      "scheduled_offset_s": 1.2000000000000002,
+      "actual_offset_s": 1.20443570901989,
+      "value_amps": 0.037743412249128735,
+      "error": null
+    },
+    {
+      "index": 7,
+      "timestamp_utc": "2026-10-17T16:04:06.255842+00:00",
+      "scheduled_offset_s": 1.4000000000000001,
+      "actual_offset_s": 1.4050487920176238,
+      "value_amps": 0.23689672772055081,
+      "error": null
+    },
+    {
+      "index": 8,
+      "timestamp_utc": "2026-10-17T16:04:06.455855+00:00",
+      "scheduled_offset_s": 1.6,
+      "actual_offset_s": 1.605061750015011,
+      "value_amps": 0.014658741378915263,
+      "error": null
+    },
+    {
+      "index": 9,
+      "timestamp_utc": "2026-10-17T16:04:06.655891+00:00",
+      "scheduled_offset_s": 1.8,
+      "actual_offset_s": 1.8050976670056116,
+      "value_amps": 0.59765692620086,
+      "error": null
+    }
+  ]
+}

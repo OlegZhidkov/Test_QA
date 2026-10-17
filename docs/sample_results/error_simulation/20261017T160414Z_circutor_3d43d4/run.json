@@ -1,0 +1,140 @@
+{
+  "run_id": "20261017T160414Z_circutor_3d43d4",
+  "ammeter": "circutor",
+  "started_at_utc": "2026-10-17T16:04:14.520787+00:00",
+  "finished_at_utc": "2026-10-17T16:04:20.523016+00:00",
+  "elapsed_s": 6.002229208010249,
+  "parameters": {
+    "count": 12,
+    "duration_s": 6.0,
+    "frequency_hz": 2.0,
+    "interval_s": 0.5,
+    "request_timeout_s": 0.15,
+    "host": "127.0.0.1",
+    "port": 65290,
+    "command": "MEASURE_CIRCUTOR -get_measurement -current"
+  },
+  "expected_range": {
+    "min_amps": 0.001,
+    "max_amps": 0.1
+  },
+  "statistics": {
+    "count": 12,
+    "valid_count": 6,
+    "error_count": 6,
+    "mean": 1.5618623247402643,
+    "median": 0.03471899253610963,
+    "stdev": 3.7443626214904793,
+    "min": 0.02444788122797938,
+    "max": 9.205000574322318,
+    "cv_percent": 239.73704738112315
+  },
+  "out_of_range_count": 1,
+  "readings": [
+    {
+      "index": 0,
+      "timestamp_utc": "2026-10-17T16:04:14.520789+00:00",
+      "scheduled_offset_s": 0.0,
+      "actual_offset_s": 1.5830155462026596e-06,
+      "value_amps": null,
+      "error": "EmptyResponseError: 127.0.0.1:65290: the ammeter sent no data"
+    },
+    {
+      "index": 1,
+      "timestamp_utc": "2026-10-17T16:04:15.025898+00:00",
+      "scheduled_offset_s": 0.5,
+      "actual_offset_s": 0.5051114580128342,
+      "value_amps": 0.0321376345876668,
+      "error": null
+    },
+    {
+      "index": 2,
+      "timestamp_utc": "2026-10-17T16:04:15.525703+00:00",
+      "scheduled_offset_s": 1.0,
+      "actual_offset_s": 1.0049157080065925,
+      "value_amps": 0.04208416493902902,
+      "error": null
+    },
+    {
+      "index": 3,
+      "timestamp_utc": "2026-10-17T16:04:16.025839+00:00",
+      "scheduled_offset_s": 1.5,
+      "actual_offset_s": 1.5050518750213087,
+      "value_amps": null,
+      "error": "AmmeterTimeoutError: 127.0.0.1:65290: timed out after 0.15 s: timed out"
+    },
+    {
+      "index": 4,
+      "timestamp_utc": "2026-10-17T16:04:16.521343+00:00",
+      "scheduled_offset_s": 2.0,
+      "actual_offset_s": 2.000556000013603,
+      "value_amps": 9.205000574322318,
+      "error": null
+    },
+    {
+      "index": 5,
+      "timestamp_utc": "2026-10-17T16:04:17.026094+00:00",
+      "scheduled_offset_s": 2.5,
+      "actual_offset_s": 2.5053065420070197,
+      "value_amps": null,
+      "error": "NonNumericResponseError: 127.0.0.1:65290: reply is not a number: b'ERROR'"
+    },
+    {
+      "index": 6,
+      "timestamp_utc": "2026-10-17T16:04:17.522410+00:00",
+      "scheduled_offset_s": 3.0,
+      "actual_offset_s": 3.001623208023375,
+      "value_amps": 0.03730035048455246,
+      "error": null
+    },
+    {
+      "index": 7,
+      "timestamp_utc": "2026-10-17T16:04:18.021442+00:00",
+      "scheduled_offset_s": 3.5,
+      "actual_offset_s": 3.5006550830148626,
+      "value_amps": 0.02444788122797938,
+      "error": null
+    },
+    {
+      "index": 8,
+      "timestamp_utc": "2026-10-17T16:04:18.525890+00:00",
+      "scheduled_offset_s": 4.0,
+      "actual_offset_s": 4.005102708004415,
+      "value_amps": null,
+      "error": "EmptyResponseError: 127.0.0.1:65290: the ammeter sent no data"
+    },
+    {
+      "index": 9,
+      "timestamp_utc": "2026-10-17T16:04:19.026159+00:00",
+      "scheduled_offset_s": 4.5,
+      "actual_offset_s": 4.505372333020205,
+      "value_amps": null,
+      "error": "EmptyResponseError: 127.0.0.1:65290: the ammeter sent no data"
+    },
+    {
+      "index": 10,
+      "timestamp_utc": "2026-10-17T16:04:19.525892+00:00",
+      "scheduled_offset_s": 5.0,
+      "actual_offset_s": 5.005105167016154,
+      "value_amps": 0.030203342880040895,
+      "error": null
+    },
+    {
+      "index": 11,
+      "timestamp_utc": "2026-10-17T16:04:20.025865+00:00",
+      "scheduled_offset_s": 5.5,
+      "actual_offset_s": 5.505077583016828,
+      "value_amps": null,
+      "error": "NonNumericResponseError: 127.0.0.1:65290: reply is not a number: b'--.--'"
+    }
+  ],
+  "simulation": {
+    "seed": 1,
+    "no_response": 0.15,
+    "stall": 0.15,
+    "garbage": 0.15,
+    "out_of_range": 0.15,
+    "stall_seconds": 0.325,
+    "spike_factor": 1000.0
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "run_id": "20261017T160408Z_circutor_3c23c9",
+  "ammeter": "circutor",
+  "started_at_utc": "2026-10-17T16:04:08.869924+00:00",
+  "finished_at_utc": "2026-10-17T16:04:10.874973+00:00",
+  "elapsed_s": 2.005049166997196,
+  "parameters": {
+    "count": 10,
+    "duration_s": 2.0,
+    "frequency_hz": 5.0,
+    "interval_s": 0.2,
+    "request_timeout_s": 2.0,
+    "host": "127.0.0.1",
+    "port": 65212,
+    "command": "MEASURE_CIRCUTOR -get_measurement -current"
+  },
+  "expected_range": {
+    "min_amps": 0.001,
+    "max_amps": 0.1
+  },
+  "statistics": {
+    "count": 10,
+    "valid_count": 10,
+    "error_count": 0,
+    "mean": 0.03173303922634188,
+    "median": 0.029393517382119753,
+    "stdev": 0.01856842400953835,
+    "min": 0.008123176249670464,
+    "max": 0.061531320857111195,
+    "cv_percent": 58.51448352329434
+  },
+  "out_of_range_count": 0,
+  "readings": [
+    {
+      "index": 0,
+      "timestamp_utc": "2026-10-17T16:04:08.869927+00:00",
+      "scheduled_offset_s": 0.0,
+      "actual_offset_s": 3.2919924706220627e-06,
+      "value_amps": 0.008123176249670464,
+      "error": null
+    },
+    {
+      "index": 1,
+      "timestamp_utc": "2026-10-17T16:04:09.074961+00:00",
+      "scheduled_offset_s": 0.2,
+      "actual_offset_s": 0.2050370000069961,
+      "value_amps": 0.058646733017808185,
+      "error": null
+    },
+    {
+      "index": 2,
+      "timestamp_utc": "2026-10-17T16:04:09.274965+00:00",
+      "scheduled_offset_s": 0.4,
+      "actual_offset_s": 0.4050405420130119,
+      "value_amps": 0.01998284432765888,
+      "error": null
+    },
+    {
+      "index": 3,
+      "timestamp_utc": "2026-10-17T16:04:09.472307+00:00",
+      "scheduled_offset_s": 0.6000000000000001,
+      "actual_offset_s": 0.6023829170153476,
+      "value_amps": 0.02061764716119447,
+      "error": null
+    },
+    {
+      "index": 4,
+      "timestamp_utc": "2026-10-17T16:04:09.674511+00:00",
+      "scheduled_offset_s": 0.8,
+      "actual_offset_s": 0.8045865420135669,
+      "value_amps": 0.03956753952038802,
+      "error": null
+    },
+    {
+      "index": 5,
+      "timestamp_utc": "2026-10-17T16:04:09.874964+00:00",
+      "scheduled_offset_s": 1.0,
+      "actual_offset_s": 1.0050402499909978,
+      "value_amps": 0.02694703255958509,
+      "error": null
+    },
+    {
+      "index": 6,
+      "timestamp_utc": "2026-10-17T16:04:10.074966+00:00",
+      "scheduled_offset_s": 1.2000000000000002,
+      "actual_offset_s": 1.205042167013744,
+      "value_amps": 0.009260817777817665,
+      "error": null
+    },
+    {
+      "index": 7,
+      "timestamp_utc": "2026-10-17T16:04:10.274961+00:00",
+      "scheduled_offset_s": 1.4000000000000001,
+      "actual_offset_s": 1.405037499993341,
+      "value_amps": 0.03184000220465442,
+      "error": null
+    },
+    {
+      "index": 8,
+      "timestamp_utc": "2026-10-17T16:04:10.474975+00:00",
+      "scheduled_offset_s": 1.6,
+      "actual_offset_s": 1.6050505420134868,
+      "value_amps": 0.040813278587530415,
+      "error": null
+    },
+    {
+      "index": 9,
+      "timestamp_utc": "2026-10-17T16:04:10.675019+00:00",
+      "scheduled_offset_s": 1.8,
+      "actual_offset_s": 1.8050951670156792,
+      "value_amps": 0.061531320857111195,
+      "error": null
+    }
+  ]
+}

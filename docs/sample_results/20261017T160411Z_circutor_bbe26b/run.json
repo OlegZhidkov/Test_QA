@@ -1,0 +1,51 @@
+{
+  "run_id": "20261017T160411Z_circutor_bbe26b",
+  "ammeter": "circutor",
+  "started_at_utc": "2026-10-17T16:04:11.720219+00:00",
+  "finished_at_utc": "2026-10-17T16:04:12.125251+00:00",
+  "elapsed_s": 0.4050322090042755,
+  "parameters": {
+    "count": 2,
+    "duration_s": 0.4,
+    "frequency_hz": 5.0,
+    "interval_s": 0.2,
+    "request_timeout_s": 2.0,
+    "host": "127.0.0.1",
+    "port": 65212,
+    "command": "MEASURE_CIRCUTOR -get_measurement -current"
+  },
+  "expected_range": {
+    "min_amps": 0.001,
+    "max_amps": 0.1
+  },
+  "statistics": {
+    "count": 2,
+    "valid_count": 2,
+    "error_count": 0,
+    "mean": 0.015327794387805538,
+    "median": 0.015327794387805538,
+    "stdev": 0.013792447572462296,
+    "min": 0.005575061180157513,
+    "max": 0.025080527595453563,
+    "cv_percent": 89.98325018918096
+  },
+  "out_of_range_count": 0,
+  "readings": [
+    {
+      "index": 0,
+      "timestamp_utc": "2026-10-17T16:04:11.720222+00:00",
+      "scheduled_offset_s": 0.0,
+      "actual_offset_s": 2.749991836026311e-06,
+      "value_amps": 0.025080527595453563,
+      "error": null
+    },
+    {
+      "index": 1,
+      "timestamp_utc": "2026-10-17T16:04:11.922164+00:00",
+      "scheduled_offset_s": 0.2,
+      "actual_offset_s": 0.20194487500702962,
+      "value_amps": 0.005575061180157513,
+      "error": null
+    }
+  ]
+}
