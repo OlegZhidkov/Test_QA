@@ -1,5 +1,6 @@
 """Shared test helpers. Every socket binds 127.0.0.1."""
 import socket
+import statistics
 import threading
 from collections.abc import Mapping, Sequence
 from contextlib import contextmanager
@@ -15,6 +16,10 @@ from src.testing.test_framework import AmmeterTestFramework
 from src.utils.config import ExpectedRange, SamplingPlan, load_config
 
 HOST = "127.0.0.1"
+# One OS scheduling pause can delay a single reading (seen: 0.05 s idle, 0.12 s under CPU load);
+# the schedule is absolute, so it never carries over. A real defect shifts many readings.
+MAX_LATENESS_S = 0.15
+TYPICAL_LATENESS_S = 0.025
 
 
 def unused_port() -> int:
@@ -152,3 +157,18 @@ def synthetic_result(values: Sequence[float | None], *, ammeter: str = "greenlee
         Sample(readings, stamps[0], stamps[n], n * 0.2),
         analysis.compute_statistics(readings),
         tuple(analysis.out_of_range(readings, limits)))
+
+
+def off_schedule(readings: Sequence[Reading]) -> list[str]:
+    """Describe how the readings miss their schedule; empty when they keep it.
+
+    A reading may be late by up to MAX_LATENESS_S (a one-off pause), but the median
+    lateness must stay within TYPICAL_LATENESS_S, which catches drift and a shifted schedule.
+    """
+    problems = [f"reading {r.index}: {r.actual_offset_s - r.scheduled_offset_s:+.3f} s"
+                for r in readings
+                if abs(r.actual_offset_s - r.scheduled_offset_s) > MAX_LATENESS_S]
+    median = statistics.median(r.actual_offset_s - r.scheduled_offset_s for r in readings)
+    if abs(median) > TYPICAL_LATENESS_S:
+        problems.append(f"median lateness {median:+.3f} s")
+    return problems

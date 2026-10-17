@@ -7,10 +7,10 @@ from src.testing.faults import fault_sequence
 from src.testing.report import format_run_report
 from src.utils.config import FAULT_TYPES
 from src.utils.results import load_run
+from tests.helpers import off_schedule
 
 EXPECTED_ERROR = {"no_response": "EmptyResponseError", "stall": "AmmeterTimeoutError",
                   "garbage": "NonNumericResponseError"}
-SCHEDULE_TOLERANCE_S = 0.05
 
 
 def test_every_injected_fault_is_detected_at_its_reading(scenario_run, scenario_config):
@@ -66,10 +66,7 @@ def test_report_has_exactly_one_simulation_line(scenario_run, scenario_config):
 
 
 def test_stalls_do_not_shift_the_schedule(scenario_run):
-    late = [(r.index, r.actual_offset_s - r.scheduled_offset_s)
-            for r in scenario_run.result.sample.readings
-            if abs(r.actual_offset_s - r.scheduled_offset_s) > SCHEDULE_TOLERANCE_S]
-    assert not late
+    assert off_schedule(scenario_run.result.sample.readings) == []
 
 
 def test_scenario_seeds_exercise_every_configured_fault_type(scenario_config):

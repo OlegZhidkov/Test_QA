@@ -13,9 +13,9 @@ from src.testing.report import format_run_report
 from src.utils.config import AmmeterSettings
 from src.utils.errors import EmptyResponseError
 from src.utils.results import compare_runs, list_runs, load_run
+from tests.helpers import off_schedule
 
 IGNORED_REPLY_LIMIT_S = 0.5
-TIMING_TOLERANCE_S = 0.05
 DURATION_TOLERANCE_S = 0.05
 STARTUP_ALLOWANCE_S = 0.5
 
@@ -68,11 +68,11 @@ def test_sample_count_matches_the_configured_count(run_result, framework_config)
 
 
 def test_readings_follow_the_configured_frequency(run_result, framework_config) -> None:
-    """Readings are scheduled at i * interval and taken within the timing tolerance."""
+    """Readings are scheduled at i * interval and taken on that schedule (see off_schedule)."""
     interval = framework_config.sampling.interval_s
     for i, reading in enumerate(run_result.sample.readings):
         assert reading.scheduled_offset_s == pytest.approx(i * interval)
-        assert abs(reading.actual_offset_s - reading.scheduled_offset_s) <= TIMING_TOLERANCE_S
+    assert off_schedule(run_result.sample.readings) == []
 
 
 def test_sample_lasts_the_configured_duration(run_result, run_wall_s,
