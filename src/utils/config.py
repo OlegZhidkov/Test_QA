@@ -19,6 +19,11 @@ NAME_PATTERN = re.compile(r"^[a-z0-9_]+$")
 RANGE_REL_TOL = 1e-9
 SAMPLING_REL_TOL = 1e-6
 SAMPLING_KEYS = ("measurements_count", "total_duration_seconds", "sampling_frequency_hz")
+FAULT_TYPES = ("no_response", "stall", "garbage", "out_of_range")
+SEED_MAX = 2**32 - 1
+DEFAULT_SPIKE_FACTOR = 1000.0
+SPIKE_FACTOR_MAX = 1e9
+PROBABILITY_SUM_TOL = 1e-9
 
 
 @dataclass(frozen=True)
@@ -50,6 +55,28 @@ class ExpectedRange:
 
 
 @dataclass(frozen=True, kw_only=True)
+class ErrorSimulation:
+    """Faults a managed emulator injects: a seed, per-request probabilities and parameters."""
+
+    seed: int
+    no_response: float = 0.0
+    stall: float = 0.0
+    garbage: float = 0.0
+    out_of_range: float = 0.0
+    stall_seconds: float | None = None
+    spike_factor: float = DEFAULT_SPIKE_FACTOR
+
+    def probabilities(self) -> dict[str, float]:
+        """The four fault probabilities, in FAULT_TYPES order."""
+        return {fault: getattr(self, fault) for fault in FAULT_TYPES}
+
+    def as_record(self) -> dict:
+        """All fields with JSON types only, for run.json."""
+        return {"seed": self.seed, **self.probabilities(),
+                "stall_seconds": self.stall_seconds, "spike_factor": self.spike_factor}
+
+
+@dataclass(frozen=True, kw_only=True)
 class AmmeterSettings:
     """Everything needed to talk to one ammeter."""
 
@@ -59,6 +86,7 @@ class AmmeterSettings:
     command: bytes
     emulator: str | None
     expected_range: ExpectedRange
+    simulate_errors: ErrorSimulation | None = None
 
 
 @dataclass(frozen=True)
@@ -163,6 +191,7 @@ def _parse(data: object, source: str) -> FrameworkConfig:
     if not ammeters_data:
         raise ConfigError("ammeters: define at least one ammeter")
     ammeters = {name: _ammeter(name, value) for name, value in ammeters_data.items()}
+    ammeters = _resolve_stalls(ammeters, sampling, request_timeout)
     _reject_shared_ports(ammeters)
 
     analysis = _optional_mapping(top, "analysis", "analysis")
@@ -189,21 +218,98 @@ def _ammeter(name: object, value: object) -> AmmeterSettings:
     name = _name(name)
     key = f"ammeters.{name}"
     entry = _require_mapping(value, key)
-    _reject_unknown(entry, {"port", "command", "emulator", "host", "expected_range"}, key)
+    _reject_unknown(entry, {"port", "command", "emulator", "host", "expected_range",
+                              "simulate_errors"}, key)
     for required in ("port", "command", "expected_range"):
         if required not in entry:
             raise ConfigError(f"{key}.{required}: required key is missing")
     emulator = entry.get("emulator")
     if emulator is not None:
         emulator = _text(emulator, f"{key}.emulator")
+    expected_range = _expected_range(entry["expected_range"], f"{key}.expected_range")
+    simulation = entry.get("simulate_errors")
+    if simulation is not None:
+        simulation = _simulation(simulation, f"{key}.simulate_errors", emulator, expected_range)
     return AmmeterSettings(
         name=name,
         host=_text(entry.get("host", DEFAULT_HOST), f"{key}.host"),
         port=_port(entry["port"], f"{key}.port"),
         command=_text(entry["command"], f"{key}.command").encode("utf-8"),
         emulator=emulator,
-        expected_range=_expected_range(entry["expected_range"], f"{key}.expected_range"),
+        expected_range=expected_range,
+        simulate_errors=simulation,
     )
+
+
+def _simulation(value: object, key: str, emulator: str | None,
+                expected: ExpectedRange) -> ErrorSimulation:
+    """Validate one simulate_errors block."""
+    entry = _require_mapping(value, key)
+    _reject_unknown(entry, {"seed", *FAULT_TYPES, "stall_seconds", "spike_factor"}, key)
+    if emulator is None:
+        raise ConfigError(f"{key}: only a managed ammeter can be sabotaged; "
+                          "set ammeters.<name>.emulator")
+    seed = entry.get("seed")
+    if seed is None:
+        raise ConfigError(f"{key}.seed: required, an int in 0..{SEED_MAX}")
+    if isinstance(seed, bool) or not isinstance(seed, int) or not 0 <= seed <= SEED_MAX:
+        raise ConfigError(f"{key}.seed: must be an int in 0..{SEED_MAX}, got {_short(seed)}")
+    chances = {fault: _probability(entry.get(fault, 0.0), f"{key}.{fault}")
+               for fault in FAULT_TYPES}
+    if sum(chances.values()) > 1 + PROBABILITY_SUM_TOL:
+        keys = ", ".join(f"{key}.{fault}" for fault in FAULT_TYPES)
+        raise ConfigError(f"{keys}: probabilities must sum to at most 1, got {sum(chances.values())}")
+    if not any(chance > 0 for chance in chances.values()):
+        raise ConfigError(f"{key}: at least one of {list(FAULT_TYPES)} must be above 0")
+    stall_seconds = entry.get("stall_seconds")
+    if stall_seconds is not None:
+        stall_seconds = _positive_number(stall_seconds, f"{key}.stall_seconds")
+    spike = _as_float(entry.get("spike_factor", DEFAULT_SPIKE_FACTOR))
+    if spike is None or not math.isfinite(spike) or not 1 < spike <= SPIKE_FACTOR_MAX:
+        raise ConfigError(f"{key}.spike_factor: must be a number above 1 and at most "
+                          f"{SPIKE_FACTOR_MAX:g}, got {_short(entry['spike_factor'])}")
+    if chances["out_of_range"] > 0 and expected.min_amps > 0 \
+            and spike * expected.min_amps <= expected.max_amps:
+        raise ConfigError(f"{key}.spike_factor: {spike:g} * min_amps {expected.min_amps:g} "
+                          f"must be above max_amps {expected.max_amps:g} "
+                          "so every spike is out of range")
+    return ErrorSimulation(seed=seed, **chances, stall_seconds=stall_seconds, spike_factor=spike)
+
+
+def _probability(value: object, key: str) -> float:
+    """Return a finite number from 0 to 1 (not a bool) or raise ConfigError naming `key`."""
+    number = _as_float(value)
+    if number is None or not math.isfinite(number) or not 0 <= number <= 1:
+        raise ConfigError(f"{key}: must be a number from 0 to 1, got {_short(value)}")
+    return number
+
+
+def _resolve_stalls(ammeters: Mapping[str, AmmeterSettings], sampling: SamplingPlan,
+                    request_timeout_s: float) -> dict[str, AmmeterSettings]:
+    """Default or check stall_seconds: request timeout < stall_seconds < sampling interval."""
+    interval = sampling.interval_s
+    resolved: dict[str, AmmeterSettings] = {}
+    for name, settings in ammeters.items():
+        simulation = settings.simulate_errors
+        if simulation is not None and simulation.stall > 0:
+            key = f"ammeters.{name}.simulate_errors"
+            if simulation.stall_seconds is None:
+                if request_timeout_s >= interval:
+                    raise ConfigError(
+                        f"{key}.stall: needs testing.request_timeout_seconds "
+                        f"({request_timeout_s:g}) below the sampling interval ({interval:g} s) "
+                        "to default stall_seconds; set both so that "
+                        "timeout < stall_seconds < interval")
+                simulation = replace(simulation,
+                                     stall_seconds=(request_timeout_s + interval) / 2)
+            elif not request_timeout_s < simulation.stall_seconds < interval:
+                raise ConfigError(
+                    f"{key}.stall_seconds: must be above testing.request_timeout_seconds "
+                    f"({request_timeout_s:g}) and below the sampling interval ({interval:g} s), "
+                    f"got {simulation.stall_seconds:g}")
+            settings = replace(settings, simulate_errors=simulation)
+        resolved[name] = settings
+    return resolved
 
 
 def _expected_range(value: object, key: str) -> ExpectedRange:
