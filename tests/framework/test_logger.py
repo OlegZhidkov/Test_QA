@@ -1,4 +1,6 @@
 """TestLogger writes its own file and releases it on close."""
+import logging
+
 import pytest
 
 from src.utils.errors import ResultsWriteError
@@ -54,3 +56,20 @@ def test_debug_is_not_written_but_warning_is(tmp_path):
     log.close()
     text = log.log_file.read_text(encoding="utf-8")
     assert "quiet" not in text and "loud" in text
+
+
+def test_run_id_names_the_logger_and_the_file_and_close_removes_the_logger(tmp_path):
+    log = TestLogger("g", tmp_path, run_id="20260101T000000Z_g_abcdef")
+    assert "20260101T000000Z_g_abcdef" in log.logger.name
+    assert "20260101T000000Z_g_abcdef" in log.log_file.name
+    log.close()
+    assert log.logger.name not in logging.Logger.manager.loggerDict
+
+
+def test_loggers_for_different_runs_do_not_share_handlers(tmp_path):
+    first = TestLogger("h", tmp_path, run_id="20260101T000000Z_h_000001")
+    second = TestLogger("h", tmp_path, run_id="20260101T000000Z_h_000002")
+    first.close()
+    second.info("still open")
+    second.close()
+    assert "still open" in second.log_file.read_text(encoding="utf-8")

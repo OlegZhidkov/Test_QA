@@ -1,6 +1,7 @@
 """AmmeterTestFramework end to end against real emulators, plus the text report."""
 import logging
 import statistics
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import ExitStack
 from dataclasses import replace
 
@@ -107,14 +108,25 @@ def test_error_readings_land_in_the_run_log(tmp_path):
                                           "circutor": unused_port()})
     result = framework.run_test("greenlee", plan=TWO)
     assert result.statistics.error_count == 2
-    logs = list((framework.config.results_dir / "logs").glob("*greenlee.log"))
+    logs = list((framework.config.results_dir / "logs").glob("*greenlee*.log"))
     assert len(logs) == 1
     assert "AmmeterConnectionError" in logs[0].read_text(encoding="utf-8")
 
 
-def test_run_logger_is_closed_afterwards(framework):
-    framework.run_test("greenlee", plan=TWO)
-    assert logging.getLogger("test_greenlee").handlers == []
+def test_run_logger_is_closed_and_removed_afterwards(framework):
+    result = framework.run_test("greenlee", plan=TWO)
+    assert not [name for name in logging.Logger.manager.loggerDict if result.run_id in name]
+
+
+def test_concurrent_runs_each_get_their_own_log(framework):
+    with ThreadPoolExecutor(max_workers=6) as pool:
+        results = list(pool.map(lambda _: framework.run_test("greenlee", plan=TWO), range(6)))
+    logs = list((framework.config.results_dir / "logs").glob("*.log"))
+    assert len(logs) == 6
+    for result in results:
+        [log] = [p for p in logs if result.run_id in p.name]
+        text = log.read_text(encoding="utf-8")
+        assert text.count("Run ID: ") == 1 and f"Run ID: {result.run_id}" in text
 
 
 def test_results_dir_that_is_a_file_raises(framework, tmp_path):

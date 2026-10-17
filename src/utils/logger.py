@@ -1,4 +1,5 @@
 import logging
+import secrets
 from datetime import datetime
 from pathlib import Path
 
@@ -12,21 +13,24 @@ class TestLogger:
 
     __test__ = False  # not a pytest test class
 
-    def __init__(self, test_name: str, log_dir: str | Path = "results/logs"):
+    def __init__(self, test_name: str, log_dir: str | Path = "results/logs",
+                 run_id: str | None = None):
+        """Log to a file in `log_dir`; `run_id` (random if omitted) keeps the logger unique."""
         self._test_name = test_name
         self._log_dir = Path(log_dir)
-        self.log_file = self._log_dir / f"{datetime.now():%Y%m%d_%H%M%S_%f}_{test_name}.log"
+        self._run_id = run_id or secrets.token_hex(3)
+        stamp = f"{datetime.now():%Y%m%d_%H%M%S_%f}"
+        self.log_file = self._log_dir / f"{stamp}_{test_name}_{self._run_id}.log"
         self.logger = self._setup_logger()
 
     def _setup_logger(self) -> logging.Logger:
         """
-        Create the log folder, drop handlers left by an earlier logger with the
-        same name, and attach a file handler and a stderr handler.
+        Create the log folder and attach a file handler and a stderr handler to a
+        logger named for this run, so concurrent runs never share handlers.
         """
-        logger = logging.getLogger(f"test_{self._test_name}")
+        logger = logging.getLogger(f"test_{self._test_name}_{self._run_id}")
         logger.setLevel(logging.INFO)
         logger.propagate = False
-        self._remove_handlers(logger)
         try:
             self._log_dir.mkdir(parents=True, exist_ok=True)
             file_handler = logging.FileHandler(self.log_file, encoding="utf-8")
@@ -48,8 +52,9 @@ class TestLogger:
             handler.close()
 
     def close(self) -> None:
-        """Close and remove the handlers so the log file is released."""
+        """Close the handlers so the file is released and drop the logger."""
         self._remove_handlers(self.logger)
+        logging.Logger.manager.loggerDict.pop(self.logger.name, None)
 
     def info(self, message: str) -> None:
         """Log at INFO level."""

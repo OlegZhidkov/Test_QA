@@ -29,7 +29,7 @@ class AmmeterTestFramework:
         settings = self.config.settings_for(name)
         plan = plan or self.config.sampling
         run_id = new_run_id(name)
-        run_log = TestLogger(name, log_dir=self.config.results_dir / "logs")
+        run_log = TestLogger(name, log_dir=self.config.results_dir / "logs", run_id=run_id)
         try:
             tester = self.tester(name, run_log.logger)
             sample = tester.sample(plan)
