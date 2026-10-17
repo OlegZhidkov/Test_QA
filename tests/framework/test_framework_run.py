@@ -12,18 +12,11 @@ from Ammeters.Entes_Ammeter import EntesAmmeter
 from Ammeters.Greenlee_Ammeter import GreenleeAmmeter
 from src.testing.report import format_run_report
 from src.testing.test_framework import AmmeterTestFramework
-from src.utils.config import SamplingPlan, load_config
 from src.utils.errors import ConfigError, ResultsWriteError
 from src.utils.results import RUN_ID_PATTERN, load_run
-from tests.helpers import fake_server, running_emulator, unused_port, write_config
+from tests.helpers import TWO, fake_server, make_framework, running_emulator, unused_port
 
 CLASSES = {"greenlee": GreenleeAmmeter, "entes": EntesAmmeter, "circutor": CircutorAmmeter}
-TWO = SamplingPlan(count=2, duration_s=0.1, frequency_hz=20.0)
-
-
-def make_framework(tmp_path, ports):
-    config = load_config(write_config(tmp_path / "config.yaml", ports))
-    return AmmeterTestFramework(config=replace(config, results_dir=tmp_path / "results"))
 
 
 @pytest.fixture

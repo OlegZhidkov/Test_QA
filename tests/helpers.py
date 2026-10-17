@@ -1,12 +1,18 @@
 """Shared test helpers. Every socket binds 127.0.0.1."""
 import socket
 import threading
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from contextlib import contextmanager
+from dataclasses import replace
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Iterator
 
 from Ammeters.base_ammeter import AmmeterEmulatorBase
+from src.testing import analysis
+from src.testing.models import Reading, RunResult, Sample
+from src.testing.test_framework import AmmeterTestFramework
+from src.utils.config import ExpectedRange, SamplingPlan, load_config
 
 HOST = "127.0.0.1"
 
@@ -111,8 +117,37 @@ ammeters:
     expected_range: {{min_amps: 0.001, max_amps: 0.1}}
 """
 
+TWO = SamplingPlan(count=2, duration_s=0.1, frequency_hz=20.0)
+
 
 def write_config(path: Path, ports: Mapping[str, int]) -> Path:
     """Write a valid three-ammeter config with the given ports and return its path."""
     path.write_text(CONFIG_TEMPLATE.format(**ports), encoding="utf-8")
     return path
+
+
+def make_framework(tmp_path, ports):
+    config = load_config(write_config(tmp_path / "config.yaml", ports))
+    return AmmeterTestFramework(config=replace(config, results_dir=tmp_path / "results"))
+
+
+def synthetic_result(values: Sequence[float | None], *, ammeter: str = "greenlee",
+                     expected: tuple[float, float] = (0.01, 100.0),
+                     run_id: str | None = None) -> RunResult:
+    """A RunResult built from values (None is a timeout error), without any I/O."""
+    start = datetime(2026, 1, 1, tzinfo=UTC)
+    stamps = [(start + timedelta(seconds=i * 0.2)).isoformat(timespec="microseconds")
+              for i in range(len(values) + 1)]
+    readings = tuple(
+        Reading(i, stamps[i], i * 0.2, i * 0.2, value,
+                None if value is not None else "AmmeterTimeoutError: simulated")
+        for i, value in enumerate(values))
+    n = len(values)
+    limits = ExpectedRange(*expected)
+    parameters = {"count": n, "duration_s": n * 0.2, "frequency_hz": 5.0, "interval_s": 0.2,
+                  "request_timeout_s": 2.0, "host": HOST, "port": 5000, "command": "X"}
+    return RunResult(
+        run_id or f"20260101T000000Z_{ammeter}_abcdef", ammeter, parameters, limits,
+        Sample(readings, stamps[0], stamps[n], n * 0.2),
+        analysis.compute_statistics(readings),
+        tuple(analysis.out_of_range(readings, limits)))

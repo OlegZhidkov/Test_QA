@@ -73,10 +73,11 @@ class RunResult:
     statistics: Statistics
     out_of_range: tuple[Reading, ...]
     archive_path: Path | None = None
+    simulation: dict | None = None
 
     def to_dict(self) -> dict:
-        """The run.json record; archive_path is left out."""
-        return {
+        """The run.json record; archive_path is left out, simulation only when set."""
+        record = {
             "run_id": self.run_id,
             "ammeter": self.ammeter,
             "started_at_utc": self.sample.started_at_utc,
@@ -89,3 +90,6 @@ class RunResult:
             "out_of_range_count": len(self.out_of_range),
             "readings": [r.to_dict() for r in self.sample.readings],
         }
+        if self.simulation is not None:
+            record["simulation"] = dict(self.simulation)
+        return record

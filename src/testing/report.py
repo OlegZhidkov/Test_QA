@@ -15,8 +15,10 @@ def format_run_report(result: RunResult, metrics: Sequence[str]) -> str:
         f"frequency={p['frequency_hz']:.6g} Hz interval={p['interval_s']:.6g} s "
         f"request_timeout={p['request_timeout_s']:.6g} s",
         f"Target: {p['host']}:{p['port']} command={p['command']!r}",
-        "Statistics:",
     ]
+    if result.simulation is not None:
+        lines.append(f"Simulation: errors injected (seed {result.simulation['seed']})")
+    lines.append("Statistics:")
     lines += [f"  {metric}: {_format_value(stats[metric])}" for metric in metrics]
     lines += [
         f"Readings: valid={result.statistics.valid_count} errors={result.statistics.error_count} "

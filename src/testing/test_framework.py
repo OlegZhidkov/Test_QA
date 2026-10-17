@@ -8,6 +8,7 @@ from src.testing.analysis import out_of_range
 from src.testing.models import RunResult
 from src.testing.report import format_run_report
 from src.utils.config import DEFAULT_CONFIG_PATH, FrameworkConfig, SamplingPlan, load_config
+from src.utils.errors import ConfigError
 from src.utils.logger import TestLogger
 from src.utils.results import release_run, reserve_run, save_run
 
@@ -29,6 +30,12 @@ class AmmeterTestFramework:
         settings = self.config.settings_for(name)
         plan = plan or self.config.sampling
         results_dir = self.config.results_dir
+        simulation = settings.simulate_errors
+        if simulation is not None and simulation.stall > 0 \
+                and plan.interval_s <= simulation.stall_seconds:
+            raise ConfigError(
+                f"ammeters.{name}.simulate_errors.stall_seconds: {simulation.stall_seconds} s "
+                f"is not below the sampling interval {plan.interval_s:.6g} s of this plan")
         run_id = reserve_run(name, results_dir)
         saved = False
         try:
@@ -49,7 +56,8 @@ class AmmeterTestFramework:
             result = RunResult(
                 run_id, name, parameters, settings.expected_range, sample,
                 tester.analyze(sample.readings),
-                tuple(out_of_range(sample.readings, settings.expected_range)))
+                tuple(out_of_range(sample.readings, settings.expected_range)),
+                simulation=simulation.as_record() if simulation else None)
             path = save_run(result.to_dict(), results_dir)
             saved = True
             result = replace(result, archive_path=path)
