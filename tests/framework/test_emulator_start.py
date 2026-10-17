@@ -16,7 +16,7 @@ from src.utils.config import load_config
 from src.utils.errors import ConfigError, EmulatorStartError
 from tests.helpers import HOST, running_emulator
 
-SHIPPED = Path(__file__).resolve().parent.parent / "config" / "config.yaml"
+SHIPPED = Path(__file__).resolve().parents[2] / "config" / "config.yaml"
 
 
 def zero_ports(config):
@@ -116,7 +116,7 @@ finally:
 def test_readings_survive_a_cp1252_console():
     """Greenlee prints an omega; start_emulators must keep that from losing the reply."""
     env = {**os.environ, "PYTHONIOENCODING": "cp1252"}
-    done = subprocess.run([sys.executable, "-c", CP1252_SCRIPT], cwd=SHIPPED.parent.parent,
+    done = subprocess.run([sys.executable, "-c", CP1252_SCRIPT], cwd=SHIPPED.parents[1],
                           env=env, capture_output=True, text=True, timeout=60)
     assert done.returncode == 0, done.stderr
     readings = [line.split() for line in done.stdout.splitlines() if line.startswith("READING")]

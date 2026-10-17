@@ -10,7 +10,7 @@ from src.utils.config import SamplingPlan, load_config
 from src.utils.errors import AmmeterTimeoutError, ConfigError
 from tests.helpers import unused_port
 
-SHIPPED = Path(__file__).resolve().parent.parent / "config" / "config.yaml"
+SHIPPED = Path(__file__).resolve().parents[2] / "config" / "config.yaml"
 PLAN = SamplingPlan(count=5, duration_s=0.5, frequency_hz=10.0)
 
 

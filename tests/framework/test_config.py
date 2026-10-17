@@ -14,7 +14,7 @@ from src.utils.config import (
 )
 from src.utils.errors import ConfigError
 
-SHIPPED = Path(__file__).resolve().parent.parent / "config" / "config.yaml"
+SHIPPED = Path(__file__).resolve().parents[2] / "config" / "config.yaml"
 KEYS = ("measurements_count", "total_duration_seconds", "sampling_frequency_hz")
 
 BASE = {
