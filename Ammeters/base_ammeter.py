@@ -4,6 +4,7 @@ import socket
 import threading
 import time
 from abc import ABC, abstractmethod
+from collections.abc import Callable
 
 NotImplementedErrorMsg = "Subclasses must implement this property."
 
@@ -16,8 +17,10 @@ logger = logging.getLogger(__name__)
 class AmmeterEmulatorBase(ABC):
     """A TCP ammeter emulator: answers its exact command with a current reading."""
 
-    def __init__(self, port: int, recv_timeout_s: float = 2.0):
+    def __init__(self, port: int, recv_timeout_s: float = 2.0,
+                 fault_injector: Callable[[float, threading.Event], bytes | None] | None = None):
         self.port = port
+        self.fault_injector = fault_injector
         self.recv_timeout_s = recv_timeout_s
         self.ready = threading.Event()
         self.start_error: OSError | None = None
@@ -64,10 +67,15 @@ class AmmeterEmulatorBase(ABC):
                     return
                 try:
                     current = self.measure_current()
-                except Exception:  # a subclass's measurement must never kill the server
+                    reply = str(current).encode('utf-8')
+                    if self.fault_injector is not None:
+                        reply = self.fault_injector(current, self._stop_event)
+                except Exception:  # a measurement or fault hook must never kill the server
                     logger.exception("measure_current failed for client %s", addr)
                     return
-                conn.sendall(str(current).encode('utf-8'))
+                if reply is None:
+                    return
+                conn.sendall(reply)
             except TimeoutError:
                 logger.warning("client %s did not send a complete command in %s s",
                                addr, self.recv_timeout_s)

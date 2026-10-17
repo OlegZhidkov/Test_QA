@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from importlib import import_module
 
 from Ammeters.base_ammeter import AmmeterEmulatorBase
+from src.testing.faults import FaultInjector
 from src.utils.config import AmmeterSettings, FrameworkConfig
 from src.utils.errors import ConfigError, EmulatorStartError
 
@@ -24,6 +25,7 @@ class RunningEmulator:
     name: str
     emulator: AmmeterEmulatorBase
     thread: threading.Thread
+    injector: FaultInjector | None = None
 
     @property
     def port(self) -> int:
@@ -61,10 +63,17 @@ def start_emulators(config: FrameworkConfig,
                for name, settings in config.ammeters.items() if settings.emulator}
     running: dict[str, RunningEmulator] = {}
     for name, cls in classes.items():
-        emulator = cls(overrides.get(name, config.ammeters[name].port))
+        settings = config.ammeters[name]
+        port = overrides.get(name, settings.port)
+        injector = None
+        if settings.simulate_errors is None:
+            emulator = cls(port)
+        else:
+            injector = FaultInjector(settings.simulate_errors, name)
+            emulator = cls(port, fault_injector=injector.respond)
         thread = threading.Thread(target=_serve, args=(emulator,), name=f"emulator-{name}",
                                   daemon=True)
-        entry = RunningEmulator(name, emulator, thread)
+        entry = RunningEmulator(name, emulator, thread, injector)
         thread.start()
         running[name] = entry
         try:
