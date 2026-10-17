@@ -9,7 +9,7 @@ from src.testing.models import RunResult
 from src.testing.report import format_run_report
 from src.utils.config import DEFAULT_CONFIG_PATH, FrameworkConfig, SamplingPlan, load_config
 from src.utils.logger import TestLogger
-from src.utils.results import new_run_id, save_run
+from src.utils.results import release_run, reserve_run, save_run
 
 
 class AmmeterTestFramework:
@@ -28,8 +28,14 @@ class AmmeterTestFramework:
         """Sample one ammeter, analyze, archive and log the report."""
         settings = self.config.settings_for(name)
         plan = plan or self.config.sampling
-        run_id = new_run_id(name)
-        run_log = TestLogger(name, log_dir=self.config.results_dir / "logs", run_id=run_id)
+        results_dir = self.config.results_dir
+        run_id = reserve_run(name, results_dir)
+        saved = False
+        try:
+            run_log = TestLogger(name, log_dir=results_dir / "logs", run_id=run_id)
+        except BaseException:
+            release_run(run_id, results_dir)
+            raise
         try:
             tester = self.tester(name, run_log.logger)
             sample = tester.sample(plan)
@@ -44,12 +50,15 @@ class AmmeterTestFramework:
                 run_id, name, parameters, settings.expected_range, sample,
                 tester.analyze(sample.readings),
                 tuple(out_of_range(sample.readings, settings.expected_range)))
-            path = save_run(result.to_dict(), self.config.results_dir)
+            path = save_run(result.to_dict(), results_dir)
+            saved = True
             result = replace(result, archive_path=path)
             run_log.info(format_run_report(result, self.config.metrics))
             return result
         finally:
             run_log.close()
+            if not saved:
+                release_run(run_id, results_dir)
 
     def run_all(self) -> dict[str, RunResult]:
         """Run every configured ammeter, in config order."""

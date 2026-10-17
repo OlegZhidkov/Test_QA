@@ -18,6 +18,8 @@ from src.utils.results import (
     list_runs,
     load_run,
     new_run_id,
+    release_run,
+    reserve_run,
     save_run,
 )
 
@@ -213,3 +215,32 @@ def test_data_is_synced_before_the_atomic_rename(tmp_path, monkeypatch):
                                               real_replace(self, target))[1])
     make(tmp_path)
     assert calls == ["fsync", "replace"]
+
+
+def test_reserve_run_creates_the_folder_and_save_run_fills_it(tmp_path):
+    run_id = reserve_run("greenlee", tmp_path)
+    assert (tmp_path / run_id).is_dir() and not (tmp_path / run_id / "run.json").exists()
+    assert save_run(record(run_id), tmp_path) == tmp_path / run_id / "run.json"
+
+
+def test_reserve_run_skips_a_taken_id(tmp_path, monkeypatch):
+    taken = make(tmp_path)
+    ids = iter([taken, "20260101T000000Z_greenlee_bbbbbb"])
+    monkeypatch.setattr("src.utils.results.new_run_id", lambda ammeter: next(ids))
+    assert reserve_run("greenlee", tmp_path) == "20260101T000000Z_greenlee_bbbbbb"
+    assert (tmp_path / taken / "run.json").exists()
+
+
+def test_reserve_run_gives_up_after_the_attempts(tmp_path, monkeypatch):
+    taken = make(tmp_path)
+    monkeypatch.setattr("src.utils.results.new_run_id", lambda ammeter: taken)
+    with pytest.raises(ResultsWriteError, match="no free run id"):
+        reserve_run("greenlee", tmp_path, attempts=3)
+
+
+def test_release_run_removes_only_an_empty_folder(tmp_path):
+    empty = reserve_run("greenlee", tmp_path)
+    full = make(tmp_path)
+    release_run(empty, tmp_path)
+    release_run(full, tmp_path)
+    assert not (tmp_path / empty).exists() and (tmp_path / full / "run.json").exists()

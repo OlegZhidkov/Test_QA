@@ -157,3 +157,26 @@ def test_overflowing_readings_are_archived_and_reported_as_n_a(tmp_path):
     assert result.statistics.valid_count == 2 and result.statistics.mean is None
     assert load_run(result.run_id, framework.config.results_dir)["statistics"]["mean"] is None
     assert "n/a" in format_run_report(result, ("mean",))
+
+
+def test_run_id_clash_before_sampling_picks_a_fresh_id_and_keeps_the_old_run(
+        framework, monkeypatch):
+    first = framework.run_test("greenlee", plan=TWO)
+    before = first.archive_path.read_bytes()
+    ids = iter([first.run_id, "20260101T000000Z_greenlee_aaaaaa"])
+    monkeypatch.setattr("src.utils.results.new_run_id", lambda ammeter: next(ids))
+    second = framework.run_test("greenlee", plan=TWO)
+    assert second.run_id == "20260101T000000Z_greenlee_aaaaaa"
+    assert second.archive_path.exists()
+    assert first.archive_path.read_bytes() == before
+
+
+def test_failed_sampling_leaves_no_empty_run_folder(framework, monkeypatch):
+    def boom(self, plan=None):
+        raise RuntimeError("sampling broke")
+
+    monkeypatch.setattr("src.testing.AmmeterTester.AmmeterTester.sample", boom)
+    with pytest.raises(RuntimeError):
+        framework.run_test("greenlee", plan=TWO)
+    results_dir = framework.config.results_dir
+    assert [p.name for p in results_dir.iterdir()] == ["logs"]
