@@ -1,0 +1,41 @@
+Ammeter: greenlee   Run ID: 20261017T131144Z_greenlee_b8d1a2
+Parameters: count=12 duration=6 s frequency=2 Hz interval=0.5 s request_timeout=0.15 s
+Target: 127.0.0.1:60528 command='MEASURE_GREENLEE -get_measurement'
+Simulation: errors injected (seed 1)
+Statistics:
+  mean: 0.270606
+  median: 0.197667
+  stdev: 0.226394
+  min: 0.028062
+  max: 0.652713
+  cv_percent: 83.6617
+Readings: valid=8 errors=4 out_of_range=0 (expected 0.01 to 100 A)
+Archive: results/20261017T131144Z_greenlee_b8d1a2/run.json
+
+Ammeter: entes   Run ID: 20261017T131144Z_entes_daeb1b
+Parameters: count=12 duration=6 s frequency=2 Hz interval=0.5 s request_timeout=0.15 s
+Target: 127.0.0.1:60529 command='MEASURE_ENTES -get_data'
+Simulation: errors injected (seed 1)
+Statistics:
+  mean: 47352.6
+  median: 123.289
+  stdev: 67879.5
+  min: 20.1737
+  max: 188012
+  cv_percent: 143.349
+Readings: valid=9 errors=3 out_of_range=4 (expected 5 to 200 A)
+Archive: results/20261017T131144Z_entes_daeb1b/run.json
+
+Ammeter: circutor   Run ID: 20261017T131144Z_circutor_8d705f
+Parameters: count=12 duration=6 s frequency=2 Hz interval=0.5 s request_timeout=0.15 s
+Target: 127.0.0.1:60530 command='MEASURE_CIRCUTOR -get_measurement -current'
+Simulation: errors injected (seed 1)
+Statistics:
+  mean: 5.26294
+  median: 0.0353087
+  stdev: 12.8098
+  min: 0.0243565
+  max: 31.4107
+  cv_percent: 243.396
+Readings: valid=6 errors=6 out_of_range=1 (expected 0.001 to 0.1 A)
+Archive: results/20261017T131144Z_circutor_8d705f/run.json
