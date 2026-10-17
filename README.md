@@ -76,7 +76,7 @@ Exit codes: `0` all readings printed; `1` a reading failed or an emulator could 
 python3 -m pytest
 ```
 
-The suite uses `config/config.yaml`. It starts the emulators itself on free ports, so it does not clash with `main.py` or with anything on ports 5000 to 5002. A full run has 303 tests and takes about 35 seconds. It writes its 9 ammeter runs (6 normal, 3 simulated) and their logs to `./results` (not tracked by git). The output ends with an "Ammeter runs" section that prints the report block of every run (ammeter, run ID, parameters, statistics). A real output is in `docs/sample_results/pytest_output.txt`.
+The suite uses `config/config.yaml`. It starts the emulators itself on free ports, so it does not clash with `main.py` or with anything on ports 5000 to 5002. A full run has 313 tests and takes about 35 seconds. It writes its 9 ammeter runs (6 normal, 3 simulated) and their logs to `./results` (not tracked by git). The output ends with an "Ammeter runs" section that prints the report block of every run (ammeter, run ID, parameters, statistics). A real output is in `docs/sample_results/pytest_output.txt`.
 
 #### Test layout
 
