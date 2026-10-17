@@ -29,7 +29,7 @@ This project provides emulators for different types of ammeters: Greenlee, ENTES
     - `results.py`: Result archive: save, load, list and compare runs.
     - `logger.py`: Logging setup (one log file per run).
     - `Utils.py`: Utility functions, including `generate_random_float`.
-- `tests/`: The pytest suite for the ammeters, the client and the emulators.
+- `tests/`: The pytest suite. Directly in `tests/`: the ammeter checks (ammeters, client errors, emulator robustness, `main.py`). In `tests/framework/`: the framework tests (config, sampler, statistics, archive, logger, framework run, emulator start, CLI, summary report).
 - `docs/`: `design-decisions.md` (fixes to the given code and design choices) and `sample_results/` (output of a real run).
 
 ## Usage
@@ -74,11 +74,24 @@ Exit codes: `0` all readings printed; `1` a reading failed or an emulator could 
 python3 -m pytest
 ```
 
-The suite uses `config/config.yaml`. It starts the emulators itself on free ports, so it does not clash with `main.py` or with anything on ports 5000 to 5002. Every ammeter in the config gets the same checks: it answers its command with a number, ignores a wrong or truncated command, stays in its expected range, takes the configured number of readings at the configured frequency over the configured duration, produces correct statistics, and is archived and reported. A run takes about 10 seconds. It writes its 6 runs and their logs to `./results` (not tracked by git). The output ends with an "Ammeter runs" section that prints the report block of every run (ammeter, run ID, parameters, statistics). A real output is in `docs/sample_results/pytest_output.txt`.
+The suite uses `config/config.yaml`. It starts the emulators itself on free ports, so it does not clash with `main.py` or with anything on ports 5000 to 5002. A full run has about 200 tests and takes about 25 seconds. It writes its 6 ammeter runs and their logs to `./results` (not tracked by git). The output ends with an "Ammeter runs" section that prints the report block of every run (ammeter, run ID, parameters, statistics). A real output is in `docs/sample_results/pytest_output.txt`.
+
+#### Test layout
+
+```sh
+python3 -m pytest                          # everything
+python3 -m pytest tests/framework          # only the framework tests
+python3 -m pytest tests --ignore=tests/framework   # only the ammeter tests
+```
+
+| Folder | Covers |
+| --- | --- |
+| `tests/` (ammeter tests) | Every ammeter in the config gets the same checks: it answers its command with a number, ignores a wrong or truncated command, stays in its expected range, takes the configured number of readings over the configured duration (at the configured frequency when replies are faster than the interval), produces correct statistics, and is archived and reported. Also: client errors (refused, timeout, empty and non-numeric replies), emulator robustness against odd clients, and `main.py` |
+| `tests/framework/` | Config validation, sampler timing (fake clock, error readings), statistics and range counting, the result archive (save, load, list, compare, run-ID reservation), the per-run logger, the framework run end to end (including parallel runs), starting and stopping emulators (including a cp1252 console), the `main.py` exit codes, and the "Ammeter runs" summary |
 
 ### Where results go
 
-Each test run is saved as `results/<run_id>/run.json` (the folder comes from `result_management.results_dir`; it is relative to the folder you start from, and is not tracked by git). A run ID looks like `20261016T183722Z_greenlee_5cd0c2`: UTC start time, ammeter name and 6 random hex digits, so it is unique. The JSON holds the run ID, ammeter, start and end time, parameters (count, duration, frequency, interval, timeout, host, port, command), the expected range, the statistics, the number of out-of-range readings and every reading with its timestamp and value (or error). A log file per run goes to `results/logs/`. Real examples are in `docs/sample_results/`.
+Each test run is saved as `results/<run_id>/run.json` (the folder comes from `result_management.results_dir`; it is relative to the folder you start from, and is not tracked by git). A run ID looks like `20261016T183722Z_greenlee_5cd0c2`: UTC start time, ammeter name and 6 random hex digits. The ID is unique because the run folder is reserved atomically before sampling starts (a clash gets a fresh ID), so a run can never overwrite or lose another. The JSON holds the run ID, ammeter, start and end time, parameters (count, duration, frequency, interval, timeout, host, port, command), the expected range, the statistics, the number of out-of-range readings and every reading with its timestamp and value (or error). A log file per run goes to `results/logs/`. Real examples are in `docs/sample_results/`.
 
 List, load and compare runs from Python:
 
@@ -110,7 +123,11 @@ for result in results.values():
     print(format_run_report(result, framework.config.metrics))
 ```
 
-For a single ammeter use `framework.run_test("greenlee")`; it needs that emulator (or a real device) to be running.
+For a single ammeter use `framework.run_test("greenlee")`; it needs that emulator (or a real device) to be running. The sampling checks the configured frequency over the configured duration as long as replies arrive faster than the interval; a slower device makes the run longer (the real offsets are in `run.json`).
+
+### About `examples/run_tests.py`
+
+The starter's example is left exactly as provided, and it cannot work. It calls `framework.run_test()` without the required ammeter name, so it raises a `TypeError`, and it was written for a framework class that was an empty stub. Use `AmmeterTestFramework.run_test(name)` or the by-hand example above instead.
 
 ### Config keys (`config/config.yaml`)
 
