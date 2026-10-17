@@ -244,3 +244,10 @@ def test_release_run_removes_only_an_empty_folder(tmp_path):
     release_run(empty, tmp_path)
     release_run(full, tmp_path)
     assert not (tmp_path / empty).exists() and (tmp_path / full / "run.json").exists()
+
+
+def test_save_run_rejects_non_finite_numbers_and_leaves_no_folder(tmp_path):
+    bad = record(new_run_id("greenlee"), mean=float("inf"))
+    with pytest.raises(ResultsWriteError):
+        save_run(bad, tmp_path)
+    assert list(tmp_path.iterdir()) == []

@@ -76,7 +76,7 @@ def save_run(record: Mapping[str, Any], results_dir: Path) -> Path:
         if path.exists():
             raise ResultsWriteError(f"run {run_id} already exists at {path}; not overwriting")
         with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(record, f, indent=2)
+            json.dump(record, f, indent=2, allow_nan=False)
             f.flush()
             os.fsync(f.fileno())
         tmp.replace(path)

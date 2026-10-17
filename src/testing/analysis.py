@@ -18,6 +18,8 @@ def compute_statistics(readings: Sequence[Reading]) -> Statistics:
     mean = _or_none(statistics.fmean, values)
     stdev = _or_none(statistics.stdev, values) if valid > 1 else None
     cv = stdev / abs(mean) * 100 if stdev is not None and mean else None
+    if cv is not None and not math.isfinite(cv):
+        cv = None
     return Statistics(**counts, mean=mean, median=_or_none(statistics.median, values),
                       stdev=stdev, min=min(values), max=max(values), cv_percent=cv)
 

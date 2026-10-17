@@ -5,6 +5,7 @@ import math
 from src.testing.analysis import compute_statistics, out_of_range
 from src.testing.models import Reading, RunResult, Sample
 from src.utils.config import ExpectedRange
+from src.utils.results import save_run
 
 
 def reading(index: int, value: float | None, error: str | None = None) -> Reading:
@@ -87,3 +88,20 @@ def test_overflowing_metrics_are_undefined_and_the_rest_is_kept():
     assert (s.count, s.valid_count, s.error_count) == (2, 2, 0)
     assert s.min == s.max == 1e308
     assert s.mean is None and s.median is None and s.cv_percent is None
+
+
+def test_non_finite_cv_is_undefined():
+    s = compute_statistics(readings(1e308, -1e308, 1.0))
+    assert s.stdev == 1e308 and s.cv_percent is None
+
+
+def test_archived_json_of_a_non_finite_cv_has_no_infinity(tmp_path):
+    rs = readings(1e308, -1e308, 1.0)
+    rng = ExpectedRange(0.0, 5.0)
+    sample = Sample(tuple(rs), "2026-01-01T00:00:00.000000+00:00",
+                    "2026-01-01T00:00:03.000000+00:00", 3.0)
+    result = RunResult("20260101T000000Z_greenlee_abcdef", "greenlee", {"count": 3}, rng, sample,
+                       compute_statistics(rs), tuple(out_of_range(rs, rng)))
+    text = save_run(result.to_dict(), tmp_path).read_text(encoding="utf-8")
+    assert "Infinity" not in text and "NaN" not in text
+    assert json.loads(text)["statistics"]["cv_percent"] is None
